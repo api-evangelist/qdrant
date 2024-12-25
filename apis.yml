@@ -10,7 +10,7 @@ apis:
     properties:
       - url: https://qdrant.tech/documentation/
         type: Documentation
-      - url: properties/qdrant-openapi-original.yml
+      - url: openapiqdrant-openapi-original.yml
         type: OpenAPI
     description: >-
       Qdrant (read: quadrant) is a vector similarity search engine. Use our
