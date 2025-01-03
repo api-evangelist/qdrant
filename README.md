@@ -1,5 +1,10 @@
 # Qdrant (qdrant)
-Qdrant is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload. You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.
+
+Qdrant is a vector similarity search engine that provides a production-ready
+service with a convenient API to store, search, and manage points (i.e.
+vectors) with an additional payload. You can think of the payloads as
+additional pieces of information that can help you hone in on your search and
+also receive useful information that you can give to your users.
 
 **URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-search/ai/main/_apis/qdrant/apis.md)
 
@@ -21,7 +26,12 @@ Qdrant is a vector similarity search engine that provides a production-ready se
 ## APIs
 
 ### Qdrant API
-Qdrant (read: quadrant) is a vector similarity search engine. Use our documentation to develop a production-ready service with a convenient API to store, search, and manage vectors with an additional payload. Qdrant's expanding features allow for all sorts of neural network or semantic-based matching, faceted search, and other applications.
+
+Qdrant (read: quadrant) is a vector similarity search engine. Use our
+documentation to develop a production-ready service with a convenient API
+to store, search, and manage vectors with an additional payload. Qdrant's
+expanding features allow for all sorts of neural network or semantic-based
+matching, faceted search, and other applications.
 
 **Human URL:** [https://qdrant.tech/documentation/](https://qdrant.tech/documentation/)
 
@@ -30,16 +40,17 @@ Qdrant (read: quadrant) is a vector similarity search engine. Use our documentat
 
 #### Tags:
 
- - 
+ - No Tags
 
 #### Properties
 
 - [Documentation](https://qdrant.tech/documentation/)
-- [OpenAPI](properties/qdrant-openapi-original.yml)
+- [OpenAPI](openapi/qdrant-openapi-original.yml)
 
 ## Common Properties
 
-- [OpenAPI](https://raw.githubusercontent.com/qdrant/qdrant/master/docs/redoc/master/openapi.json)
+- [OpenAPI](
+https://raw.githubusercontent.com/qdrant/qdrant/master/docs/redoc/master/openapi.json)
 - [Quick Start](https://qdrant.tech/documentation/quick-start/)
 - [Concepts](https://qdrant.tech/documentation/concepts/)
 - [Guides](https://qdrant.tech/documentation/guides/administration/)
