@@ -1,9 +1,12 @@
 aid: qdrant
 url: https://raw.githubusercontent.com/api-search/ai/main/_apis/qdrant/apis.md
 apis:
-  - aid: qdrant:qdrant
+  - aid: qdrant:qdrant-api
     name: Qdrant API
-    tags: []
+    tags:
+      - Artificial Intelligence
+      - AI
+      - Vector Databases
     image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://platform.openai.com/
     humanURL: https://qdrant.tech/documentation/
