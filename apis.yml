@@ -9,8 +9,8 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Artificial Intelligence
   - AI
+  - Artificial Intelligence
   - Vector Databases
 url: >-
   https://raw.githubusercontent.com/api-evangelist/qdrant/refs/heads/main/apis.yml
@@ -21,8 +21,8 @@ apis:
   - aid: qdrant:qdrant-api
     name: Qdrant API
     tags:
-      - Artificial Intelligence
       - AI
+      - Artificial Intelligence
       - Vector Databases
     humanURL: https://qdrant.tech/documentation/
     properties:
