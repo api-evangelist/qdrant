@@ -1,11 +1,11 @@
 aid: qdrant
 name: Qdrant
-description: |-
-  Qdrant is a vector similarity search engine that provides a production-ready
-  service with a convenient API to store, search, and manage points (i.e.
-  vectors) with an additional payload. You can think of the payloads as
-  additional pieces of information that can help you hone in on your search and
-  also receive useful information that you can give to your users.
+description: >-
+  Qdrant is a vector similarity search engine that provides a production-ready service
+  with a convenient API to store, search, and manage points (i.e. vectors) with an
+  additional payload. You can think of the payloads as additional pieces of information
+  that can help you hone in on your search and also receive useful information that
+  you can give to your users.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
@@ -30,12 +30,12 @@ apis:
         type: Documentation
       - url: openapi/qdrant-openapi-original.yml
         type: OpenAPI
-    description: |-
-      Qdrant (read: quadrant) is a vector similarity search engine. Use our
-      documentation to develop a production-ready service with a convenient API
-      to store, search, and manage vectors with an additional payload. Qdrant's
-      expanding features allow for all sorts of neural network or semantic-based
-      matching, faceted search, and other applications.
+    description: >-
+      Qdrant (read: quadrant) is a vector similarity search engine. Use our documentation
+      to develop a production-ready service with a convenient API to store, search,
+      and manage vectors with an additional payload. Qdrant's expanding features allow
+      for all sorts of neural network or semantic-based matching, faceted search,
+      and other applications.
 common:
   - url: https://qdrant.tech/documentation/quick-start/
     type: GettingStarted

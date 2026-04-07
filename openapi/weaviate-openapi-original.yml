@@ -1667,7 +1667,7 @@ info:
     If you find a bug or want to file a feature request, please open an issue on our GitHub repository for [Weaviate](https://github.com/weaviate/weaviate). 
     ### Want more documentation? 
     For a quickstart, code examples, concepts and more, please visit our [documentation page](https://weaviate.io/developers/weaviate).
-  title: Weaviate
+  title: Qdrant Weaviate
   version: 1.25.1
 parameters:
   CommonAfterParameterQuery:
@@ -1755,7 +1755,7 @@ parameters:
 paths:
   /:
     get:
-      summary: List available endpoints
+      summary: Qdrant List available endpoints
       description: Get links to other endpoints to help discover the REST API
       operationId: weaviate.root
       responses:
@@ -1772,7 +1772,7 @@ paths:
         - root
   /.well-known/live:
     get:
-      summary: Get application liveness.
+      summary: Qdrant Get application liveness.
       description: Determines whether the application is alive. Can be used for kubernetes liveness probe
       operationId: weaviate.wellknown.liveness
       responses:
@@ -1782,7 +1782,7 @@ paths:
         - well-known
   /.well-known/ready:
     get:
-      summary: Get application readiness.
+      summary: Qdrant Get application readiness.
       description: Determines whether the application is ready to receive traffic. Can be used for kubernetes readiness probe.
       operationId: weaviate.wellknown.readiness
       responses:
@@ -1819,7 +1819,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: OIDC discovery information (if OIDC auth is enabled)
+      summary: Qdrant OIDC discovery information (if OIDC auth is enabled)
       tags:
         - well-known
       x-available-in-mqtt: false
@@ -1864,7 +1864,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Get a list of objects.
+      summary: Qdrant Get a list of objects.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -1904,7 +1904,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Create a new object.
+      summary: Qdrant Create a new object.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -1939,7 +1939,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Delete an object.
+      summary: Qdrant Delete an object.
       tags:
         - objects
       x-available-in-mqtt: true
@@ -1979,7 +1979,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: List objects.
+      summary: Qdrant List objects.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2025,7 +2025,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Update an object using patch semantics.
+      summary: Qdrant Update an object using patch semantics.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2070,7 +2070,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Update an object.
+      summary: Qdrant Update an object.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2103,7 +2103,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Check if object exists.
+      summary: Qdrant Check if object exists.
       tags:
         - objects
       x-available-in-mqtt: true
@@ -2155,7 +2155,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Get an object.
+      summary: Qdrant Get an object.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2201,7 +2201,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Delete an object.
+      summary: Qdrant Delete an object.
       tags:
         - objects
       x-available-in-mqtt: true
@@ -2249,7 +2249,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Update an object.
+      summary: Qdrant Update an object.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2301,7 +2301,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Update an object using patch semantics.
+      summary: Qdrant Update an object using patch semantics.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2344,7 +2344,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Check if an object exists.
+      summary: Qdrant Check if an object exists.
       tags:
         - objects
       x-available-in-mqtt: true
@@ -2390,7 +2390,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Add a cross-reference.
+      summary: Qdrant Add a cross-reference.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2436,7 +2436,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Replace cross-references.
+      summary: Qdrant Replace cross-references.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2482,7 +2482,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Delete a cross-reference.
+      summary: Qdrant Delete a cross-reference.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2541,7 +2541,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Add a cross-reference.
+      summary: Qdrant Add a cross-reference.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2598,7 +2598,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Replace cross-references.
+      summary: Qdrant Replace cross-references.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2657,7 +2657,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Delete a cross-reference.
+      summary: Qdrant Delete a cross-reference.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2691,7 +2691,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Validate an object.
+      summary: Qdrant Validate an object.
       tags:
         - objects
       x-available-in-mqtt: false
@@ -2751,7 +2751,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Batch create new objects.
+      summary: Qdrant Batch create new objects.
       tags:
         - batch
       x-available-in-mqtt: false
@@ -2792,7 +2792,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Batch delete objects.
+      summary: Qdrant Batch delete objects.
       tags:
         - batch
       x-available-in-mqtt: false
@@ -2838,7 +2838,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Batch create cross-references.
+      summary: Qdrant Batch create cross-references.
       tags:
         - batch
       x-available-in-mqtt: false
@@ -2878,7 +2878,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Perform a GraphQL query.
+      summary: Qdrant Perform a GraphQL query.
       tags:
         - graphql
       x-available-in-mqtt: false
@@ -2918,7 +2918,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Perform batched GraphQL queries.
+      summary: Qdrant Perform batched GraphQL queries.
       tags:
         - graphql
       x-available-in-mqtt: false
@@ -2944,14 +2944,14 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Get instance metadata.
+      summary: Qdrant Get instance metadata.
       tags:
         - meta
       x-available-in-mqtt: false
       x-available-in-websocket: false
   /schema:
     get:
-      summary: Get the entire schema.
+      summary: Qdrant Get the entire schema.
       description: Fetch an array of all collection definitions from the schema.
       operationId: schema.dump
       x-serviceIds:
@@ -2981,7 +2981,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
     post:
-      summary: Create a collection.
+      summary: Qdrant Create a collection.
       description: Create a new data object collection. <br/><br/>If [AutoSchema](https://weaviate.io/developers/weaviate/config-refs/schema#auto-schema) is enabled, Weaviate will attempt to infer the schema from the data at import time. However, manual schema definition is recommended for production environments. <br/><br/>For further discussions of parameters, please see the [schema reference page](https://weaviate.io/developers/weaviate/config-refs/schema).
       operationId: schema.objects.create
       x-serviceIds:
@@ -3015,7 +3015,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /schema/{className}:
     get:
-      summary: Get a single collection schema.
+      summary: Qdrant Get a single collection schema.
       operationId: schema.objects.get
       x-serviceIds:
         - weaviate.local.get.meta
@@ -3050,7 +3050,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
     delete:
-      summary: Remove a collection (and its data).
+      summary: Qdrant Remove a collection (and its data).
       description: Remove a collection from the schema. This will also delete all the objects in the collection.
       operationId: schema.objects.delete
       x-serviceIds:
@@ -3080,7 +3080,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
     put:
-      summary: Update an existing collection.
+      summary: Qdrant Update an existing collection.
       description: Alter an existing collection definition. <br/><br/>Note that not all settings are mutable ([see this list](https://weaviate.io/developers/weaviate/config-refs/schema#mutability)). To update any other (i.e. immutable) setting, you need to delete the collection, re-create it with the correct setting and then re-import the data. <br/><br/>This endpoint cannot be used to modify properties. Instead use POST /v1/schema/{className}/properties. A typical use case for this endpoint is to update a index configuration, such as `vectorIndexConfig/dynamicEfFactor`. <br/><br/>You should attach a body to this PUT request with the entire new configuration of the collection.
       operationId: schema.objects.update
       x-serviceIds:
@@ -3122,7 +3122,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /schema/{className}/properties:
     post:
-      summary: Add a property.
+      summary: Qdrant Add a property.
       description: Add a property to an existing collection. <br/><br/>If possible, we encourage you to create all required properties at collection creation time. Adding a property after collection creation can lead to [some indexing limitations](https://weaviate.io/developers/weaviate/config-refs/schema).
       operationId: schema.objects.properties.add
       x-serviceIds:
@@ -3160,7 +3160,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /schema/{className}/shards:
     get:
-      summary: Get the shard status
+      summary: Qdrant Get the shard status
       description: Get the status of every shard in the cluster.
       operationId: schema.objects.shards.get
       x-serviceIds:
@@ -3196,7 +3196,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /schema/{className}/shards/{shardName}:
     put:
-      summary: Update a shard status.
+      summary: Qdrant Update a shard status.
       description: Update a shard status for a collection. For example, a shard may have been marked as `READONLY` because its disk was full. After providing more disk space, use this endpoint to set the shard status to `READY` again. There is also a convenience function in each client to set the status of all shards of a collection.
       operationId: schema.objects.shards.update
       x-serviceIds:
@@ -3242,7 +3242,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /schema/{className}/tenants:
     post:
-      summary: Create a new tenant
+      summary: Qdrant Create a new tenant
       description: Create a new tenant for a collection. Multi-tenancy must be enabled in the collection definition.
       operationId: tenants.create
       tags:
@@ -3281,7 +3281,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
     put:
-      summary: Update a tenant.
+      summary: Qdrant Update a tenant.
       description: Update a tenant for a collection
       operationId: tenants.update
       tags:
@@ -3320,7 +3320,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
     delete:
-      summary: Delete tenant(s).
+      summary: Qdrant Delete tenant(s).
       description: Delete tenants from a collection
       operationId: tenants.delete
       tags:
@@ -3355,7 +3355,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
     get:
-      summary: Get the list of tenants.
+      summary: Qdrant Get the list of tenants.
       description: Get all tenants from a collection.
       operationId: tenants.get
       tags:
@@ -3394,7 +3394,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /schema/{className}/tenants/{tenantName}:
     head:
-      summary: Check whether a tenant exists
+      summary: Qdrant Check whether a tenant exists
       description: Check if a tenant exists for a specific class
       operationId: tenant.exists
       tags:
@@ -3435,7 +3435,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /backups/{backend}:
     post:
-      summary: Start a backup process
+      summary: Qdrant Start a backup process
       description: 'Start creating a backup for a set of collections. <br/><br/>Notes: <br/>- Weaviate uses gzip compression by default. <br/>- Weaviate stays usable while a backup process is ongoing.'
       operationId: backups.create
       x-serviceIds:
@@ -3474,7 +3474,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /backups/{backend}/{id}:
     get:
-      summary: Get backup process status
+      summary: Qdrant Get backup process status
       description: Returns status of backup creation attempt for a set of collections. <br/><br/>All client implementations have a `wait for completion` option which will poll the backup status in the background and only return once the backup has completed (successfully or unsuccessfully). If you set the `wait for completion` option to false, you can also check the status yourself using this endpoint.
       operationId: backups.create.status
       x-serviceIds:
@@ -3517,7 +3517,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /backups/{backend}/{id}/restore:
     post:
-      summary: Start a restoration process
+      summary: Qdrant Start a restoration process
       description: Starts a process of restoring a backup for a set of collections. <br/><br/>Any backup can be restored to any machine, as long as the number of nodes between source and target are identical.<br/><br/>Requrements:<br/><br/>- None of the collections to be restored already exist on the target restoration node(s).<br/>- The node names of the backed-up collections' must match those of the target restoration node(s).
       operationId: backups.restore
       x-serviceIds:
@@ -3564,7 +3564,7 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
     get:
-      summary: Get restore process status
+      summary: Qdrant Get restore process status
       description: Returns status of a backup restoration attempt for a set of classes. <br/><br/>All client implementations have a `wait for completion` option which will poll the backup status in the background and only return once the backup has completed (successfully or unsuccessfully). If you set the `wait for completion` option to false, you can also check the status yourself using the this endpoint.
       operationId: backups.restore.status
       x-serviceIds:
@@ -3603,7 +3603,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /cluster/statistics:
     get:
-      summary: See Raft cluster statistics
+      summary: Qdrant See Raft cluster statistics
       description: Returns Raft cluster statistics of Weaviate DB.
       operationId: cluster.get.statistics
       x-serviceIds:
@@ -3631,7 +3631,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /nodes:
     get:
-      summary: Node information for the database.
+      summary: Qdrant Node information for the database.
       description: Returns node information for the entire database.
       operationId: nodes.get
       x-serviceIds:
@@ -3665,7 +3665,7 @@ paths:
             $ref: '#/definitions/ErrorResponse'
   /nodes/{className}:
     get:
-      summary: Node information for a collection.
+      summary: Qdrant Node information for a collection.
       description: Returns node information for the nodes relevant to the collection.
       operationId: nodes.get.class
       x-serviceIds:
@@ -3733,7 +3733,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: Starts a classification.
+      summary: Qdrant Starts a classification.
       tags:
         - classifications
   /classifications/{id}:
@@ -3765,7 +3765,7 @@ paths:
           description: An error has occurred while trying to fulfill the request. Most likely the ErrorResponse will contain more information about the error.
           schema:
             $ref: '#/definitions/ErrorResponse'
-      summary: View previously created classification
+      summary: Qdrant View previously created classification
       tags:
         - classifications
 produces:
