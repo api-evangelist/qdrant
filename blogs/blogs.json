@@ -1,0 +1,13 @@
+{
+  "repo": "qdrant",
+  "feeds": [
+    {
+      "source": "https://qdrant.tech/blog/",
+      "feed_url": "https://qdrant.tech/blog/index.xml",
+      "saved": 10,
+      "title": "Qdrant Blog on Qdrant - Vector Search Engine"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:34:18Z"
+}
