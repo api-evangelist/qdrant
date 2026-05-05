@@ -1,0 +1,36 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Qdrant
+providerId: qdrant
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Rate Limiting
+  - Vector Database
+description: Qdrant Cloud throughput scales with cluster size.
+sources:
+  - https://qdrant.tech/pricing/
+  - https://qdrant.tech/documentation/cloud/
+headers: {}
+responseCodes:
+  throttled: 429
+limits:
+  - name: Free tier QPS
+    scope: cluster
+    metric: queries_per_second
+    limit: limited by 0.5 vCPU
+  - name: Standard QPS
+    scope: cluster
+    metric: queries_per_second
+    limit: scales with resources
+  - name: Concurrent connections
+    scope: cluster
+    metric: concurrent
+    limit: varies
+  - name: Batch upsert size
+    scope: request
+    metric: points
+    limit: 10000
+    timeFrame: request

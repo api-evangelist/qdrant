@@ -1,0 +1,134 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Qdrant
+providerId: qdrant
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Vector Database
+  - AI Infrastructure
+description: Qdrant Cloud tiers across Free / Standard / Premium / Hybrid / Private.
+sources:
+  - https://qdrant.tech/pricing/
+plans:
+  - id: qdrant-free
+    name: Free Tier
+    type: freemium
+    description: Free forever; single-node 0.5 vCPU / 1 GB RAM / 4 GB disk.
+    entries:
+      - label: vCPU
+        name: vcpu
+        type: quota
+        metric: vCPU
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: RAM
+        name: ram
+        type: quota
+        metric: GB
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Disk
+        name: disk
+        type: quota
+        metric: GB
+        limit: 4
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Single-node cluster
+      - name: Free Cloud Inference (selected models)
+      - name: Testing/prototypes
+  - id: qdrant-standard
+    name: Standard Tier
+    type: paid
+    description: Usage-based pricing.
+    entries:
+      - label: Cluster (custom)
+        name: cluster
+        type: metered
+        metric: cluster-hour
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: varies
+        userMultiplied: false
+    elements:
+      - name: Dedicated resources
+      - name: Vertical and horizontal scaling
+      - name: Highly available
+      - name: Backup & DR
+      - name: Free tokens for paid inference
+      - name: 99.5% SLA
+  - id: qdrant-premium
+    name: Premium Tier
+    type: enterprise
+    description: Minimum spend required.
+    entries:
+      - label: Annual minimum (custom)
+        name: minimum
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+    elements:
+      - name: SSO
+      - name: Private VPC links
+      - name: 99.9% SLA
+      - name: Extra support
+  - id: qdrant-hybrid
+    name: Hybrid Cloud
+    type: enterprise
+    description: Custom pricing; runs on your infrastructure.
+    entries:
+      - label: Annual (custom)
+        name: annual
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+    elements:
+      - name: Local data residency
+      - name: Data stays in your network
+      - name: Fully managed via Qdrant Cloud
+  - id: qdrant-private
+    name: Private Cloud
+    type: enterprise
+    description: Custom pricing; dedicated isolated deployment.
+    entries:
+      - label: Annual (custom)
+        name: annual
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+    elements:
+      - name: Custom SLAs
+      - name: Full isolation
+      - name: Sensitive workloads
