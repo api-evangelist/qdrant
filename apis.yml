@@ -65,6 +65,37 @@ common:
     sources:
       - https://qdrant.tech/pricing/
     updated: '2026-05-04'
+  - type: Integrations
+    url: https://qdrant.tech/partners/
+integrations:
+  - name: logo
+  - name: Partners logos
+  - name: AWS marketplace
+  - name: Google Cloud marketplace
+  - name: Microsoft Azure
+  - name: Tara Walker Avatar
+  - name: Cohere
+  - name: Gemini
+  - name: OpenAI
+  - name: Aleph Alpha
+  - name: Jina
+  - name: AWS
+  - name: 1M-Open-AI-Embeddings
+  - name: LangChain
+  - name: LlamaIndex
+  - name: Airbyte
+  - name: Unstructured
+  - name: DocArray
+  - name: AutoGen
+  - name: Traversaal.ai
+  - name: Domino
+  - name: Revelry
+  - name: Softlandia
+  - name: Qdrant
+  - name: SOC2
+  - name: heyData GDPR
+  - name: GDPR
+  - name: HIPAA
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
