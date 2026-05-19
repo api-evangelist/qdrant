@@ -1,0 +1,278 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Service
+  description: 'Qdrant API — Service. 6 operations. Lead operation: Returns information about the running Qdrant instance.
+    Self-contained Naftiko capability covering one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Service
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-service
+    baseUri: ''
+    description: Qdrant API — Service business capability. Self-contained, no shared references.
+    resources:
+    - name: root
+      path: /
+      operations:
+      - name: root
+        method: GET
+        description: Returns information about the running Qdrant instance
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: healthz
+      path: /healthz
+      operations:
+      - name: healthz
+        method: GET
+        description: Kubernetes healthz endpoint
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: livez
+      path: /livez
+      operations:
+      - name: livez
+        method: GET
+        description: Kubernetes livez endpoint
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: metrics
+      path: /metrics
+      operations:
+      - name: metrics
+        method: GET
+        description: Collect Prometheus metrics data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: anonymize
+          in: query
+          type: boolean
+          description: If true, anonymize result
+        - name: per_collection
+          in: query
+          type: boolean
+          description: If true, include per-collection request metrics with a collection label instead of global request metrics
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for this request
+    - name: readyz
+      path: /readyz
+      operations:
+      - name: readyz
+        method: GET
+        description: Kubernetes readyz endpoint
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: telemetry
+      path: /telemetry
+      operations:
+      - name: telemetry
+        method: GET
+        description: Collect telemetry data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: anonymize
+          in: query
+          type: boolean
+          description: If true, anonymize result
+        - name: details_level
+          in: query
+          type: integer
+          description: Level of details in telemetry data. Minimal level is 0, maximal is infinity
+        - name: per_collection
+          in: query
+          type: boolean
+          description: If true, include per-collection request statistics in the response
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for this request
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-service-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Service. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1
+      name: root
+      description: REST surface for root.
+      operations:
+      - method: GET
+        name: root
+        description: Returns information about the running Qdrant instance
+        call: qdrant-service.root
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/healthz
+      name: healthz
+      description: REST surface for healthz.
+      operations:
+      - method: GET
+        name: healthz
+        description: Kubernetes healthz endpoint
+        call: qdrant-service.healthz
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/livez
+      name: livez
+      description: REST surface for livez.
+      operations:
+      - method: GET
+        name: livez
+        description: Kubernetes livez endpoint
+        call: qdrant-service.livez
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/metrics
+      name: metrics
+      description: REST surface for metrics.
+      operations:
+      - method: GET
+        name: metrics
+        description: Collect Prometheus metrics data
+        call: qdrant-service.metrics
+        with:
+          anonymize: rest.anonymize
+          per_collection: rest.per_collection
+          timeout: rest.timeout
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/readyz
+      name: readyz
+      description: REST surface for readyz.
+      operations:
+      - method: GET
+        name: readyz
+        description: Kubernetes readyz endpoint
+        call: qdrant-service.readyz
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/telemetry
+      name: telemetry
+      description: REST surface for telemetry.
+      operations:
+      - method: GET
+        name: telemetry
+        description: Collect telemetry data
+        call: qdrant-service.telemetry
+        with:
+          anonymize: rest.anonymize
+          details_level: rest.details_level
+          per_collection: rest.per_collection
+          timeout: rest.timeout
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-service-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Service. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: returns-information-about-running-qdrant
+      description: Returns information about the running Qdrant instance
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-service.root
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: kubernetes-healthz-endpoint
+      description: Kubernetes healthz endpoint
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-service.healthz
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: kubernetes-livez-endpoint
+      description: Kubernetes livez endpoint
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-service.livez
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: collect-prometheus-metrics-data
+      description: Collect Prometheus metrics data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-service.metrics
+      with:
+        anonymize: tools.anonymize
+        per_collection: tools.per_collection
+        timeout: tools.timeout
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: kubernetes-readyz-endpoint
+      description: Kubernetes readyz endpoint
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-service.readyz
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: collect-telemetry-data
+      description: Collect telemetry data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-service.telemetry
+      with:
+        anonymize: tools.anonymize
+        details_level: tools.details_level
+        per_collection: tools.per_collection
+        timeout: tools.timeout
+      outputParameters:
+      - type: object
+        mapping: $.

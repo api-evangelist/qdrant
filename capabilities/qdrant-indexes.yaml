@@ -1,0 +1,172 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Indexes
+  description: 'Qdrant API — Indexes. 2 operations. Lead operation: Create index for field in collection. Self-contained Naftiko
+    capability covering one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Indexes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-indexes
+    baseUri: ''
+    description: Qdrant API — Indexes business capability. Self-contained, no shared references.
+    resources:
+    - name: collections-collection_name-index
+      path: /collections/{collection_name}/index
+      operations:
+      - name: createfieldindex
+        method: PUT
+        description: Create index for field in collection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-index-field_name
+      path: /collections/{collection_name}/index/{field_name}
+      operations:
+      - name: deletefieldindex
+        method: DELETE
+        description: Delete index for field in collection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: field_name
+          in: path
+          type: string
+          description: Name of the field where to delete the index
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-indexes-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Indexes. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/collections/{collection-name}/index
+      name: collections-collection-name-index
+      description: REST surface for collections-collection_name-index.
+      operations:
+      - method: PUT
+        name: createfieldindex
+        description: Create index for field in collection
+        call: qdrant-indexes.createfieldindex
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/index/{field-name}
+      name: collections-collection-name-index-field-name
+      description: REST surface for collections-collection_name-index-field_name.
+      operations:
+      - method: DELETE
+        name: deletefieldindex
+        description: Delete index for field in collection
+        call: qdrant-indexes.deletefieldindex
+        with:
+          collection_name: rest.collection_name
+          field_name: rest.field_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-indexes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Indexes. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-index-field-collection
+      description: Create index for field in collection
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-indexes.createfieldindex
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-index-field-collection
+      description: Delete index for field in collection
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qdrant-indexes.deletefieldindex
+      with:
+        collection_name: tools.collection_name
+        field_name: tools.field_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+      outputParameters:
+      - type: object
+        mapping: $.

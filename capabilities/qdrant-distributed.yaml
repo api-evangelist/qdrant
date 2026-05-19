@@ -1,0 +1,438 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Distributed
+  description: 'Qdrant API — Distributed. 9 operations. Lead operation: Get cluster status info. Self-contained Naftiko capability
+    covering one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Distributed
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-distributed
+    baseUri: ''
+    description: Qdrant API — Distributed business capability. Self-contained, no shared references.
+    resources:
+    - name: cluster
+      path: /cluster
+      operations:
+      - name: clusterstatus
+        method: GET
+        description: Get cluster status info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: cluster-peer-peer_id
+      path: /cluster/peer/{peer_id}
+      operations:
+      - name: removepeer
+        method: DELETE
+        description: Remove peer from the cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: peer_id
+          in: path
+          type: integer
+          description: Id of the peer
+          required: true
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+        - name: force
+          in: query
+          type: boolean
+          description: If true - removes peer even if it has shards/replicas on it.
+    - name: cluster-recover
+      path: /cluster/recover
+      operations:
+      - name: recovercurrentpeer
+        method: POST
+        description: Tries to recover current peer Raft state.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: cluster-telemetry
+      path: /cluster/telemetry
+      operations:
+      - name: clustertelemetry
+        method: GET
+        description: Collect cluster telemetry data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: details_level
+          in: query
+          type: integer
+          description: The level of detail to include in the response
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for this request
+    - name: collections-collection_name-cluster
+      path: /collections/{collection_name}/cluster
+      operations:
+      - name: collectionclusterinfo
+        method: GET
+        description: Collection cluster info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to retrieve the cluster info for
+          required: true
+      - name: updatecollectioncluster
+        method: POST
+        description: Update collection cluster setup
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection on which to to apply the cluster update operation
+          required: true
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-shards
+      path: /collections/{collection_name}/shards
+      operations:
+      - name: createshardkey
+        method: PUT
+        description: Create shard key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to create shards for
+          required: true
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: listshardkeys
+        method: GET
+        description: List shard keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to list shard keys for
+          required: true
+    - name: collections-collection_name-shards-delete
+      path: /collections/{collection_name}/shards/delete
+      operations:
+      - name: deleteshardkey
+        method: POST
+        description: Delete shard key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to create shards for
+          required: true
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-distributed-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Distributed. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/cluster
+      name: cluster
+      description: REST surface for cluster.
+      operations:
+      - method: GET
+        name: clusterstatus
+        description: Get cluster status info
+        call: qdrant-distributed.clusterstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/peer/{peer-id}
+      name: cluster-peer-peer-id
+      description: REST surface for cluster-peer-peer_id.
+      operations:
+      - method: DELETE
+        name: removepeer
+        description: Remove peer from the cluster
+        call: qdrant-distributed.removepeer
+        with:
+          peer_id: rest.peer_id
+          timeout: rest.timeout
+          force: rest.force
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/recover
+      name: cluster-recover
+      description: REST surface for cluster-recover.
+      operations:
+      - method: POST
+        name: recovercurrentpeer
+        description: Tries to recover current peer Raft state.
+        call: qdrant-distributed.recovercurrentpeer
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/telemetry
+      name: cluster-telemetry
+      description: REST surface for cluster-telemetry.
+      operations:
+      - method: GET
+        name: clustertelemetry
+        description: Collect cluster telemetry data
+        call: qdrant-distributed.clustertelemetry
+        with:
+          details_level: rest.details_level
+          timeout: rest.timeout
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/cluster
+      name: collections-collection-name-cluster
+      description: REST surface for collections-collection_name-cluster.
+      operations:
+      - method: GET
+        name: collectionclusterinfo
+        description: Collection cluster info
+        call: qdrant-distributed.collectionclusterinfo
+        with:
+          collection_name: rest.collection_name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: updatecollectioncluster
+        description: Update collection cluster setup
+        call: qdrant-distributed.updatecollectioncluster
+        with:
+          collection_name: rest.collection_name
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/shards
+      name: collections-collection-name-shards
+      description: REST surface for collections-collection_name-shards.
+      operations:
+      - method: PUT
+        name: createshardkey
+        description: Create shard key
+        call: qdrant-distributed.createshardkey
+        with:
+          collection_name: rest.collection_name
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listshardkeys
+        description: List shard keys
+        call: qdrant-distributed.listshardkeys
+        with:
+          collection_name: rest.collection_name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/shards/delete
+      name: collections-collection-name-shards-delete
+      description: REST surface for collections-collection_name-shards-delete.
+      operations:
+      - method: POST
+        name: deleteshardkey
+        description: Delete shard key
+        call: qdrant-distributed.deleteshardkey
+        with:
+          collection_name: rest.collection_name
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-distributed-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Distributed. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-cluster-status-info
+      description: Get cluster status info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-distributed.clusterstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-peer-cluster
+      description: Remove peer from the cluster
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qdrant-distributed.removepeer
+      with:
+        peer_id: tools.peer_id
+        timeout: tools.timeout
+        force: tools.force
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: tries-recover-current-peer-raft
+      description: Tries to recover current peer Raft state.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-distributed.recovercurrentpeer
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: collect-cluster-telemetry-data
+      description: Collect cluster telemetry data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-distributed.clustertelemetry
+      with:
+        details_level: tools.details_level
+        timeout: tools.timeout
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: collection-cluster-info
+      description: Collection cluster info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-distributed.collectionclusterinfo
+      with:
+        collection_name: tools.collection_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-collection-cluster-setup
+      description: Update collection cluster setup
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-distributed.updatecollectioncluster
+      with:
+        collection_name: tools.collection_name
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-shard-key
+      description: Create shard key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-distributed.createshardkey
+      with:
+        collection_name: tools.collection_name
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-shard-keys
+      description: List shard keys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-distributed.listshardkeys
+      with:
+        collection_name: tools.collection_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-shard-key
+      description: Delete shard key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-distributed.deleteshardkey
+      with:
+        collection_name: tools.collection_name
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

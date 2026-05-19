@@ -1,0 +1,831 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Search
+  description: 'Qdrant API — Search. 13 operations. Lead operation: Discover points. Self-contained Naftiko capability covering
+    one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Search
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-search
+    baseUri: ''
+    description: Qdrant API — Search business capability. Self-contained, no shared references.
+    resources:
+    - name: collections-collection_name-points-discover
+      path: /collections/{collection_name}/points/discover
+      operations:
+      - name: discoverpoints
+        method: POST
+        description: Discover points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-discover-batch
+      path: /collections/{collection_name}/points/discover/batch
+      operations:
+      - name: discoverbatchpoints
+        method: POST
+        description: Discover batch points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-query
+      path: /collections/{collection_name}/points/query
+      operations:
+      - name: querypoints
+        method: POST
+        description: Query points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to query
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-query-batch
+      path: /collections/{collection_name}/points/query/batch
+      operations:
+      - name: querybatchpoints
+        method: POST
+        description: Query points in batch
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to query
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-query-groups
+      path: /collections/{collection_name}/points/query/groups
+      operations:
+      - name: querypointsgroups
+        method: POST
+        description: Query points, grouped by a given payload field
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to query
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-recommend
+      path: /collections/{collection_name}/points/recommend
+      operations:
+      - name: recommendpoints
+        method: POST
+        description: Recommend points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-recommend-batch
+      path: /collections/{collection_name}/points/recommend/batch
+      operations:
+      - name: recommendbatchpoints
+        method: POST
+        description: Recommend batch points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-recommend-groups
+      path: /collections/{collection_name}/points/recommend/groups
+      operations:
+      - name: recommendpointgroups
+        method: POST
+        description: Recommend point groups
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-search
+      path: /collections/{collection_name}/points/search
+      operations:
+      - name: searchpoints
+        method: POST
+        description: Search points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-search-batch
+      path: /collections/{collection_name}/points/search/batch
+      operations:
+      - name: searchbatchpoints
+        method: POST
+        description: Search batch points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-search-groups
+      path: /collections/{collection_name}/points/search/groups
+      operations:
+      - name: searchpointgroups
+        method: POST
+        description: Search point groups
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-search-matrix-offsets
+      path: /collections/{collection_name}/points/search/matrix/offsets
+      operations:
+      - name: searchmatrixoffsets
+        method: POST
+        description: Search points matrix distance offsets
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-search-matrix-pairs
+      path: /collections/{collection_name}/points/search/matrix/pairs
+      operations:
+      - name: searchmatrixpairs
+        method: POST
+        description: Search points matrix distance pairs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to search in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-search-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Search. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/collections/{collection-name}/points/discover
+      name: collections-collection-name-points-discover
+      description: REST surface for collections-collection_name-points-discover.
+      operations:
+      - method: POST
+        name: discoverpoints
+        description: Discover points
+        call: qdrant-search.discoverpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/discover/batch
+      name: collections-collection-name-points-discover-batch
+      description: REST surface for collections-collection_name-points-discover-batch.
+      operations:
+      - method: POST
+        name: discoverbatchpoints
+        description: Discover batch points
+        call: qdrant-search.discoverbatchpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/query
+      name: collections-collection-name-points-query
+      description: REST surface for collections-collection_name-points-query.
+      operations:
+      - method: POST
+        name: querypoints
+        description: Query points
+        call: qdrant-search.querypoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/query/batch
+      name: collections-collection-name-points-query-batch
+      description: REST surface for collections-collection_name-points-query-batch.
+      operations:
+      - method: POST
+        name: querybatchpoints
+        description: Query points in batch
+        call: qdrant-search.querybatchpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/query/groups
+      name: collections-collection-name-points-query-groups
+      description: REST surface for collections-collection_name-points-query-groups.
+      operations:
+      - method: POST
+        name: querypointsgroups
+        description: Query points, grouped by a given payload field
+        call: qdrant-search.querypointsgroups
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/recommend
+      name: collections-collection-name-points-recommend
+      description: REST surface for collections-collection_name-points-recommend.
+      operations:
+      - method: POST
+        name: recommendpoints
+        description: Recommend points
+        call: qdrant-search.recommendpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/recommend/batch
+      name: collections-collection-name-points-recommend-batch
+      description: REST surface for collections-collection_name-points-recommend-batch.
+      operations:
+      - method: POST
+        name: recommendbatchpoints
+        description: Recommend batch points
+        call: qdrant-search.recommendbatchpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/recommend/groups
+      name: collections-collection-name-points-recommend-groups
+      description: REST surface for collections-collection_name-points-recommend-groups.
+      operations:
+      - method: POST
+        name: recommendpointgroups
+        description: Recommend point groups
+        call: qdrant-search.recommendpointgroups
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/search
+      name: collections-collection-name-points-search
+      description: REST surface for collections-collection_name-points-search.
+      operations:
+      - method: POST
+        name: searchpoints
+        description: Search points
+        call: qdrant-search.searchpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/search/batch
+      name: collections-collection-name-points-search-batch
+      description: REST surface for collections-collection_name-points-search-batch.
+      operations:
+      - method: POST
+        name: searchbatchpoints
+        description: Search batch points
+        call: qdrant-search.searchbatchpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/search/groups
+      name: collections-collection-name-points-search-groups
+      description: REST surface for collections-collection_name-points-search-groups.
+      operations:
+      - method: POST
+        name: searchpointgroups
+        description: Search point groups
+        call: qdrant-search.searchpointgroups
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/search/matrix/offsets
+      name: collections-collection-name-points-search-matrix-offsets
+      description: REST surface for collections-collection_name-points-search-matrix-offsets.
+      operations:
+      - method: POST
+        name: searchmatrixoffsets
+        description: Search points matrix distance offsets
+        call: qdrant-search.searchmatrixoffsets
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/search/matrix/pairs
+      name: collections-collection-name-points-search-matrix-pairs
+      description: REST surface for collections-collection_name-points-search-matrix-pairs.
+      operations:
+      - method: POST
+        name: searchmatrixpairs
+        description: Search points matrix distance pairs
+        call: qdrant-search.searchmatrixpairs
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-search-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Search. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: discover-points
+      description: Discover points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-search.discoverpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: discover-batch-points
+      description: Discover batch points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-search.discoverbatchpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: query-points
+      description: Query points
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.querypoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: query-points-batch
+      description: Query points in batch
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.querybatchpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: query-points-grouped-given-payload
+      description: Query points, grouped by a given payload field
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.querypointsgroups
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: recommend-points
+      description: Recommend points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-search.recommendpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: recommend-batch-points
+      description: Recommend batch points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-search.recommendbatchpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: recommend-point-groups
+      description: Recommend point groups
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-search.recommendpointgroups
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-points
+      description: Search points
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.searchpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-batch-points
+      description: Search batch points
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.searchbatchpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-point-groups
+      description: Search point groups
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.searchpointgroups
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-points-matrix-distance-offsets
+      description: Search points matrix distance offsets
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.searchmatrixoffsets
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-points-matrix-distance-pairs
+      description: Search points matrix distance pairs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-search.searchmatrixpairs
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

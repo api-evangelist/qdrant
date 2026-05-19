@@ -1,0 +1,892 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Snapshots
+  description: 'Qdrant API — Snapshots. 17 operations. Lead operation: Download shard snapshot. Self-contained Naftiko capability
+    covering one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Snapshots
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-snapshots
+    baseUri: ''
+    description: Qdrant API — Snapshots business capability. Self-contained, no shared references.
+    resources:
+    - name: collections-collection_name-shards-shard_id-snapshot
+      path: /collections/{collection_name}/shards/{shard_id}/snapshot
+      operations:
+      - name: streamshardsnapshot
+        method: GET
+        description: Download shard snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: shard_id
+          in: path
+          type: integer
+          description: Id of the shard
+          required: true
+    - name: collections-collection_name-shards-shard_id-snapshots
+      path: /collections/{collection_name}/shards/{shard_id}/snapshots
+      operations:
+      - name: listshardsnapshots
+        method: GET
+        description: List shards snapshots for a collection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: shard_id
+          in: path
+          type: integer
+          description: Id of the shard
+          required: true
+      - name: createshardsnapshot
+        method: POST
+        description: Create shard snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection for which to create a snapshot
+          required: true
+        - name: shard_id
+          in: path
+          type: integer
+          description: Id of the shard
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+    - name: collections-collection_name-shards-shard_id-snapshots-recover
+      path: /collections/{collection_name}/shards/{shard_id}/snapshots/recover
+      operations:
+      - name: recovershardfromsnapshot
+        method: PUT
+        description: Recover from a snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: shard_id
+          in: path
+          type: integer
+          description: Id of the shard to recover
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-shards-shard_id-snapshots-upload
+      path: /collections/{collection_name}/shards/{shard_id}/snapshots/upload
+      operations:
+      - name: recovershardfromuploadedsnapshot
+        method: POST
+        description: Recover shard from an uploaded snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: shard_id
+          in: path
+          type: integer
+          description: Id of the shard to recover
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+        - name: priority
+          in: query
+          type: string
+          description: Defines source of truth for snapshot recovery
+        - name: checksum
+          in: query
+          type: string
+          description: Optional SHA256 checksum to verify snapshot integrity before recovery.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-shards-shard_id-snapshots-snapshot_name
+      path: /collections/{collection_name}/shards/{shard_id}/snapshots/{snapshot_name}
+      operations:
+      - name: deleteshardsnapshot
+        method: DELETE
+        description: Delete shard snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection for which to delete a snapshot
+          required: true
+        - name: shard_id
+          in: path
+          type: integer
+          description: Id of the shard
+          required: true
+        - name: snapshot_name
+          in: path
+          type: string
+          description: Name of the snapshot to delete
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+      - name: getshardsnapshot
+        method: GET
+        description: Download collection snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: shard_id
+          in: path
+          type: integer
+          description: Id of the shard
+          required: true
+        - name: snapshot_name
+          in: path
+          type: string
+          description: Name of the snapshot to download
+          required: true
+    - name: collections-collection_name-snapshots
+      path: /collections/{collection_name}/snapshots
+      operations:
+      - name: listsnapshots
+        method: GET
+        description: List collection snapshots
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+      - name: createsnapshot
+        method: POST
+        description: Create collection snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection for which to create a snapshot
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+    - name: collections-collection_name-snapshots-recover
+      path: /collections/{collection_name}/snapshots/recover
+      operations:
+      - name: recoverfromsnapshot
+        method: PUT
+        description: Recover from a snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-snapshots-upload
+      path: /collections/{collection_name}/snapshots/upload
+      operations:
+      - name: recoverfromuploadedsnapshot
+        method: POST
+        description: Recover from an uploaded snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+        - name: priority
+          in: query
+          type: string
+          description: Defines source of truth for snapshot recovery
+        - name: checksum
+          in: query
+          type: string
+          description: Optional SHA256 checksum to verify snapshot integrity before recovery.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-snapshots-snapshot_name
+      path: /collections/{collection_name}/snapshots/{snapshot_name}
+      operations:
+      - name: deletesnapshot
+        method: DELETE
+        description: Delete collection snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection for which to delete a snapshot
+          required: true
+        - name: snapshot_name
+          in: path
+          type: string
+          description: Name of the snapshot to delete
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+      - name: getsnapshot
+        method: GET
+        description: Download collection snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: snapshot_name
+          in: path
+          type: string
+          description: Name of the snapshot to download
+          required: true
+    - name: snapshots
+      path: /snapshots
+      operations:
+      - name: listfullsnapshots
+        method: GET
+        description: List of storage snapshots
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createfullsnapshot
+        method: POST
+        description: Create storage snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+    - name: snapshots-snapshot_name
+      path: /snapshots/{snapshot_name}
+      operations:
+      - name: deletefullsnapshot
+        method: DELETE
+        description: Delete storage snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: snapshot_name
+          in: path
+          type: string
+          description: Name of the full snapshot to delete
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen. If false - let changes happen in background. Default
+            is true.
+      - name: getfullsnapshot
+        method: GET
+        description: Download storage snapshot
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: snapshot_name
+          in: path
+          type: string
+          description: Name of the snapshot to download
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-snapshots-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Snapshots. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/collections/{collection-name}/shards/{shard-id}/snapshot
+      name: collections-collection-name-shards-shard-id-snapshot
+      description: REST surface for collections-collection_name-shards-shard_id-snapshot.
+      operations:
+      - method: GET
+        name: streamshardsnapshot
+        description: Download shard snapshot
+        call: qdrant-snapshots.streamshardsnapshot
+        with:
+          collection_name: rest.collection_name
+          shard_id: rest.shard_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/shards/{shard-id}/snapshots
+      name: collections-collection-name-shards-shard-id-snapshots
+      description: REST surface for collections-collection_name-shards-shard_id-snapshots.
+      operations:
+      - method: GET
+        name: listshardsnapshots
+        description: List shards snapshots for a collection
+        call: qdrant-snapshots.listshardsnapshots
+        with:
+          collection_name: rest.collection_name
+          shard_id: rest.shard_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createshardsnapshot
+        description: Create shard snapshot
+        call: qdrant-snapshots.createshardsnapshot
+        with:
+          collection_name: rest.collection_name
+          shard_id: rest.shard_id
+          wait: rest.wait
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/shards/{shard-id}/snapshots/recover
+      name: collections-collection-name-shards-shard-id-snapshots-recover
+      description: REST surface for collections-collection_name-shards-shard_id-snapshots-recover.
+      operations:
+      - method: PUT
+        name: recovershardfromsnapshot
+        description: Recover from a snapshot
+        call: qdrant-snapshots.recovershardfromsnapshot
+        with:
+          collection_name: rest.collection_name
+          shard_id: rest.shard_id
+          wait: rest.wait
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/shards/{shard-id}/snapshots/upload
+      name: collections-collection-name-shards-shard-id-snapshots-upload
+      description: REST surface for collections-collection_name-shards-shard_id-snapshots-upload.
+      operations:
+      - method: POST
+        name: recovershardfromuploadedsnapshot
+        description: Recover shard from an uploaded snapshot
+        call: qdrant-snapshots.recovershardfromuploadedsnapshot
+        with:
+          collection_name: rest.collection_name
+          shard_id: rest.shard_id
+          wait: rest.wait
+          priority: rest.priority
+          checksum: rest.checksum
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/shards/{shard-id}/snapshots/{snapshot-name}
+      name: collections-collection-name-shards-shard-id-snapshots-snapshot-name
+      description: REST surface for collections-collection_name-shards-shard_id-snapshots-snapshot_name.
+      operations:
+      - method: DELETE
+        name: deleteshardsnapshot
+        description: Delete shard snapshot
+        call: qdrant-snapshots.deleteshardsnapshot
+        with:
+          collection_name: rest.collection_name
+          shard_id: rest.shard_id
+          snapshot_name: rest.snapshot_name
+          wait: rest.wait
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getshardsnapshot
+        description: Download collection snapshot
+        call: qdrant-snapshots.getshardsnapshot
+        with:
+          collection_name: rest.collection_name
+          shard_id: rest.shard_id
+          snapshot_name: rest.snapshot_name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/snapshots
+      name: collections-collection-name-snapshots
+      description: REST surface for collections-collection_name-snapshots.
+      operations:
+      - method: GET
+        name: listsnapshots
+        description: List collection snapshots
+        call: qdrant-snapshots.listsnapshots
+        with:
+          collection_name: rest.collection_name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createsnapshot
+        description: Create collection snapshot
+        call: qdrant-snapshots.createsnapshot
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/snapshots/recover
+      name: collections-collection-name-snapshots-recover
+      description: REST surface for collections-collection_name-snapshots-recover.
+      operations:
+      - method: PUT
+        name: recoverfromsnapshot
+        description: Recover from a snapshot
+        call: qdrant-snapshots.recoverfromsnapshot
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/snapshots/upload
+      name: collections-collection-name-snapshots-upload
+      description: REST surface for collections-collection_name-snapshots-upload.
+      operations:
+      - method: POST
+        name: recoverfromuploadedsnapshot
+        description: Recover from an uploaded snapshot
+        call: qdrant-snapshots.recoverfromuploadedsnapshot
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          priority: rest.priority
+          checksum: rest.checksum
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/snapshots/{snapshot-name}
+      name: collections-collection-name-snapshots-snapshot-name
+      description: REST surface for collections-collection_name-snapshots-snapshot_name.
+      operations:
+      - method: DELETE
+        name: deletesnapshot
+        description: Delete collection snapshot
+        call: qdrant-snapshots.deletesnapshot
+        with:
+          collection_name: rest.collection_name
+          snapshot_name: rest.snapshot_name
+          wait: rest.wait
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getsnapshot
+        description: Download collection snapshot
+        call: qdrant-snapshots.getsnapshot
+        with:
+          collection_name: rest.collection_name
+          snapshot_name: rest.snapshot_name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/snapshots
+      name: snapshots
+      description: REST surface for snapshots.
+      operations:
+      - method: GET
+        name: listfullsnapshots
+        description: List of storage snapshots
+        call: qdrant-snapshots.listfullsnapshots
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createfullsnapshot
+        description: Create storage snapshot
+        call: qdrant-snapshots.createfullsnapshot
+        with:
+          wait: rest.wait
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/snapshots/{snapshot-name}
+      name: snapshots-snapshot-name
+      description: REST surface for snapshots-snapshot_name.
+      operations:
+      - method: DELETE
+        name: deletefullsnapshot
+        description: Delete storage snapshot
+        call: qdrant-snapshots.deletefullsnapshot
+        with:
+          snapshot_name: rest.snapshot_name
+          wait: rest.wait
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getfullsnapshot
+        description: Download storage snapshot
+        call: qdrant-snapshots.getfullsnapshot
+        with:
+          snapshot_name: rest.snapshot_name
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-snapshots-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Snapshots. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: download-shard-snapshot
+      description: Download shard snapshot
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.streamshardsnapshot
+      with:
+        collection_name: tools.collection_name
+        shard_id: tools.shard_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-shards-snapshots-collection
+      description: List shards snapshots for a collection
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.listshardsnapshots
+      with:
+        collection_name: tools.collection_name
+        shard_id: tools.shard_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-shard-snapshot
+      description: Create shard snapshot
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-snapshots.createshardsnapshot
+      with:
+        collection_name: tools.collection_name
+        shard_id: tools.shard_id
+        wait: tools.wait
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: recover-snapshot
+      description: Recover from a snapshot
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.recovershardfromsnapshot
+      with:
+        collection_name: tools.collection_name
+        shard_id: tools.shard_id
+        wait: tools.wait
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: recover-shard-uploaded-snapshot
+      description: Recover shard from an uploaded snapshot
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-snapshots.recovershardfromuploadedsnapshot
+      with:
+        collection_name: tools.collection_name
+        shard_id: tools.shard_id
+        wait: tools.wait
+        priority: tools.priority
+        checksum: tools.checksum
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-shard-snapshot
+      description: Delete shard snapshot
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qdrant-snapshots.deleteshardsnapshot
+      with:
+        collection_name: tools.collection_name
+        shard_id: tools.shard_id
+        snapshot_name: tools.snapshot_name
+        wait: tools.wait
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: download-collection-snapshot
+      description: Download collection snapshot
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.getshardsnapshot
+      with:
+        collection_name: tools.collection_name
+        shard_id: tools.shard_id
+        snapshot_name: tools.snapshot_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-collection-snapshots
+      description: List collection snapshots
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.listsnapshots
+      with:
+        collection_name: tools.collection_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-collection-snapshot
+      description: Create collection snapshot
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-snapshots.createsnapshot
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: recover-snapshot-2
+      description: Recover from a snapshot
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.recoverfromsnapshot
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: recover-uploaded-snapshot
+      description: Recover from an uploaded snapshot
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-snapshots.recoverfromuploadedsnapshot
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        priority: tools.priority
+        checksum: tools.checksum
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-collection-snapshot
+      description: Delete collection snapshot
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qdrant-snapshots.deletesnapshot
+      with:
+        collection_name: tools.collection_name
+        snapshot_name: tools.snapshot_name
+        wait: tools.wait
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: download-collection-snapshot-2
+      description: Download collection snapshot
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.getsnapshot
+      with:
+        collection_name: tools.collection_name
+        snapshot_name: tools.snapshot_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-storage-snapshots
+      description: List of storage snapshots
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.listfullsnapshots
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-storage-snapshot
+      description: Create storage snapshot
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-snapshots.createfullsnapshot
+      with:
+        wait: tools.wait
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-storage-snapshot
+      description: Delete storage snapshot
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qdrant-snapshots.deletefullsnapshot
+      with:
+        snapshot_name: tools.snapshot_name
+        wait: tools.wait
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: download-storage-snapshot
+      description: Download storage snapshot
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-snapshots.getfullsnapshot
+      with:
+        snapshot_name: tools.snapshot_name
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,345 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Collections
+  description: 'Qdrant API — Collections. 7 operations. Lead operation: List collections. Self-contained Naftiko capability
+    covering one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Collections
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-collections
+    baseUri: ''
+    description: Qdrant API — Collections business capability. Self-contained, no shared references.
+    resources:
+    - name: collections
+      path: /collections
+      operations:
+      - name: getcollections
+        method: GET
+        description: List collections
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: collections-collection_name
+      path: /collections/{collection_name}
+      operations:
+      - name: getcollection
+        method: GET
+        description: Collection info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to retrieve
+          required: true
+      - name: createcollection
+        method: PUT
+        description: Create collection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the new collection
+          required: true
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: updatecollection
+        method: PATCH
+        description: Update collection parameters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to update
+          required: true
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletecollection
+        method: DELETE
+        description: Delete collection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to delete
+          required: true
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+    - name: collections-collection_name-exists
+      path: /collections/{collection_name}/exists
+      operations:
+      - name: collectionexists
+        method: GET
+        description: Check the existence of a collection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+    - name: collections-collection_name-optimizations
+      path: /collections/{collection_name}/optimizations
+      operations:
+      - name: getoptimizations
+        method: GET
+        description: Get optimization progress
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+        - name: with
+          in: query
+          type: string
+          description: Comma-separated list of optional fields to include in the response.
+        - name: completed_limit
+          in: query
+          type: integer
+          description: Maximum number of completed optimizations to return.
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-collections-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Collections. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/collections
+      name: collections
+      description: REST surface for collections.
+      operations:
+      - method: GET
+        name: getcollections
+        description: List collections
+        call: qdrant-collections.getcollections
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}
+      name: collections-collection-name
+      description: REST surface for collections-collection_name.
+      operations:
+      - method: GET
+        name: getcollection
+        description: Collection info
+        call: qdrant-collections.getcollection
+        with:
+          collection_name: rest.collection_name
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: createcollection
+        description: Create collection
+        call: qdrant-collections.createcollection
+        with:
+          collection_name: rest.collection_name
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatecollection
+        description: Update collection parameters
+        call: qdrant-collections.updatecollection
+        with:
+          collection_name: rest.collection_name
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecollection
+        description: Delete collection
+        call: qdrant-collections.deletecollection
+        with:
+          collection_name: rest.collection_name
+          timeout: rest.timeout
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/exists
+      name: collections-collection-name-exists
+      description: REST surface for collections-collection_name-exists.
+      operations:
+      - method: GET
+        name: collectionexists
+        description: Check the existence of a collection
+        call: qdrant-collections.collectionexists
+        with:
+          collection_name: rest.collection_name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/optimizations
+      name: collections-collection-name-optimizations
+      description: REST surface for collections-collection_name-optimizations.
+      operations:
+      - method: GET
+        name: getoptimizations
+        description: Get optimization progress
+        call: qdrant-collections.getoptimizations
+        with:
+          collection_name: rest.collection_name
+          with: rest.with
+          completed_limit: rest.completed_limit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-collections-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Collections. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-collections
+      description: List collections
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-collections.getcollections
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: collection-info
+      description: Collection info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-collections.getcollection
+      with:
+        collection_name: tools.collection_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-collection
+      description: Create collection
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-collections.createcollection
+      with:
+        collection_name: tools.collection_name
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-collection-parameters
+      description: Update collection parameters
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-collections.updatecollection
+      with:
+        collection_name: tools.collection_name
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-collection
+      description: Delete collection
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qdrant-collections.deletecollection
+      with:
+        collection_name: tools.collection_name
+        timeout: tools.timeout
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: check-existence-collection
+      description: Check the existence of a collection
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-collections.collectionexists
+      with:
+        collection_name: tools.collection_name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-optimization-progress
+      description: Get optimization progress
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-collections.getoptimizations
+      with:
+        collection_name: tools.collection_name
+        with: tools.with
+        completed_limit: tools.completed_limit
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,926 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Points
+  description: 'Qdrant API — Points. 14 operations. Lead operation: Facet a payload key with a given filter.. Self-contained
+    Naftiko capability covering one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Points
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-points
+    baseUri: ''
+    description: Qdrant API — Points business capability. Self-contained, no shared references.
+    resources:
+    - name: collections-collection_name-facet
+      path: /collections/{collection_name}/facet
+      operations:
+      - name: facet
+        method: POST
+        description: Facet a payload key with a given filter.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to facet in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points
+      path: /collections/{collection_name}/points
+      operations:
+      - name: getpoints
+        method: POST
+        description: Get points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to retrieve from
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: upsertpoints
+        method: PUT
+        description: Upsert points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to update from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-batch
+      path: /collections/{collection_name}/points/batch
+      operations:
+      - name: batchupdate
+        method: POST
+        description: Batch update points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to apply operations on
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-count
+      path: /collections/{collection_name}/points/count
+      operations:
+      - name: countpoints
+        method: POST
+        description: Count points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to count in
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-delete
+      path: /collections/{collection_name}/points/delete
+      operations:
+      - name: deletepoints
+        method: POST
+        description: Delete points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to delete from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-payload
+      path: /collections/{collection_name}/points/payload
+      operations:
+      - name: setpayload
+        method: POST
+        description: Set payload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to set from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: overwritepayload
+        method: PUT
+        description: Overwrite payload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to set from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-payload-clear
+      path: /collections/{collection_name}/points/payload/clear
+      operations:
+      - name: clearpayload
+        method: POST
+        description: Clear payload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to clear payload from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-payload-delete
+      path: /collections/{collection_name}/points/payload/delete
+      operations:
+      - name: deletepayload
+        method: POST
+        description: Delete payload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to delete from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-scroll
+      path: /collections/{collection_name}/points/scroll
+      operations:
+      - name: scrollpoints
+        method: POST
+        description: Scroll points
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to retrieve from
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: If set, overrides global timeout for this request. Unit is seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-vectors
+      path: /collections/{collection_name}/points/vectors
+      operations:
+      - name: updatevectors
+        method: PUT
+        description: Update vectors
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to update from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-vectors-delete
+      path: /collections/{collection_name}/points/vectors/delete
+      operations:
+      - name: deletevectors
+        method: POST
+        description: Delete vectors
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to delete from
+          required: true
+        - name: wait
+          in: query
+          type: boolean
+          description: If true, wait for changes to actually happen
+        - name: ordering
+          in: query
+          type: string
+          description: define ordering guarantees for the operation
+        - name: timeout
+          in: query
+          type: integer
+          description: Timeout for the operation
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-points-id
+      path: /collections/{collection_name}/points/{id}
+      operations:
+      - name: getpoint
+        method: GET
+        description: Get point
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection to retrieve from
+          required: true
+        - name: id
+          in: path
+          type: string
+          description: Id of the point
+          required: true
+        - name: consistency
+          in: query
+          type: string
+          description: Define read consistency guarantees for the operation
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-points-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Points. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/collections/{collection-name}/facet
+      name: collections-collection-name-facet
+      description: REST surface for collections-collection_name-facet.
+      operations:
+      - method: POST
+        name: facet
+        description: Facet a payload key with a given filter.
+        call: qdrant-points.facet
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points
+      name: collections-collection-name-points
+      description: REST surface for collections-collection_name-points.
+      operations:
+      - method: POST
+        name: getpoints
+        description: Get points
+        call: qdrant-points.getpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertpoints
+        description: Upsert points
+        call: qdrant-points.upsertpoints
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/batch
+      name: collections-collection-name-points-batch
+      description: REST surface for collections-collection_name-points-batch.
+      operations:
+      - method: POST
+        name: batchupdate
+        description: Batch update points
+        call: qdrant-points.batchupdate
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/count
+      name: collections-collection-name-points-count
+      description: REST surface for collections-collection_name-points-count.
+      operations:
+      - method: POST
+        name: countpoints
+        description: Count points
+        call: qdrant-points.countpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/delete
+      name: collections-collection-name-points-delete
+      description: REST surface for collections-collection_name-points-delete.
+      operations:
+      - method: POST
+        name: deletepoints
+        description: Delete points
+        call: qdrant-points.deletepoints
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/payload
+      name: collections-collection-name-points-payload
+      description: REST surface for collections-collection_name-points-payload.
+      operations:
+      - method: POST
+        name: setpayload
+        description: Set payload
+        call: qdrant-points.setpayload
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: overwritepayload
+        description: Overwrite payload
+        call: qdrant-points.overwritepayload
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/payload/clear
+      name: collections-collection-name-points-payload-clear
+      description: REST surface for collections-collection_name-points-payload-clear.
+      operations:
+      - method: POST
+        name: clearpayload
+        description: Clear payload
+        call: qdrant-points.clearpayload
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/payload/delete
+      name: collections-collection-name-points-payload-delete
+      description: REST surface for collections-collection_name-points-payload-delete.
+      operations:
+      - method: POST
+        name: deletepayload
+        description: Delete payload
+        call: qdrant-points.deletepayload
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/scroll
+      name: collections-collection-name-points-scroll
+      description: REST surface for collections-collection_name-points-scroll.
+      operations:
+      - method: POST
+        name: scrollpoints
+        description: Scroll points
+        call: qdrant-points.scrollpoints
+        with:
+          collection_name: rest.collection_name
+          consistency: rest.consistency
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/vectors
+      name: collections-collection-name-points-vectors
+      description: REST surface for collections-collection_name-points-vectors.
+      operations:
+      - method: PUT
+        name: updatevectors
+        description: Update vectors
+        call: qdrant-points.updatevectors
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/vectors/delete
+      name: collections-collection-name-points-vectors-delete
+      description: REST surface for collections-collection_name-points-vectors-delete.
+      operations:
+      - method: POST
+        name: deletevectors
+        description: Delete vectors
+        call: qdrant-points.deletevectors
+        with:
+          collection_name: rest.collection_name
+          wait: rest.wait
+          ordering: rest.ordering
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/points/{id}
+      name: collections-collection-name-points-id
+      description: REST surface for collections-collection_name-points-id.
+      operations:
+      - method: GET
+        name: getpoint
+        description: Get point
+        call: qdrant-points.getpoint
+        with:
+          collection_name: rest.collection_name
+          id: rest.id
+          consistency: rest.consistency
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-points-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Points. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: facet-payload-key-given-filter
+      description: Facet a payload key with a given filter.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.facet
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-points
+      description: Get points
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qdrant-points.getpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upsert-points
+      description: Upsert points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-points.upsertpoints
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: batch-update-points
+      description: Batch update points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.batchupdate
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: count-points
+      description: Count points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.countpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-points
+      description: Delete points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.deletepoints
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-payload
+      description: Set payload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.setpayload
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: overwrite-payload
+      description: Overwrite payload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-points.overwritepayload
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: clear-payload
+      description: Clear payload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.clearpayload
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-payload
+      description: Delete payload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.deletepayload
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: scroll-points
+      description: Scroll points
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.scrollpoints
+      with:
+        collection_name: tools.collection_name
+        consistency: tools.consistency
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-vectors
+      description: Update vectors
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qdrant-points.updatevectors
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-vectors
+      description: Delete vectors
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-points.deletevectors
+      with:
+        collection_name: tools.collection_name
+        wait: tools.wait
+        ordering: tools.ordering
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-point
+      description: Get point
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-points.getpoint
+      with:
+        collection_name: tools.collection_name
+        id: tools.id
+        consistency: tools.consistency
+      outputParameters:
+      - type: object
+        mapping: $.

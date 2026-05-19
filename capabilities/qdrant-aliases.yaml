@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qdrant API — Aliases
+  description: 'Qdrant API — Aliases. 3 operations. Lead operation: List collections aliases. Self-contained Naftiko capability
+    covering one Qdrant business surface.'
+  tags:
+  - Qdrant
+  - Aliases
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QDRANT_API_KEY: QDRANT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qdrant-aliases
+    baseUri: ''
+    description: Qdrant API — Aliases business capability. Self-contained, no shared references.
+    resources:
+    - name: aliases
+      path: /aliases
+      operations:
+      - name: getcollectionsaliases
+        method: GET
+        description: List collections aliases
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: collections-aliases
+      path: /collections/aliases
+      operations:
+      - name: updatealiases
+        method: POST
+        description: Update aliases of the collections
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: timeout
+          in: query
+          type: integer
+          description: Wait for operation commit timeout in seconds.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: collections-collection_name-aliases
+      path: /collections/{collection_name}/aliases
+      operations:
+      - name: getcollectionaliases
+        method: GET
+        description: List aliases for collection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: collection_name
+          in: path
+          type: string
+          description: Name of the collection
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.QDRANT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qdrant-aliases-rest
+    port: 8080
+    description: REST adapter for Qdrant API — Aliases. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/aliases
+      name: aliases
+      description: REST surface for aliases.
+      operations:
+      - method: GET
+        name: getcollectionsaliases
+        description: List collections aliases
+        call: qdrant-aliases.getcollectionsaliases
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/aliases
+      name: collections-aliases
+      description: REST surface for collections-aliases.
+      operations:
+      - method: POST
+        name: updatealiases
+        description: Update aliases of the collections
+        call: qdrant-aliases.updatealiases
+        with:
+          timeout: rest.timeout
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/collections/{collection-name}/aliases
+      name: collections-collection-name-aliases
+      description: REST surface for collections-collection_name-aliases.
+      operations:
+      - method: GET
+        name: getcollectionaliases
+        description: List aliases for collection
+        call: qdrant-aliases.getcollectionaliases
+        with:
+          collection_name: rest.collection_name
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qdrant-aliases-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qdrant API — Aliases. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-collections-aliases
+      description: List collections aliases
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-aliases.getcollectionsaliases
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-aliases-collections
+      description: Update aliases of the collections
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qdrant-aliases.updatealiases
+      with:
+        timeout: tools.timeout
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-aliases-collection
+      description: List aliases for collection
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qdrant-aliases.getcollectionaliases
+      with:
+        collection_name: tools.collection_name
+      outputParameters:
+      - type: object
+        mapping: $.
