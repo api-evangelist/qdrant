@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DivExpression",
+  "title": "DivExpression",
+  "type": "object",
+  "required": [
+    "div"
+  ],
+  "properties": {
+    "div": {
+      "$ref": "#/components/schemas/DivParams"
+    }
+  }
+}

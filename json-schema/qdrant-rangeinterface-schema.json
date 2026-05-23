@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RangeInterface",
+  "title": "RangeInterface",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/Range"
+    },
+    {
+      "$ref": "#/components/schemas/DatetimeRange"
+    }
+  ]
+}

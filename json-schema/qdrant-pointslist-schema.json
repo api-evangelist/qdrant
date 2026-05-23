@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PointsList",
+  "title": "PointsList",
+  "type": "object",
+  "required": [
+    "points"
+  ],
+  "properties": {
+    "points": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PointStruct"
+      }
+    },
+    "shard_key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "update_filter": {
+      "description": "Filter to apply when updating existing points. Only points matching this filter will be updated. Points that don't match will keep their current state. New points will be inserted regardless of the filter.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "update_mode": {
+      "description": "Mode of the upsert operation: insert_only, upsert (default), update_only",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/UpdateMode"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

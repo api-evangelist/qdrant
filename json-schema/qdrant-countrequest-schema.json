@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CountRequest",
+  "title": "CountRequest",
+  "description": "Count Request Counts the number of points which satisfy the given filter. If filter is not provided, the count of all points in the collection will be returned.",
+  "type": "object",
+  "properties": {
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "filter": {
+      "description": "Look only for points which satisfies this conditions",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "exact": {
+      "description": "If true, count exact number of points. If false, count approximate number of points faster. Approximate count might be unreliable during the indexing process. Default: true",
+      "default": true,
+      "type": "boolean"
+    }
+  }
+}

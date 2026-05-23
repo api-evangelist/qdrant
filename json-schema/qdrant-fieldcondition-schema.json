@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FieldCondition",
+  "title": "FieldCondition",
+  "description": "All possible payload filtering conditions",
+  "type": "object",
+  "required": [
+    "key"
+  ],
+  "properties": {
+    "key": {
+      "description": "Payload key",
+      "type": "string"
+    },
+    "match": {
+      "description": "Check if point has field with a given value",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Match"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "range": {
+      "description": "Check if points value lies in a given range",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/RangeInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "geo_bounding_box": {
+      "description": "Check if points geolocation lies in a given area",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/GeoBoundingBox"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "geo_radius": {
+      "description": "Check if geo point is within a given radius",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/GeoRadius"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "geo_polygon": {
+      "description": "Check if geo point is within a given polygon",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/GeoPolygon"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "values_count": {
+      "description": "Check number of values of the field",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ValuesCount"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "is_empty": {
+      "description": "Check that the field is empty, alternative syntax for `is_empty: \"field_name\"`",
+      "type": "boolean",
+      "nullable": true
+    },
+    "is_null": {
+      "description": "Check that the field is null, alternative syntax for `is_null: \"field_name\"`",
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

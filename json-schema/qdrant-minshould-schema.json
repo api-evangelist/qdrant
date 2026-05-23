@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MinShould",
+  "title": "MinShould",
+  "type": "object",
+  "required": [
+    "conditions",
+    "min_count"
+  ],
+  "properties": {
+    "conditions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Condition"
+      }
+    },
+    "min_count": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

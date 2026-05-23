@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DistributedShardTelemetry",
+  "title": "DistributedShardTelemetry",
+  "type": "object",
+  "required": [
+    "id",
+    "replicas"
+  ],
+  "properties": {
+    "id": {
+      "description": "Shard ID",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "key": {
+      "description": "Optional shard key",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKey"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "replicas": {
+      "description": "Replica information",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/DistributedReplicaTelemetry"
+      }
+    }
+  }
+}

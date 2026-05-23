@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SearchMatrixRequest",
+  "title": "SearchMatrixRequest",
+  "type": "object",
+  "properties": {
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "filter": {
+      "description": "Look only for points which satisfies this conditions",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "sample": {
+      "description": "How many points to select and search within. Default is 10.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 2,
+      "nullable": true
+    },
+    "limit": {
+      "description": "How many neighbours per sample to find. Default is 3.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1,
+      "nullable": true
+    },
+    "using": {
+      "description": "Define which vector name to use for querying. If missing, the default vector is used.",
+      "type": "string",
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,23 @@
+name: Qdrant Domain Vocabulary
+provider: Qdrant
+providerId: qdrant
+description: Tag-derived vocabulary for the Qdrant API surface; sourced from openapi/ tags.
+terms:
+- term: Collections
+  description: Searchable collections of points.
+- term: Points
+  description: Float-point vectors with payload.
+- term: Search
+  description: Find points in a collection.
+- term: Aliases
+  description: Additional names for existing collections.
+- term: Indexes
+  description: Indexes for payloads associated with points.
+- term: Distributed
+  description: Service distributed setup.
+- term: Snapshots
+  description: Storage and collections snapshots.
+- term: Service
+  description: Qdrant service utilities.
+- term: Beta
+  description: Beta features, do not depend on these yet.

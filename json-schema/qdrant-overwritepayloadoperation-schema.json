@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OverwritePayloadOperation",
+  "title": "OverwritePayloadOperation",
+  "type": "object",
+  "required": [
+    "overwrite_payload"
+  ],
+  "properties": {
+    "overwrite_payload": {
+      "$ref": "#/components/schemas/SetPayload"
+    }
+  }
+}

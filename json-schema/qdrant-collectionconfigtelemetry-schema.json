@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionConfigTelemetry",
+  "title": "CollectionConfigTelemetry",
+  "type": "object",
+  "required": [
+    "hnsw_config",
+    "optimizer_config",
+    "params",
+    "wal_config"
+  ],
+  "properties": {
+    "params": {
+      "$ref": "#/components/schemas/CollectionParams"
+    },
+    "hnsw_config": {
+      "$ref": "#/components/schemas/HnswConfig"
+    },
+    "optimizer_config": {
+      "$ref": "#/components/schemas/OptimizersConfig"
+    },
+    "wal_config": {
+      "$ref": "#/components/schemas/WalConfig"
+    },
+    "quantization_config": {
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/QuantizationConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "strict_mode_config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StrictModeConfigOutput"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "uuid": {
+      "default": null,
+      "type": "string",
+      "format": "uuid",
+      "nullable": true
+    },
+    "metadata": {
+      "description": "Arbitrary JSON metadata for the collection",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Payload"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

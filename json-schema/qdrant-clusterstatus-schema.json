@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClusterStatus",
+  "title": "ClusterStatus",
+  "description": "Information about current cluster status and structure",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "disabled"
+          ]
+        }
+      }
+    },
+    {
+      "description": "Description of enabled cluster",
+      "type": "object",
+      "required": [
+        "consensus_thread_status",
+        "message_send_failures",
+        "peer_id",
+        "peers",
+        "raft_info",
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "enabled"
+          ]
+        },
+        "peer_id": {
+          "description": "ID of this peer",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "peers": {
+          "description": "Peers composition of the cluster with main information",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/PeerInfo"
+          }
+        },
+        "raft_info": {
+          "$ref": "#/components/schemas/RaftInfo"
+        },
+        "consensus_thread_status": {
+          "$ref": "#/components/schemas/ConsensusThreadStatus"
+        },
+        "message_send_failures": {
+          "description": "Consequent failures of message send operations in consensus by peer address. On the first success to send to that peer - entry is removed from this hashmap.",
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/MessageSendErrors"
+          }
+        }
+      }
+    }
+  ]
+}

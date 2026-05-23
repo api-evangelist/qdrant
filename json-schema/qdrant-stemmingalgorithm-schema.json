@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StemmingAlgorithm",
+  "title": "StemmingAlgorithm",
+  "description": "Different stemming algorithms with their configs.",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/SnowballParams"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AbsExpression",
+  "title": "AbsExpression",
+  "type": "object",
+  "required": [
+    "abs"
+  ],
+  "properties": {
+    "abs": {
+      "$ref": "#/components/schemas/Expression"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GeoDistance",
+  "title": "GeoDistance",
+  "type": "object",
+  "required": [
+    "geo_distance"
+  ],
+  "properties": {
+    "geo_distance": {
+      "$ref": "#/components/schemas/GeoDistanceParams"
+    }
+  }
+}

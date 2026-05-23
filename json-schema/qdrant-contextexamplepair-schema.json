@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContextExamplePair",
+  "title": "ContextExamplePair",
+  "type": "object",
+  "required": [
+    "negative",
+    "positive"
+  ],
+  "properties": {
+    "positive": {
+      "$ref": "#/components/schemas/RecommendExample"
+    },
+    "negative": {
+      "$ref": "#/components/schemas/RecommendExample"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GeoDistanceParams",
+  "title": "GeoDistanceParams",
+  "type": "object",
+  "required": [
+    "origin",
+    "to"
+  ],
+  "properties": {
+    "origin": {
+      "$ref": "#/components/schemas/GeoPoint"
+    },
+    "to": {
+      "description": "Payload field with the destination geo point",
+      "type": "string"
+    }
+  }
+}

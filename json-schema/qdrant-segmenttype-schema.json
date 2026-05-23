@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SegmentType",
+  "title": "SegmentType",
+  "description": "Type of segment",
+  "type": "string",
+  "enum": [
+    "plain",
+    "indexed",
+    "special"
+  ]
+}

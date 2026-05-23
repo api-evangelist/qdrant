@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OptimizationsResponse",
+  "title": "OptimizationsResponse",
+  "description": "Optimizations progress for the collection",
+  "type": "object",
+  "required": [
+    "running",
+    "summary"
+  ],
+  "properties": {
+    "summary": {
+      "$ref": "#/components/schemas/OptimizationsSummary"
+    },
+    "running": {
+      "description": "Currently running optimizations.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Optimization"
+      }
+    },
+    "queued": {
+      "description": "An estimated queue of pending optimizations. Requires `?with=queued`.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PendingOptimization"
+      },
+      "nullable": true
+    },
+    "completed": {
+      "description": "Completed optimizations. Requires `?with=completed`. Limited by `?completed_limit=N`.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Optimization"
+      },
+      "nullable": true
+    },
+    "idle_segments": {
+      "description": "Segments that don't require optimization. Requires `?with=idle_segments`.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OptimizationSegmentInfo"
+      },
+      "nullable": true
+    }
+  }
+}

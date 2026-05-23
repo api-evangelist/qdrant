@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OptimizersConfigDiff",
+  "title": "OptimizersConfigDiff",
+  "type": "object",
+  "properties": {
+    "deleted_threshold": {
+      "description": "The minimal fraction of deleted vectors in a segment, required to perform segment optimization",
+      "type": "number",
+      "format": "double",
+      "maximum": 1,
+      "minimum": 0,
+      "nullable": true
+    },
+    "vacuum_min_vector_number": {
+      "description": "The minimal number of vectors in a segment, required to perform segment optimization",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 100,
+      "nullable": true
+    },
+    "default_segment_number": {
+      "description": "Target amount of segments optimizer will try to keep. Real amount of segments may vary depending on multiple parameters: - Amount of stored points - Current write RPS\n\nIt is recommended to select default number of segments as a factor of the number of search threads, so that each segment would be handled evenly by one of the threads If `default_segment_number = 0`, will be automatically selected by the number of available CPUs",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "max_segment_size": {
+      "description": "Do not create segments larger this size (in kilobytes). Large segments might require disproportionately long indexation times, therefore it makes sense to limit the size of segments.\n\nIf indexation speed have more priority for your - make this parameter lower. If search speed is more important - make this parameter higher. Note: 1Kb = 1 vector of size 256",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1,
+      "nullable": true
+    },
+    "memmap_threshold": {
+      "description": "Maximum size (in kilobytes) of vectors to store in-memory per segment. Segments larger than this threshold will be stored as read-only memmapped file.\n\nMemmap storage is disabled by default, to enable it, set this threshold to a reasonable value.\n\nTo disable memmap storage, set this to `0`.\n\nNote: 1Kb = 1 vector of size 256\n\nDeprecated since Qdrant 1.15.0",
+      "deprecated": true,
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "indexing_threshold": {
+      "description": "Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing\n\nDefault value is 20,000, based on <https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md>.\n\nTo disable vector indexing, set to `0`.\n\nNote: 1kB = 1 vector of size 256.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "flush_interval_sec": {
+      "description": "Minimum interval between forced flushes.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "max_optimization_threads": {
+      "description": "Max number of threads (jobs) for running optimizations per shard. Note: each optimization job will also use `max_indexing_threads` threads by itself for index building. If \"auto\" - have no limit and choose dynamically to saturate CPU. If 0 - no optimization threads, optimizations will be disabled.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/MaxOptimizationThreads"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "prevent_unoptimized": {
+      "description": "If this option is set, service will try to prevent creation of large unoptimized segments. When enabled, updates may be blocked at request level if there are unoptimized segments larger than indexing threshold. Updates will be resumed when optimization is completed and segments are optimized below the threshold. Using this option may lead to increased delay between submitting an update and its application. Default is disabled.",
+      "default": null,
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

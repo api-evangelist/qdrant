@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExpDecayExpression",
+  "title": "ExpDecayExpression",
+  "type": "object",
+  "required": [
+    "exp_decay"
+  ],
+  "properties": {
+    "exp_decay": {
+      "$ref": "#/components/schemas/DecayParamsExpression"
+    }
+  }
+}

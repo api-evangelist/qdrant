@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DistributedPeerDetails",
+  "title": "DistributedPeerDetails",
+  "type": "object",
+  "required": [
+    "commit",
+    "consensus_thread_status",
+    "is_voter",
+    "num_pending_operations",
+    "term",
+    "version"
+  ],
+  "properties": {
+    "version": {
+      "description": "Qdrant version",
+      "type": "string"
+    },
+    "role": {
+      "description": "Consensus role for the peer",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StateRole"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "is_voter": {
+      "description": "Whether it can participate in leader elections",
+      "type": "boolean"
+    },
+    "term": {
+      "description": "Election term",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "commit": {
+      "description": "Latest accepted commit",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "num_pending_operations": {
+      "description": "Number of operations pending for being applied",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "consensus_thread_status": {
+      "$ref": "#/components/schemas/ConsensusThreadStatus"
+    }
+  }
+}

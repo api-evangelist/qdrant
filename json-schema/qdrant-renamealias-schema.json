@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RenameAlias",
+  "title": "RenameAlias",
+  "description": "Change alias to a new one",
+  "type": "object",
+  "required": [
+    "new_alias_name",
+    "old_alias_name"
+  ],
+  "properties": {
+    "old_alias_name": {
+      "type": "string"
+    },
+    "new_alias_name": {
+      "type": "string"
+    }
+  }
+}

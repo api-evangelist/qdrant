@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StartResharding",
+  "title": "StartResharding",
+  "type": "object",
+  "required": [
+    "direction"
+  ],
+  "properties": {
+    "direction": {
+      "$ref": "#/components/schemas/ReshardingDirection"
+    },
+    "peer_id": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "shard_key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKey"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

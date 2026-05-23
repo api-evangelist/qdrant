@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PartialSnapshotTelemetry",
+  "title": "PartialSnapshotTelemetry",
+  "type": "object",
+  "required": [
+    "is_recovering",
+    "ongoing_create_snapshot_requests",
+    "recovery_timestamp"
+  ],
+  "properties": {
+    "ongoing_create_snapshot_requests": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "is_recovering": {
+      "type": "boolean"
+    },
+    "recovery_timestamp": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LocalShardInfo",
+  "title": "LocalShardInfo",
+  "type": "object",
+  "required": [
+    "points_count",
+    "shard_id",
+    "state"
+  ],
+  "properties": {
+    "shard_id": {
+      "description": "Local shard id",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "shard_key": {
+      "description": "User-defined sharding key",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKey"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "points_count": {
+      "description": "Number of points in the shard",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "state": {
+      "$ref": "#/components/schemas/ReplicaState"
+    }
+  }
+}

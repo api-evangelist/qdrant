@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NaiveFeedbackStrategy",
+  "title": "NaiveFeedbackStrategy",
+  "type": "object",
+  "required": [
+    "naive"
+  ],
+  "properties": {
+    "naive": {
+      "$ref": "#/components/schemas/NaiveFeedbackStrategyParams"
+    }
+  }
+}

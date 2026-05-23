@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NegExpression",
+  "title": "NegExpression",
+  "type": "object",
+  "required": [
+    "neg"
+  ],
+  "properties": {
+    "neg": {
+      "$ref": "#/components/schemas/Expression"
+    }
+  }
+}

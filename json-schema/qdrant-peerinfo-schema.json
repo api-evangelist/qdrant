@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PeerInfo",
+  "title": "PeerInfo",
+  "description": "Information of a peer in the cluster",
+  "type": "object",
+  "required": [
+    "uri"
+  ],
+  "properties": {
+    "uri": {
+      "type": "string"
+    }
+  }
+}

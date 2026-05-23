@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionClusterInfo",
+  "title": "CollectionClusterInfo",
+  "description": "Current clustering distribution for the collection",
+  "type": "object",
+  "required": [
+    "local_shards",
+    "peer_id",
+    "remote_shards",
+    "shard_count",
+    "shard_transfers"
+  ],
+  "properties": {
+    "peer_id": {
+      "description": "ID of this peer",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "shard_count": {
+      "description": "Total number of shards",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "local_shards": {
+      "description": "Local shards",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/LocalShardInfo"
+      }
+    },
+    "remote_shards": {
+      "description": "Remote shards",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/RemoteShardInfo"
+      }
+    },
+    "shard_transfers": {
+      "description": "Shard transfers",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ShardTransferInfo"
+      }
+    },
+    "resharding_operations": {
+      "description": "Resharding operations",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReshardingInfo"
+      },
+      "nullable": true
+    }
+  }
+}

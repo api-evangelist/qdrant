@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RemoteShardTelemetry",
+  "title": "RemoteShardTelemetry",
+  "type": "object",
+  "required": [
+    "peer_id",
+    "shard_id"
+  ],
+  "properties": {
+    "shard_id": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "peer_id": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "searches": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/OperationDurationStatistics"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "updates": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/OperationDurationStatistics"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

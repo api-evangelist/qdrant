@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionsAggregatedTelemetry",
+  "title": "CollectionsAggregatedTelemetry",
+  "type": "object",
+  "required": [
+    "optimizers_status",
+    "params",
+    "vectors"
+  ],
+  "properties": {
+    "vectors": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "optimizers_status": {
+      "$ref": "#/components/schemas/OptimizersStatus"
+    },
+    "params": {
+      "$ref": "#/components/schemas/CollectionParams"
+    }
+  }
+}

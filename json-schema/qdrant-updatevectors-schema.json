@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateVectors",
+  "title": "UpdateVectors",
+  "type": "object",
+  "required": [
+    "points"
+  ],
+  "properties": {
+    "points": {
+      "description": "Points with named vectors",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PointVectors"
+      },
+      "minItems": 1
+    },
+    "shard_key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "update_filter": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

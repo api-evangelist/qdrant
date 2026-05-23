@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StartFrom",
+  "title": "StartFrom",
+  "anyOf": [
+    {
+      "type": "integer",
+      "format": "int64"
+    },
+    {
+      "type": "number",
+      "format": "double"
+    },
+    {
+      "type": "string",
+      "format": "date-time"
+    }
+  ]
+}

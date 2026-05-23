@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardTransferInfo",
+  "title": "ShardTransferInfo",
+  "type": "object",
+  "required": [
+    "from",
+    "shard_id",
+    "sync",
+    "to"
+  ],
+  "properties": {
+    "shard_id": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "to_shard_id": {
+      "description": "Target shard ID if different than source shard ID\n\nUsed exclusively with `ReshardingStreamRecords` transfer method.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0,
+      "nullable": true
+    },
+    "from": {
+      "description": "Source peer id",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "to": {
+      "description": "Destination peer id",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "sync": {
+      "description": "If `true` transfer is a synchronization of a replicas If `false` transfer is a moving of a shard from one peer to another",
+      "type": "boolean"
+    },
+    "method": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardTransferMethod"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "comment": {
+      "description": "A human-readable report of the transfer progress. Available only on the source peer.",
+      "type": "string",
+      "nullable": true
+    }
+  }
+}

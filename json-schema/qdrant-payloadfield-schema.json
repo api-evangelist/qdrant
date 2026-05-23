@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PayloadField",
+  "title": "PayloadField",
+  "description": "Payload field",
+  "type": "object",
+  "required": [
+    "key"
+  ],
+  "properties": {
+    "key": {
+      "description": "Payload field name",
+      "type": "string"
+    }
+  }
+}

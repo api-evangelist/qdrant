@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Expression",
+  "title": "Expression",
+  "anyOf": [
+    {
+      "type": "number",
+      "format": "float"
+    },
+    {
+      "type": "string"
+    },
+    {
+      "$ref": "#/components/schemas/Condition"
+    },
+    {
+      "$ref": "#/components/schemas/GeoDistance"
+    },
+    {
+      "$ref": "#/components/schemas/DatetimeExpression"
+    },
+    {
+      "$ref": "#/components/schemas/DatetimeKeyExpression"
+    },
+    {
+      "$ref": "#/components/schemas/MultExpression"
+    },
+    {
+      "$ref": "#/components/schemas/SumExpression"
+    },
+    {
+      "$ref": "#/components/schemas/NegExpression"
+    },
+    {
+      "$ref": "#/components/schemas/AbsExpression"
+    },
+    {
+      "$ref": "#/components/schemas/DivExpression"
+    },
+    {
+      "$ref": "#/components/schemas/SqrtExpression"
+    },
+    {
+      "$ref": "#/components/schemas/PowExpression"
+    },
+    {
+      "$ref": "#/components/schemas/ExpExpression"
+    },
+    {
+      "$ref": "#/components/schemas/Log10Expression"
+    },
+    {
+      "$ref": "#/components/schemas/LnExpression"
+    },
+    {
+      "$ref": "#/components/schemas/LinDecayExpression"
+    },
+    {
+      "$ref": "#/components/schemas/ExpDecayExpression"
+    },
+    {
+      "$ref": "#/components/schemas/GaussDecayExpression"
+    }
+  ]
+}

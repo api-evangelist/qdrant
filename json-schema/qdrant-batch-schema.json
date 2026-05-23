@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Batch",
+  "title": "Batch",
+  "type": "object",
+  "required": [
+    "ids",
+    "vectors"
+  ],
+  "properties": {
+    "ids": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtendedPointId"
+      }
+    },
+    "vectors": {
+      "$ref": "#/components/schemas/BatchVectorStruct"
+    },
+    "payloads": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Payload"
+          },
+          {
+            "nullable": true
+          }
+        ]
+      },
+      "nullable": true
+    }
+  }
+}

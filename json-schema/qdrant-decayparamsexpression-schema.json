@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DecayParamsExpression",
+  "title": "DecayParamsExpression",
+  "type": "object",
+  "required": [
+    "x"
+  ],
+  "properties": {
+    "x": {
+      "$ref": "#/components/schemas/Expression"
+    },
+    "target": {
+      "description": "The target value to start decaying from. Defaults to 0.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Expression"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "scale": {
+      "description": "The scale factor of the decay, in terms of `x`. Defaults to 1.0. Must be a non-zero positive number.",
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    },
+    "midpoint": {
+      "description": "The midpoint of the decay. Should be between 0 and 1.Defaults to 0.5. Output will be this value when `|x - target| == scale`.",
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    }
+  }
+}

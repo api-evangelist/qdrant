@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SegmentConfig",
+  "title": "SegmentConfig",
+  "type": "object",
+  "required": [
+    "payload_storage_type"
+  ],
+  "properties": {
+    "vector_data": {
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/VectorDataConfig"
+      }
+    },
+    "sparse_vector_data": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/SparseVectorDataConfig"
+      }
+    },
+    "payload_storage_type": {
+      "$ref": "#/components/schemas/PayloadStorageType"
+    }
+  }
+}

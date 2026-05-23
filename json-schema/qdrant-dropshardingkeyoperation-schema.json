@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DropShardingKeyOperation",
+  "title": "DropShardingKeyOperation",
+  "type": "object",
+  "required": [
+    "drop_sharding_key"
+  ],
+  "properties": {
+    "drop_sharding_key": {
+      "$ref": "#/components/schemas/DropShardingKey"
+    }
+  }
+}

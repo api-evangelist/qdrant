@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorStorageType",
+  "title": "VectorStorageType",
+  "description": "Storage types for vectors",
+  "oneOf": [
+    {
+      "description": "Storage in memory (RAM)\n\nWill be very fast at the cost of consuming a lot of memory.",
+      "type": "string",
+      "enum": [
+        "Memory"
+      ]
+    },
+    {
+      "description": "Storage in mmap file, not appendable\n\nSearch performance is defined by disk speed and the fraction of vectors that fit in memory.",
+      "type": "string",
+      "enum": [
+        "Mmap"
+      ]
+    },
+    {
+      "description": "Storage in chunked mmap files, appendable\n\nSearch performance is defined by disk speed and the fraction of vectors that fit in memory.",
+      "type": "string",
+      "enum": [
+        "ChunkedMmap"
+      ]
+    },
+    {
+      "description": "Same as `ChunkedMmap`, but vectors are forced to be locked in RAM In this way we avoid cold requests to disk, but risk to run out of memory\n\nDesigned as a replacement for `Memory`, which doesn't depend on RocksDB",
+      "type": "string",
+      "enum": [
+        "InRamChunkedMmap"
+      ]
+    },
+    {
+      "description": "Storage in a single mmap file, not appendable Pre-fetched into RAM on load",
+      "type": "string",
+      "enum": [
+        "InRamMmap"
+      ]
+    }
+  ]
+}

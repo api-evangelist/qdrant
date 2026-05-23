@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScrollResult",
+  "title": "ScrollResult",
+  "description": "Result of the points read request",
+  "type": "object",
+  "required": [
+    "points"
+  ],
+  "properties": {
+    "points": {
+      "description": "List of retrieved points",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Record"
+      },
+      "example": [
+        {
+          "id": 40,
+          "payload": {
+            "city": "London",
+            "color": "green"
+          },
+          "vector": [
+            0.875,
+            0.140625,
+            0.897599995136261
+          ],
+          "shard_key": "region_1"
+        },
+        {
+          "id": 41,
+          "payload": {
+            "city": "Paris",
+            "color": "red"
+          },
+          "vector": [
+            0.75,
+            0.640625,
+            0.8945000171661377
+          ],
+          "shard_key": "region_1"
+        }
+      ]
+    },
+    "next_page_offset": {
+      "description": "Offset which should be used to retrieve a next page result",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ExtendedPointId"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

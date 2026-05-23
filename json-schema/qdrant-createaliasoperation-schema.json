@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateAliasOperation",
+  "title": "CreateAliasOperation",
+  "type": "object",
+  "required": [
+    "create_alias"
+  ],
+  "properties": {
+    "create_alias": {
+      "$ref": "#/components/schemas/CreateAlias"
+    }
+  }
+}

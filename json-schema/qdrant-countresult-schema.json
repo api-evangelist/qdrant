@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CountResult",
+  "title": "CountResult",
+  "type": "object",
+  "required": [
+    "count"
+  ],
+  "properties": {
+    "count": {
+      "description": "Number of points which satisfy the conditions",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

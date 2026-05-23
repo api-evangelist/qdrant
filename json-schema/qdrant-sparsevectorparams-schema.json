@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SparseVectorParams",
+  "title": "SparseVectorParams",
+  "description": "Params of single sparse vector data storage",
+  "type": "object",
+  "properties": {
+    "index": {
+      "description": "Custom params for index. If none - values from collection configuration are used.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SparseIndexParams"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "modifier": {
+      "description": "Configures addition value modifications for sparse vectors. Default: none",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Modifier"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

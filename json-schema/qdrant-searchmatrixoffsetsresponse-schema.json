@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SearchMatrixOffsetsResponse",
+  "title": "SearchMatrixOffsetsResponse",
+  "type": "object",
+  "required": [
+    "ids",
+    "offsets_col",
+    "offsets_row",
+    "scores"
+  ],
+  "properties": {
+    "offsets_row": {
+      "description": "Row indices of the matrix",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "offsets_col": {
+      "description": "Column indices of the matrix",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint64",
+        "minimum": 0
+      }
+    },
+    "scores": {
+      "description": "Scores associated with matrix coordinates",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "float"
+      }
+    },
+    "ids": {
+      "description": "Ids of the points in order",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtendedPointId"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FacetResponse",
+  "title": "FacetResponse",
+  "type": "object",
+  "required": [
+    "hits"
+  ],
+  "properties": {
+    "hits": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/FacetValueHit"
+      }
+    }
+  }
+}

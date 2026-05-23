@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MatchValue",
+  "title": "MatchValue",
+  "description": "Exact match of the given value",
+  "type": "object",
+  "required": [
+    "value"
+  ],
+  "properties": {
+    "value": {
+      "$ref": "#/components/schemas/ValueVariants"
+    }
+  }
+}

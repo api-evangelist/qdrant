@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PointRequest",
+  "title": "PointRequest",
+  "type": "object",
+  "required": [
+    "ids"
+  ],
+  "properties": {
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "ids": {
+      "description": "Look for points with ids",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtendedPointId"
+      }
+    },
+    "with_payload": {
+      "description": "Select which payload to return with the response. Default is true.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithPayloadInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "with_vector": {
+      "$ref": "#/components/schemas/WithVector"
+    }
+  }
+}

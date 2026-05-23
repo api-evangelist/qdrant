@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WithLookup",
+  "title": "WithLookup",
+  "type": "object",
+  "required": [
+    "collection"
+  ],
+  "properties": {
+    "collection": {
+      "description": "Name of the collection to use for points lookup",
+      "type": "string"
+    },
+    "with_payload": {
+      "description": "Options for specifying which payload to include (or not)",
+      "default": true,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithPayloadInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "with_vectors": {
+      "description": "Options for specifying which vectors to include (or not)",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithVector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

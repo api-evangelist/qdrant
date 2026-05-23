@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ChangeAliasesOperation",
+  "title": "ChangeAliasesOperation",
+  "description": "Operation for performing changes of collection aliases. Alias changes are atomic, meaning that no collection modifications can happen between alias operations.",
+  "type": "object",
+  "required": [
+    "actions"
+  ],
+  "properties": {
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AliasOperations"
+      }
+    }
+  }
+}

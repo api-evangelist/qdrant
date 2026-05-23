@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ValuesCount",
+  "title": "ValuesCount",
+  "description": "Values count filter request",
+  "type": "object",
+  "properties": {
+    "lt": {
+      "description": "point.key.length() < values_count.lt",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "gt": {
+      "description": "point.key.length() > values_count.gt",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "gte": {
+      "description": "point.key.length() >= values_count.gte",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "lte": {
+      "description": "point.key.length() <= values_count.lte",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    }
+  }
+}

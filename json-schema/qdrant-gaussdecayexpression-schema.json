@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GaussDecayExpression",
+  "title": "GaussDecayExpression",
+  "type": "object",
+  "required": [
+    "gauss_decay"
+  ],
+  "properties": {
+    "gauss_decay": {
+      "$ref": "#/components/schemas/DecayParamsExpression"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Match",
+  "title": "Match",
+  "description": "Match filter request",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/MatchValue"
+    },
+    {
+      "$ref": "#/components/schemas/MatchText"
+    },
+    {
+      "$ref": "#/components/schemas/MatchTextAny"
+    },
+    {
+      "$ref": "#/components/schemas/MatchPhrase"
+    },
+    {
+      "$ref": "#/components/schemas/MatchAny"
+    },
+    {
+      "$ref": "#/components/schemas/MatchExcept"
+    }
+  ]
+}

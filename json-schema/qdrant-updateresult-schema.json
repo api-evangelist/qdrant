@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateResult",
+  "title": "UpdateResult",
+  "type": "object",
+  "required": [
+    "status"
+  ],
+  "properties": {
+    "operation_id": {
+      "description": "Sequential number of the operation",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "status": {
+      "$ref": "#/components/schemas/UpdateStatus"
+    }
+  }
+}

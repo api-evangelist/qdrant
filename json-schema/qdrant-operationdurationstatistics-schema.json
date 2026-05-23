@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OperationDurationStatistics",
+  "title": "OperationDurationStatistics",
+  "type": "object",
+  "required": [
+    "count"
+  ],
+  "properties": {
+    "count": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "fail_count": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "avg_duration_micros": {
+      "description": "The average time taken by 128 latest operations, calculated as a weighted mean.",
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    },
+    "min_duration_micros": {
+      "description": "The minimum duration of the operations across all the measurements.",
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    },
+    "max_duration_micros": {
+      "description": "The maximum duration of the operations across all the measurements.",
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    },
+    "total_duration_micros": {
+      "description": "The total duration of all operations in microseconds.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "last_responded": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    }
+  }
+}

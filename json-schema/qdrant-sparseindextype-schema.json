@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SparseIndexType",
+  "title": "SparseIndexType",
+  "description": "Sparse index types",
+  "oneOf": [
+    {
+      "description": "Mutable RAM sparse index",
+      "type": "string",
+      "enum": [
+        "MutableRam"
+      ]
+    },
+    {
+      "description": "Immutable RAM sparse index",
+      "type": "string",
+      "enum": [
+        "ImmutableRam"
+      ]
+    },
+    {
+      "description": "Mmap sparse index",
+      "type": "string",
+      "enum": [
+        "Mmap"
+      ]
+    }
+  ]
+}

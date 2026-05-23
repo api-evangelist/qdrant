@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ReplicatePointsOperation",
+  "title": "ReplicatePointsOperation",
+  "type": "object",
+  "required": [
+    "replicate_points"
+  ],
+  "properties": {
+    "replicate_points": {
+      "$ref": "#/components/schemas/ReplicatePoints"
+    }
+  }
+}

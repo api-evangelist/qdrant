@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AliasOperations",
+  "title": "AliasOperations",
+  "description": "Group of all the possible operations related to collection aliases",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/CreateAliasOperation"
+    },
+    {
+      "$ref": "#/components/schemas/DeleteAliasOperation"
+    },
+    {
+      "$ref": "#/components/schemas/RenameAliasOperation"
+    }
+  ]
+}

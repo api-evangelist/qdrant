@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SetPayloadOperation",
+  "title": "SetPayloadOperation",
+  "type": "object",
+  "required": [
+    "set_payload"
+  ],
+  "properties": {
+    "set_payload": {
+      "$ref": "#/components/schemas/SetPayload"
+    }
+  }
+}

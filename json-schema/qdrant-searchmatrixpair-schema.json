@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SearchMatrixPair",
+  "title": "SearchMatrixPair",
+  "description": "Pair of points (a, b) with score",
+  "type": "object",
+  "required": [
+    "a",
+    "b",
+    "score"
+  ],
+  "properties": {
+    "a": {
+      "$ref": "#/components/schemas/ExtendedPointId"
+    },
+    "b": {
+      "$ref": "#/components/schemas/ExtendedPointId"
+    },
+    "score": {
+      "type": "number",
+      "format": "float"
+    }
+  }
+}

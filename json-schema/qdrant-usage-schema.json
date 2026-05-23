@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Usage",
+  "title": "Usage",
+  "description": "Usage of the hardware resources, spent to process the request",
+  "type": "object",
+  "properties": {
+    "hardware": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/HardwareUsage"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "inference": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/InferenceUsage"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

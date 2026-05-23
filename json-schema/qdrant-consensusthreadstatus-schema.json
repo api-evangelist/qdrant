@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ConsensusThreadStatus",
+  "title": "ConsensusThreadStatus",
+  "description": "Information about current consensus thread status",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "consensus_thread_status",
+        "last_update"
+      ],
+      "properties": {
+        "consensus_thread_status": {
+          "type": "string",
+          "enum": [
+            "working"
+          ]
+        },
+        "last_update": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "consensus_thread_status"
+      ],
+      "properties": {
+        "consensus_thread_status": {
+          "type": "string",
+          "enum": [
+            "stopped"
+          ]
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "consensus_thread_status",
+        "err"
+      ],
+      "properties": {
+        "consensus_thread_status": {
+          "type": "string",
+          "enum": [
+            "stopped_with_err"
+          ]
+        },
+        "err": {
+          "type": "string"
+        }
+      }
+    }
+  ]
+}

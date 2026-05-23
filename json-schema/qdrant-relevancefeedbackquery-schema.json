@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RelevanceFeedbackQuery",
+  "title": "RelevanceFeedbackQuery",
+  "type": "object",
+  "required": [
+    "relevance_feedback"
+  ],
+  "properties": {
+    "relevance_feedback": {
+      "$ref": "#/components/schemas/RelevanceFeedbackInput"
+    }
+  }
+}

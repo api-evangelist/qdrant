@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ConsensusConfigTelemetry",
+  "title": "ConsensusConfigTelemetry",
+  "type": "object",
+  "required": [
+    "bootstrap_timeout_sec",
+    "max_message_queue_size",
+    "tick_period_ms"
+  ],
+  "properties": {
+    "max_message_queue_size": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "tick_period_ms": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "bootstrap_timeout_sec": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScoredPoint",
+  "title": "ScoredPoint",
+  "description": "Search result",
+  "type": "object",
+  "required": [
+    "id",
+    "score",
+    "version"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/ExtendedPointId"
+    },
+    "version": {
+      "description": "Point version",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "example": 3
+    },
+    "score": {
+      "description": "Points vector distance to the query vector",
+      "type": "number",
+      "format": "float",
+      "example": 0.75
+    },
+    "payload": {
+      "description": "Payload - values assigned to the point",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Payload"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "vector": {
+      "description": "Vector of the point",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/VectorStructOutput"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "shard_key": {
+      "description": "Shard Key",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKey"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "order_value": {
+      "description": "Order-by value",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/OrderValue"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

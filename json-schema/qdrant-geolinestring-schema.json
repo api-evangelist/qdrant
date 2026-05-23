@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GeoLineString",
+  "title": "GeoLineString",
+  "description": "Ordered sequence of GeoPoints representing the line",
+  "type": "object",
+  "required": [
+    "points"
+  ],
+  "properties": {
+    "points": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GeoPoint"
+      }
+    }
+  }
+}

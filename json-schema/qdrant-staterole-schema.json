@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StateRole",
+  "title": "StateRole",
+  "description": "Role of the peer in the consensus",
+  "type": "string",
+  "enum": [
+    "Follower",
+    "Candidate",
+    "Leader",
+    "PreCandidate"
+  ]
+}

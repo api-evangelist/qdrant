@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderBy",
+  "title": "OrderBy",
+  "type": "object",
+  "required": [
+    "key"
+  ],
+  "properties": {
+    "key": {
+      "description": "Payload key to order by",
+      "type": "string"
+    },
+    "direction": {
+      "description": "Direction of ordering: `asc` or `desc`. Default is ascending.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Direction"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "start_from": {
+      "description": "Which payload value to start scrolling from. Default is the lowest value for `asc` and the highest for `desc`",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StartFrom"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

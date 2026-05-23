@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateVectorsOperation",
+  "title": "UpdateVectorsOperation",
+  "type": "object",
+  "required": [
+    "update_vectors"
+  ],
+  "properties": {
+    "update_vectors": {
+      "$ref": "#/components/schemas/UpdateVectors"
+    }
+  }
+}

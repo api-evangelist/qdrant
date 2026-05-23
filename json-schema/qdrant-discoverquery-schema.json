@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DiscoverQuery",
+  "title": "DiscoverQuery",
+  "type": "object",
+  "required": [
+    "discover"
+  ],
+  "properties": {
+    "discover": {
+      "$ref": "#/components/schemas/DiscoverInput"
+    }
+  }
+}

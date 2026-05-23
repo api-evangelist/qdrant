@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SetPayload",
+  "title": "SetPayload",
+  "description": "This data structure is used in API interface and applied across multiple shards",
+  "type": "object",
+  "required": [
+    "payload"
+  ],
+  "properties": {
+    "payload": {
+      "$ref": "#/components/schemas/Payload"
+    },
+    "points": {
+      "description": "Assigns payload to each point in this list",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtendedPointId"
+      },
+      "nullable": true
+    },
+    "filter": {
+      "description": "Assigns payload to each point that satisfy this filter condition",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "shard_key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "key": {
+      "description": "Assigns payload to each point that satisfy this path of property",
+      "type": "string",
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardKeysResponse",
+  "title": "ShardKeysResponse",
+  "type": "object",
+  "properties": {
+    "shard_keys": {
+      "description": "The existing shard keys. Only available when sharding method is `custom`",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ShardKeyDescription"
+      },
+      "nullable": true
+    }
+  }
+}

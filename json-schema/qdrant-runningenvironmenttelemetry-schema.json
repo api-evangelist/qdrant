@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RunningEnvironmentTelemetry",
+  "title": "RunningEnvironmentTelemetry",
+  "type": "object",
+  "required": [
+    "cpu_flags",
+    "is_docker"
+  ],
+  "properties": {
+    "distribution": {
+      "type": "string",
+      "nullable": true
+    },
+    "distribution_version": {
+      "type": "string",
+      "nullable": true
+    },
+    "is_docker": {
+      "type": "boolean"
+    },
+    "cores": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "ram_size": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "disk_size": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "cpu_flags": {
+      "type": "string"
+    },
+    "cpu_endian": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/CpuEndian"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "gpu_devices": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GpuDeviceTelemetry"
+      },
+      "nullable": true
+    }
+  }
+}

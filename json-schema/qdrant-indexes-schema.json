@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Indexes",
+  "title": "Indexes",
+  "description": "Vector index configuration",
+  "oneOf": [
+    {
+      "description": "Do not use any index, scan whole vector collection during search. Guarantee 100% precision, but may be time consuming on large collections.",
+      "type": "object",
+      "required": [
+        "options",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "plain"
+          ]
+        },
+        "options": {
+          "type": "object"
+        }
+      }
+    },
+    {
+      "description": "Use filterable HNSW index for approximate search. Is very fast even on a very huge collections, but require additional space to store index and additional time to build it.",
+      "type": "object",
+      "required": [
+        "options",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "hnsw"
+          ]
+        },
+        "options": {
+          "$ref": "#/components/schemas/HnswConfig"
+        }
+      }
+    }
+  ]
+}

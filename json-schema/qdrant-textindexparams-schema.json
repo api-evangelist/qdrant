@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TextIndexParams",
+  "title": "TextIndexParams",
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "$ref": "#/components/schemas/TextIndexType"
+    },
+    "tokenizer": {
+      "$ref": "#/components/schemas/TokenizerType"
+    },
+    "min_token_len": {
+      "description": "Minimum characters to be tokenized.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "max_token_len": {
+      "description": "Maximum characters to be tokenized.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "lowercase": {
+      "description": "If true, lowercase all tokens. Default: true.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "ascii_folding": {
+      "description": "If true, normalize tokens by folding accented characters to ASCII (e.g., \"a\u00e7\u00e3o\" -> \"acao\"). Default: false.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "phrase_matching": {
+      "description": "If true, support phrase matching. Default: false.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "stopwords": {
+      "description": "Ignore this set of tokens. Can select from predefined languages and/or provide a custom set.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StopwordsInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "on_disk": {
+      "description": "If true, store the index on disk. Default: false.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "stemmer": {
+      "description": "Algorithm for stemming. Default: disabled.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StemmingAlgorithm"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "enable_hnsw": {
+      "description": "Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.",
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

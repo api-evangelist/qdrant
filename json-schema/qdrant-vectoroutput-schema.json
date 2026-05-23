@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorOutput",
+  "title": "VectorOutput",
+  "description": "Vector Data stored in Point",
+  "anyOf": [
+    {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "float"
+      }
+    },
+    {
+      "$ref": "#/components/schemas/SparseVector"
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    }
+  ]
+}

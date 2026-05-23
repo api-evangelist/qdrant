@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/InferenceUsage",
+  "title": "InferenceUsage",
+  "type": "object",
+  "required": [
+    "models"
+  ],
+  "properties": {
+    "models": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ModelUsage"
+      }
+    }
+  }
+}

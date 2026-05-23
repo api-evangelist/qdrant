@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardTransferMethod",
+  "title": "ShardTransferMethod",
+  "description": "Methods for transferring a shard from one node to another.\n\n- `stream_records` - Stream all shard records in batches until the whole shard is transferred.\n\n- `snapshot` - Snapshot the shard, transfer and restore it on the receiver.\n\n- `wal_delta` - Attempt to transfer shard difference by WAL delta.\n\n- `resharding_stream_records` - Shard transfer for resharding: stream all records in batches until all points are transferred.",
+  "type": "string",
+  "enum": [
+    "stream_records",
+    "snapshot",
+    "wal_delta",
+    "resharding_stream_records"
+  ]
+}

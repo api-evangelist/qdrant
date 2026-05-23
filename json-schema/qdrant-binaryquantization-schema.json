@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BinaryQuantization",
+  "title": "BinaryQuantization",
+  "type": "object",
+  "required": [
+    "binary"
+  ],
+  "properties": {
+    "binary": {
+      "$ref": "#/components/schemas/BinaryQuantizationConfig"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RemoteShardInfo",
+  "title": "RemoteShardInfo",
+  "type": "object",
+  "required": [
+    "peer_id",
+    "shard_id",
+    "state"
+  ],
+  "properties": {
+    "shard_id": {
+      "description": "Remote shard id",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "shard_key": {
+      "description": "User-defined sharding key",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKey"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "peer_id": {
+      "description": "Remote peer id",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "state": {
+      "$ref": "#/components/schemas/ReplicaState"
+    }
+  }
+}

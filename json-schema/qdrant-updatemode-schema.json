@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateMode",
+  "title": "UpdateMode",
+  "description": "Defines the mode of the upsert operation\n\n* `upsert` - default mode, insert new points, update existing points * `insert_only` - only insert new points, do not update existing points * `update_only` - only update existing points, do not insert new points",
+  "type": "string",
+  "enum": [
+    "upsert",
+    "insert_only",
+    "update_only"
+  ]
+}

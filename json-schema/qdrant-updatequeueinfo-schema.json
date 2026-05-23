@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateQueueInfo",
+  "title": "UpdateQueueInfo",
+  "type": "object",
+  "required": [
+    "length"
+  ],
+  "properties": {
+    "length": {
+      "description": "Number of elements in the queue",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "deferred_points": {
+      "description": "Number of points that are deferred (i.e hidden from search as they're not yet optimized).",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PayloadIndexTelemetry",
+  "title": "PayloadIndexTelemetry",
+  "type": "object",
+  "required": [
+    "index_type",
+    "points_count",
+    "points_values_count"
+  ],
+  "properties": {
+    "field_name": {
+      "type": "string",
+      "nullable": true
+    },
+    "index_type": {
+      "type": "string"
+    },
+    "points_values_count": {
+      "description": "The amount of values indexed for all points.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "points_count": {
+      "description": "The amount of points that have at least one value indexed.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "histogram_bucket_size": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    }
+  }
+}

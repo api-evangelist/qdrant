@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecommendQuery",
+  "title": "RecommendQuery",
+  "type": "object",
+  "required": [
+    "recommend"
+  ],
+  "properties": {
+    "recommend": {
+      "$ref": "#/components/schemas/RecommendInput"
+    }
+  }
+}

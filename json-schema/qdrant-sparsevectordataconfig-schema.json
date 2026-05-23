@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SparseVectorDataConfig",
+  "title": "SparseVectorDataConfig",
+  "description": "Config of single sparse vector data storage",
+  "type": "object",
+  "required": [
+    "index"
+  ],
+  "properties": {
+    "index": {
+      "$ref": "#/components/schemas/SparseIndexConfig"
+    },
+    "storage_type": {
+      "$ref": "#/components/schemas/SparseVectorStorageType"
+    },
+    "modifier": {
+      "description": "Configures addition value modifications for sparse vectors. Default: none",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Modifier"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

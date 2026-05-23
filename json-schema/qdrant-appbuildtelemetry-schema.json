@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AppBuildTelemetry",
+  "title": "AppBuildTelemetry",
+  "type": "object",
+  "required": [
+    "name",
+    "startup",
+    "version"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "features": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/AppFeaturesTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "runtime_features": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/FeatureFlags"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "hnsw_global_config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/HnswGlobalConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "system": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/RunningEnvironmentTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "jwt_rbac": {
+      "type": "boolean",
+      "nullable": true
+    },
+    "hide_jwt_dashboard": {
+      "type": "boolean",
+      "nullable": true
+    },
+    "startup": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

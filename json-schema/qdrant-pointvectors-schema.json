@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PointVectors",
+  "title": "PointVectors",
+  "type": "object",
+  "required": [
+    "id",
+    "vector"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/ExtendedPointId"
+    },
+    "vector": {
+      "$ref": "#/components/schemas/VectorStruct"
+    }
+  }
+}

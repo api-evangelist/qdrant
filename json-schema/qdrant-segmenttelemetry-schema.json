@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SegmentTelemetry",
+  "title": "SegmentTelemetry",
+  "type": "object",
+  "required": [
+    "config",
+    "info",
+    "payload_field_indices",
+    "vector_index_searches"
+  ],
+  "properties": {
+    "info": {
+      "$ref": "#/components/schemas/SegmentInfo"
+    },
+    "config": {
+      "$ref": "#/components/schemas/SegmentConfig"
+    },
+    "vector_index_searches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/VectorIndexSearchesTelemetry"
+      }
+    },
+    "payload_field_indices": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/PayloadIndexTelemetry"
+      }
+    }
+  }
+}

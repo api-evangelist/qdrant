@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RequestsTelemetry",
+  "title": "RequestsTelemetry",
+  "type": "object",
+  "required": [
+    "grpc",
+    "rest"
+  ],
+  "properties": {
+    "rest": {
+      "$ref": "#/components/schemas/WebApiTelemetry"
+    },
+    "grpc": {
+      "$ref": "#/components/schemas/GrpcTelemetry"
+    }
+  }
+}

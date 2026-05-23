@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionTelemetry",
+  "title": "CollectionTelemetry",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "init_time_ms": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/CollectionConfigTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "shards": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReplicaSetTelemetry"
+      },
+      "nullable": true
+    },
+    "transfers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ShardTransferInfo"
+      },
+      "nullable": true
+    },
+    "resharding": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ReshardingInfo"
+      },
+      "nullable": true
+    },
+    "shard_clean_tasks": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ShardCleanStatusTelemetry"
+      },
+      "nullable": true
+    }
+  }
+}

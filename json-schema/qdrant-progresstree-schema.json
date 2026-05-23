@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProgressTree",
+  "title": "ProgressTree",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "description": "Name of the operation.",
+      "type": "string"
+    },
+    "started_at": {
+      "description": "When the operation started.",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "finished_at": {
+      "description": "When the operation finished.",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "duration_sec": {
+      "description": "For finished operations, how long they took, in seconds.",
+      "type": "number",
+      "format": "double",
+      "nullable": true
+    },
+    "done": {
+      "description": "Number of completed units of work, if applicable.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "total": {
+      "description": "Total number of units of work, if applicable and known.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "children": {
+      "description": "Child operations.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ProgressTree"
+      }
+    }
+  }
+}

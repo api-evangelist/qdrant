@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Filter",
+  "title": "Filter",
+  "type": "object",
+  "properties": {
+    "should": {
+      "description": "At least one of those conditions should match",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Condition"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Condition"
+          }
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "min_should": {
+      "description": "At least minimum amount of given conditions should match",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/MinShould"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "must": {
+      "description": "All conditions must match",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Condition"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Condition"
+          }
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "must_not": {
+      "description": "All conditions must NOT match",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Condition"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Condition"
+          }
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

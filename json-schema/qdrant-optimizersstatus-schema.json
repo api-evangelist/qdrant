@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OptimizersStatus",
+  "title": "OptimizersStatus",
+  "description": "Current state of the collection",
+  "oneOf": [
+    {
+      "description": "Optimizers are reporting as expected",
+      "type": "string",
+      "enum": [
+        "ok"
+      ]
+    },
+    {
+      "description": "Something wrong happened with optimizers",
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorStorageDatatype",
+  "title": "VectorStorageDatatype",
+  "description": "Storage types for vectors",
+  "type": "string",
+  "enum": [
+    "float32",
+    "float16",
+    "uint8"
+  ]
+}

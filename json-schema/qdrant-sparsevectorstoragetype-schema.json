@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SparseVectorStorageType",
+  "title": "SparseVectorStorageType",
+  "oneOf": [
+    {
+      "description": "Storage on disk (rocksdb storage)",
+      "type": "string",
+      "enum": [
+        "on_disk"
+      ]
+    },
+    {
+      "description": "Storage in memory maps (gridstore storage)",
+      "type": "string",
+      "enum": [
+        "mmap"
+      ]
+    }
+  ]
+}

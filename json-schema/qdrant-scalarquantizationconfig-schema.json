@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScalarQuantizationConfig",
+  "title": "ScalarQuantizationConfig",
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "$ref": "#/components/schemas/ScalarType"
+    },
+    "quantile": {
+      "description": "Quantile for quantization. Expected value range in [0.5, 1.0]. If not set - use the whole range of values",
+      "type": "number",
+      "format": "float",
+      "maximum": 1,
+      "minimum": 0.5,
+      "nullable": true
+    },
+    "always_ram": {
+      "description": "If true - quantized vectors always will be stored in RAM, ignoring the config of main storage",
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

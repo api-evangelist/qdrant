@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClearPayloadOperation",
+  "title": "ClearPayloadOperation",
+  "type": "object",
+  "required": [
+    "clear_payload"
+  ],
+  "properties": {
+    "clear_payload": {
+      "$ref": "#/components/schemas/PointsSelector"
+    }
+  }
+}

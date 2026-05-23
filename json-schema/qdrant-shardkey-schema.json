@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardKey",
+  "title": "ShardKey",
+  "anyOf": [
+    {
+      "type": "string",
+      "example": "region_1"
+    },
+    {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "example": 12
+    }
+  ]
+}

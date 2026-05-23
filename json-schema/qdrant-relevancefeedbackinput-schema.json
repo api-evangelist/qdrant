@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RelevanceFeedbackInput",
+  "title": "RelevanceFeedbackInput",
+  "type": "object",
+  "required": [
+    "feedback",
+    "strategy",
+    "target"
+  ],
+  "properties": {
+    "target": {
+      "$ref": "#/components/schemas/VectorInput"
+    },
+    "feedback": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/FeedbackItem"
+      }
+    },
+    "strategy": {
+      "$ref": "#/components/schemas/FeedbackStrategy"
+    }
+  }
+}

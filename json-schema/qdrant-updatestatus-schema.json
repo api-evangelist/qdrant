@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateStatus",
+  "title": "UpdateStatus",
+  "description": "`Acknowledged` - Request is saved to WAL and will be process in a queue. `Completed` - Request is completed, changes are actual. `WaitTimeout` - Request is waiting for timeout.",
+  "type": "string",
+  "enum": [
+    "acknowledged",
+    "completed",
+    "wait_timeout"
+  ]
+}

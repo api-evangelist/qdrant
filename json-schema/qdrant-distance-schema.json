@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Distance",
+  "title": "Distance",
+  "description": "Type of internal tags, build from payload Distance function types used to compare vectors",
+  "type": "string",
+  "enum": [
+    "Cosine",
+    "Euclid",
+    "Dot",
+    "Manhattan"
+  ]
+}

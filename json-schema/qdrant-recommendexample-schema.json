@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecommendExample",
+  "title": "RecommendExample",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/ExtendedPointId"
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "float"
+      }
+    },
+    {
+      "$ref": "#/components/schemas/SparseVector"
+    }
+  ]
+}

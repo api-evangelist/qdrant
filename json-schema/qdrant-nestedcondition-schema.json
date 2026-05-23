@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NestedCondition",
+  "title": "NestedCondition",
+  "type": "object",
+  "required": [
+    "nested"
+  ],
+  "properties": {
+    "nested": {
+      "$ref": "#/components/schemas/Nested"
+    }
+  }
+}

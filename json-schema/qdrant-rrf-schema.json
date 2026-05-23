@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Rrf",
+  "title": "Rrf",
+  "description": "Parameters for Reciprocal Rank Fusion",
+  "type": "object",
+  "properties": {
+    "k": {
+      "description": "K parameter for reciprocal rank fusion",
+      "default": null,
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1,
+      "nullable": true
+    },
+    "weights": {
+      "description": "Weights for each prefetch source. Higher weight gives more influence on the final ranking. If not specified, all prefetches are weighted equally. The number of weights should match the number of prefetches.",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "float"
+      },
+      "nullable": true
+    }
+  }
+}

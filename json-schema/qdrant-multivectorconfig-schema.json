@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MultiVectorConfig",
+  "title": "MultiVectorConfig",
+  "type": "object",
+  "required": [
+    "comparator"
+  ],
+  "properties": {
+    "comparator": {
+      "$ref": "#/components/schemas/MultiVectorComparator"
+    }
+  }
+}

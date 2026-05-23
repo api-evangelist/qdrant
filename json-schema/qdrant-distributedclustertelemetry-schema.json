@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DistributedClusterTelemetry",
+  "title": "DistributedClusterTelemetry",
+  "type": "object",
+  "required": [
+    "enabled",
+    "peers"
+  ],
+  "properties": {
+    "enabled": {
+      "type": "boolean"
+    },
+    "number_of_peers": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "peers": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/DistributedPeerInfo"
+      }
+    }
+  }
+}

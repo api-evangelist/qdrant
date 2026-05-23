@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardSnapshotLocation",
+  "title": "ShardSnapshotLocation",
+  "anyOf": [
+    {
+      "type": "string",
+      "format": "uri"
+    },
+    {
+      "type": "string"
+    }
+  ]
+}

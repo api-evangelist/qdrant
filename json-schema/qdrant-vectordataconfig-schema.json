@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorDataConfig",
+  "title": "VectorDataConfig",
+  "description": "Config of single vector data storage",
+  "type": "object",
+  "required": [
+    "distance",
+    "index",
+    "size",
+    "storage_type"
+  ],
+  "properties": {
+    "size": {
+      "description": "Size/dimensionality of the vectors used",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "distance": {
+      "$ref": "#/components/schemas/Distance"
+    },
+    "storage_type": {
+      "$ref": "#/components/schemas/VectorStorageType"
+    },
+    "index": {
+      "$ref": "#/components/schemas/Indexes"
+    },
+    "quantization_config": {
+      "description": "Vector specific quantization config that overrides collection config",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/QuantizationConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "multivector_config": {
+      "description": "Vector specific configuration to enable multiple vectors per point",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/MultiVectorConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "datatype": {
+      "description": "Vector specific configuration to set specific storage element type",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/VectorStorageDatatype"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

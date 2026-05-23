@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MultExpression",
+  "title": "MultExpression",
+  "type": "object",
+  "required": [
+    "mult"
+  ],
+  "properties": {
+    "mult": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Expression"
+      }
+    }
+  }
+}

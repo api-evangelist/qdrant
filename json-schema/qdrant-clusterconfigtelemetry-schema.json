@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClusterConfigTelemetry",
+  "title": "ClusterConfigTelemetry",
+  "type": "object",
+  "required": [
+    "consensus",
+    "grpc_timeout_ms",
+    "p2p"
+  ],
+  "properties": {
+    "grpc_timeout_ms": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "p2p": {
+      "$ref": "#/components/schemas/P2pConfigTelemetry"
+    },
+    "consensus": {
+      "$ref": "#/components/schemas/ConsensusConfigTelemetry"
+    }
+  }
+}

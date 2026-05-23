@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FeedbackStrategy",
+  "title": "FeedbackStrategy",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/NaiveFeedbackStrategy"
+    }
+  ]
+}

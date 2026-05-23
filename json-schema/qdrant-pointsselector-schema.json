@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PointsSelector",
+  "title": "PointsSelector",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/PointIdsList"
+    },
+    {
+      "$ref": "#/components/schemas/FilterSelector"
+    }
+  ]
+}

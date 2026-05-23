@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NamedVectorStruct",
+  "title": "NamedVectorStruct",
+  "description": "Vector data separator for named and unnamed modes Unnamed mode:\n\n{ \"vector\": [1.0, 2.0, 3.0] }\n\nor named mode:\n\n{ \"vector\": { \"vector\": [1.0, 2.0, 3.0], \"name\": \"image-embeddings\" } }",
+  "anyOf": [
+    {
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "float"
+      }
+    },
+    {
+      "$ref": "#/components/schemas/NamedVector"
+    },
+    {
+      "$ref": "#/components/schemas/NamedSparseVector"
+    }
+  ]
+}

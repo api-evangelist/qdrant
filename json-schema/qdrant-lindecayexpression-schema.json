@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LinDecayExpression",
+  "title": "LinDecayExpression",
+  "type": "object",
+  "required": [
+    "lin_decay"
+  ],
+  "properties": {
+    "lin_decay": {
+      "$ref": "#/components/schemas/DecayParamsExpression"
+    }
+  }
+}

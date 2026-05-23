@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionsAliasesResponse",
+  "title": "CollectionsAliasesResponse",
+  "type": "object",
+  "required": [
+    "aliases"
+  ],
+  "properties": {
+    "aliases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/AliasDescription"
+      }
+    }
+  }
+}

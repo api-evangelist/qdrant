@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AbortReshardingOperation",
+  "title": "AbortReshardingOperation",
+  "type": "object",
+  "required": [
+    "abort_resharding"
+  ],
+  "properties": {
+    "abort_resharding": {
+      "$ref": "#/components/schemas/AbortResharding"
+    }
+  }
+}

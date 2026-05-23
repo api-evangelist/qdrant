@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/QuantizationConfigDiff",
+  "title": "QuantizationConfigDiff",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/ScalarQuantization"
+    },
+    {
+      "$ref": "#/components/schemas/ProductQuantization"
+    },
+    {
+      "$ref": "#/components/schemas/BinaryQuantization"
+    },
+    {
+      "$ref": "#/components/schemas/Disabled"
+    }
+  ]
+}

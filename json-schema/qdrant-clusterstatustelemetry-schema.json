@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClusterStatusTelemetry",
+  "title": "ClusterStatusTelemetry",
+  "type": "object",
+  "required": [
+    "commit",
+    "consensus_thread_status",
+    "is_voter",
+    "number_of_peers",
+    "pending_operations",
+    "term"
+  ],
+  "properties": {
+    "number_of_peers": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "term": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "commit": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "pending_operations": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "role": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StateRole"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "is_voter": {
+      "type": "boolean"
+    },
+    "peer_id": {
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "consensus_thread_status": {
+      "$ref": "#/components/schemas/ConsensusThreadStatus"
+    }
+  }
+}

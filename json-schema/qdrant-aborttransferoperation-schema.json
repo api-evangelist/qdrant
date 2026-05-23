@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AbortTransferOperation",
+  "title": "AbortTransferOperation",
+  "type": "object",
+  "required": [
+    "abort_transfer"
+  ],
+  "properties": {
+    "abort_transfer": {
+      "$ref": "#/components/schemas/AbortShardTransfer"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MoveShardOperation",
+  "title": "MoveShardOperation",
+  "type": "object",
+  "required": [
+    "move_shard"
+  ],
+  "properties": {
+    "move_shard": {
+      "$ref": "#/components/schemas/MoveShard"
+    }
+  }
+}

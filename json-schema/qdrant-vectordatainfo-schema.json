@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorDataInfo",
+  "title": "VectorDataInfo",
+  "type": "object",
+  "required": [
+    "num_deleted_vectors",
+    "num_indexed_vectors",
+    "num_vectors"
+  ],
+  "properties": {
+    "num_vectors": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "num_indexed_vectors": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "num_deleted_vectors": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

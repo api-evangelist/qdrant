@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OptimizerTelemetry",
+  "title": "OptimizerTelemetry",
+  "type": "object",
+  "required": [
+    "optimizations",
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "$ref": "#/components/schemas/OptimizersStatus"
+    },
+    "optimizations": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "log": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/TrackerTelemetry"
+      },
+      "nullable": true
+    }
+  }
+}

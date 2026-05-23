@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScrollRequest",
+  "title": "ScrollRequest",
+  "description": "Scroll request - paginate over all points which matches given condition",
+  "type": "object",
+  "properties": {
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "offset": {
+      "description": "Start ID to read points from.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ExtendedPointId"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "limit": {
+      "description": "Page size. Default: 10",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1,
+      "nullable": true
+    },
+    "filter": {
+      "description": "Look only for points which satisfies this conditions. If not provided - all points.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "with_payload": {
+      "description": "Select which payload to return with the response. Default is true.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithPayloadInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "with_vector": {
+      "$ref": "#/components/schemas/WithVector"
+    },
+    "order_by": {
+      "description": "Order the records by a payload field.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/OrderByInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

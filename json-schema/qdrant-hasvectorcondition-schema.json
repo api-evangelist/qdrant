@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HasVectorCondition",
+  "title": "HasVectorCondition",
+  "description": "Filter points which have specific vector assigned",
+  "type": "object",
+  "required": [
+    "has_vector"
+  ],
+  "properties": {
+    "has_vector": {
+      "type": "string"
+    }
+  }
+}

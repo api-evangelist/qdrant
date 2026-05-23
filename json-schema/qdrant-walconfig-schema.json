@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WalConfig",
+  "title": "WalConfig",
+  "type": "object",
+  "required": [
+    "wal_capacity_mb",
+    "wal_segments_ahead"
+  ],
+  "properties": {
+    "wal_capacity_mb": {
+      "description": "Size of a single WAL segment in MB",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1
+    },
+    "wal_segments_ahead": {
+      "description": "Number of WAL segments to create ahead of actually used ones",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "wal_retain_closed": {
+      "description": "Number of closed WAL segments to keep",
+      "default": 1,
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1
+    }
+  }
+}

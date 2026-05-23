@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Fusion",
+  "title": "Fusion",
+  "description": "Fusion algorithm allows to combine results of multiple prefetches.\n\nAvailable fusion algorithms:\n\n* `rrf` - Reciprocal Rank Fusion (with default parameters) * `dbsf` - Distribution-Based Score Fusion",
+  "type": "string",
+  "enum": [
+    "rrf",
+    "dbsf"
+  ]
+}

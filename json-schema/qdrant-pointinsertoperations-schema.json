@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PointInsertOperations",
+  "title": "PointInsertOperations",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/PointsBatch"
+    },
+    {
+      "$ref": "#/components/schemas/PointsList"
+    }
+  ]
+}

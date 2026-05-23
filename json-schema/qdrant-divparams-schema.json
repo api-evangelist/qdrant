@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DivParams",
+  "title": "DivParams",
+  "type": "object",
+  "required": [
+    "left",
+    "right"
+  ],
+  "properties": {
+    "left": {
+      "$ref": "#/components/schemas/Expression"
+    },
+    "right": {
+      "$ref": "#/components/schemas/Expression"
+    },
+    "by_zero_default": {
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    }
+  }
+}

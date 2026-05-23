@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardKeySelector",
+  "title": "ShardKeySelector",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/ShardKey"
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ShardKey"
+      }
+    },
+    {
+      "$ref": "#/components/schemas/ShardKeyWithFallback"
+    }
+  ]
+}

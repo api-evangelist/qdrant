@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TelemetryData",
+  "title": "TelemetryData",
+  "type": "object",
+  "required": [
+    "collections",
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "app": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/AppBuildTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "collections": {
+      "$ref": "#/components/schemas/CollectionsTelemetry"
+    },
+    "cluster": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ClusterTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "requests": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/RequestsTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "memory": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/MemoryTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "hardware": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/HardwareTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

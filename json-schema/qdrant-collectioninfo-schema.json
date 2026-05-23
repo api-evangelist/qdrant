@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionInfo",
+  "title": "CollectionInfo",
+  "description": "Current statistics and configuration of the collection",
+  "type": "object",
+  "required": [
+    "config",
+    "optimizer_status",
+    "payload_schema",
+    "segments_count",
+    "status"
+  ],
+  "properties": {
+    "status": {
+      "$ref": "#/components/schemas/CollectionStatus"
+    },
+    "optimizer_status": {
+      "$ref": "#/components/schemas/OptimizersStatus"
+    },
+    "warnings": {
+      "description": "Warnings related to the collection",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CollectionWarning"
+      }
+    },
+    "indexed_vectors_count": {
+      "description": "Approximate number of indexed vectors in the collection. Indexed vectors in large segments are faster to query, as it is stored in a specialized vector index.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "points_count": {
+      "description": "Approximate number of points (vectors + payloads) in collection. Each point could be accessed by unique id.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "segments_count": {
+      "description": "Number of segments in collection. Each segment has independent vector as payload indexes",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "config": {
+      "$ref": "#/components/schemas/CollectionConfig"
+    },
+    "payload_schema": {
+      "description": "Types of stored payload",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/PayloadIndexInfo"
+      }
+    },
+    "update_queue": {
+      "description": "Update queue info",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/UpdateQueueInfo"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

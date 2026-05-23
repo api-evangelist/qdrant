@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DatetimeRange",
+  "title": "DatetimeRange",
+  "description": "Range filter request",
+  "type": "object",
+  "properties": {
+    "lt": {
+      "description": "point.key < range.lt",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "gt": {
+      "description": "point.key > range.gt",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "gte": {
+      "description": "point.key >= range.gte",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    },
+    "lte": {
+      "description": "point.key <= range.lte",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    }
+  }
+}

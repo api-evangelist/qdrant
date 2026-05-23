@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardCleanStatusTelemetry",
+  "title": "ShardCleanStatusTelemetry",
+  "oneOf": [
+    {
+      "type": "string",
+      "enum": [
+        "started",
+        "done",
+        "cancelled"
+      ]
+    },
+    {
+      "type": "object",
+      "required": [
+        "progress"
+      ],
+      "properties": {
+        "progress": {
+          "$ref": "#/components/schemas/ShardCleanStatusProgressTelemetry"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "failed"
+      ],
+      "properties": {
+        "failed": {
+          "$ref": "#/components/schemas/ShardCleanStatusFailedTelemetry"
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

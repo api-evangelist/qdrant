@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GrpcTelemetry",
+  "title": "GrpcTelemetry",
+  "type": "object",
+  "required": [
+    "responses"
+  ],
+  "properties": {
+    "responses": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/OperationDurationStatistics"
+        }
+      }
+    },
+    "per_collection_responses": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/components/schemas/OperationDurationStatistics"
+          }
+        }
+      }
+    }
+  }
+}

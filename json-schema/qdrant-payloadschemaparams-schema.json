@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PayloadSchemaParams",
+  "title": "PayloadSchemaParams",
+  "description": "Payload type with parameters",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/KeywordIndexParams"
+    },
+    {
+      "$ref": "#/components/schemas/IntegerIndexParams"
+    },
+    {
+      "$ref": "#/components/schemas/FloatIndexParams"
+    },
+    {
+      "$ref": "#/components/schemas/GeoIndexParams"
+    },
+    {
+      "$ref": "#/components/schemas/TextIndexParams"
+    },
+    {
+      "$ref": "#/components/schemas/BoolIndexParams"
+    },
+    {
+      "$ref": "#/components/schemas/DatetimeIndexParams"
+    },
+    {
+      "$ref": "#/components/schemas/UuidIndexParams"
+    }
+  ]
+}

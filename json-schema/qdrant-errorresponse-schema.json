@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ErrorResponse",
+  "title": "ErrorResponse",
+  "type": "object",
+  "properties": {
+    "time": {
+      "type": "number",
+      "format": "float",
+      "description": "Time spent to process this request"
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Description of the occurred error."
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "nullable": true
+    }
+  }
+}

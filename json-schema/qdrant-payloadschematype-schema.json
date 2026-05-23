@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PayloadSchemaType",
+  "title": "PayloadSchemaType",
+  "description": "All possible names of payload types",
+  "type": "string",
+  "enum": [
+    "keyword",
+    "integer",
+    "float",
+    "geo",
+    "text",
+    "bool",
+    "datetime",
+    "uuid"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContextQuery",
+  "title": "ContextQuery",
+  "type": "object",
+  "required": [
+    "context"
+  ],
+  "properties": {
+    "context": {
+      "$ref": "#/components/schemas/ContextInput"
+    }
+  }
+}

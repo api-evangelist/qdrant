@@ -1,0 +1,3643 @@
+{
+  "provider": "Qdrant",
+  "providerId": "qdrant",
+  "kind": "json-structure",
+  "description": "Structural overview of the Qdrant API surface; extracted from openapi/.",
+  "schemaCount": 386,
+  "operationCount": 73,
+  "schemas": [
+    {
+      "name": "ErrorResponse",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "CollectionsResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "collections"
+      ]
+    },
+    {
+      "name": "CollectionDescription",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "CollectionInfo",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "config",
+        "optimizer_status",
+        "payload_schema",
+        "segments_count",
+        "status"
+      ]
+    },
+    {
+      "name": "CollectionStatus",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "OptimizersStatus",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "CollectionWarning",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "message"
+      ]
+    },
+    {
+      "name": "CollectionConfig",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "hnsw_config",
+        "optimizer_config",
+        "params"
+      ]
+    },
+    {
+      "name": "CollectionParams",
+      "type": "object",
+      "propertyCount": 9,
+      "required": []
+    },
+    {
+      "name": "VectorsConfig",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VectorParams",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "distance",
+        "size"
+      ]
+    },
+    {
+      "name": "Distance",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "HnswConfigDiff",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "QuantizationConfig",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ScalarQuantization",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "scalar"
+      ]
+    },
+    {
+      "name": "ScalarQuantizationConfig",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "ScalarType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ProductQuantization",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "product"
+      ]
+    },
+    {
+      "name": "ProductQuantizationConfig",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "compression"
+      ]
+    },
+    {
+      "name": "CompressionRatio",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "BinaryQuantization",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "binary"
+      ]
+    },
+    {
+      "name": "BinaryQuantizationConfig",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "BinaryQuantizationEncoding",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "BinaryQuantizationQueryEncoding",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Datatype",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "MultiVectorConfig",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "comparator"
+      ]
+    },
+    {
+      "name": "MultiVectorComparator",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ShardingMethod",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SparseVectorParams",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "SparseIndexParams",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "Modifier",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "HnswConfig",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "ef_construct",
+        "full_scan_threshold",
+        "m"
+      ]
+    },
+    {
+      "name": "OptimizersConfig",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "default_segment_number",
+        "flush_interval_sec"
+      ]
+    },
+    {
+      "name": "WalConfig",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "wal_capacity_mb",
+        "wal_segments_ahead"
+      ]
+    },
+    {
+      "name": "StrictModeConfigOutput",
+      "type": "object",
+      "propertyCount": 20,
+      "required": []
+    },
+    {
+      "name": "StrictModeMultivectorConfigOutput",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StrictModeMultivectorOutput",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "StrictModeSparseConfigOutput",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StrictModeSparseOutput",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "Payload",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PayloadIndexInfo",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "data_type",
+        "points"
+      ]
+    },
+    {
+      "name": "PayloadSchemaType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PayloadSchemaParams",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "KeywordIndexParams",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "KeywordIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "IntegerIndexParams",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "IntegerIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "FloatIndexParams",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "FloatIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "GeoIndexParams",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "GeoIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "TextIndexParams",
+      "type": "object",
+      "propertyCount": 11,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "TextIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "TokenizerType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StopwordsInterface",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Language",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StopwordsSet",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "StemmingAlgorithm",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SnowballParams",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "language",
+        "type"
+      ]
+    },
+    {
+      "name": "Snowball",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SnowballLanguage",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "BoolIndexParams",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "BoolIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "DatetimeIndexParams",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "DatetimeIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "UuidIndexParams",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "UuidIndexType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "UpdateQueueInfo",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "length"
+      ]
+    },
+    {
+      "name": "PointRequest",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "ids"
+      ]
+    },
+    {
+      "name": "ShardKeySelector",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ShardKey",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ShardKeyWithFallback",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "fallback",
+        "target"
+      ]
+    },
+    {
+      "name": "ExtendedPointId",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "WithPayloadInterface",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PayloadSelector",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PayloadSelectorInclude",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "include"
+      ]
+    },
+    {
+      "name": "PayloadSelectorExclude",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "exclude"
+      ]
+    },
+    {
+      "name": "WithVector",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Record",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "id"
+      ]
+    },
+    {
+      "name": "VectorStructOutput",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VectorOutput",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SparseVector",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "indices",
+        "values"
+      ]
+    },
+    {
+      "name": "OrderValue",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SearchRequest",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "limit",
+        "vector"
+      ]
+    },
+    {
+      "name": "NamedVectorStruct",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "NamedVector",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "name",
+        "vector"
+      ]
+    },
+    {
+      "name": "NamedSparseVector",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "name",
+        "vector"
+      ]
+    },
+    {
+      "name": "Filter",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "Condition",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "FieldCondition",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "key"
+      ]
+    },
+    {
+      "name": "Match",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "MatchValue",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "value"
+      ]
+    },
+    {
+      "name": "ValueVariants",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "MatchText",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "text"
+      ]
+    },
+    {
+      "name": "MatchTextAny",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "text_any"
+      ]
+    },
+    {
+      "name": "MatchPhrase",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "phrase"
+      ]
+    },
+    {
+      "name": "MatchAny",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "any"
+      ]
+    },
+    {
+      "name": "AnyVariants",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "MatchExcept",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "except"
+      ]
+    },
+    {
+      "name": "RangeInterface",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Range",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "DatetimeRange",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "GeoBoundingBox",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "bottom_right",
+        "top_left"
+      ]
+    },
+    {
+      "name": "GeoPoint",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "lat",
+        "lon"
+      ]
+    },
+    {
+      "name": "GeoRadius",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "center",
+        "radius"
+      ]
+    },
+    {
+      "name": "GeoPolygon",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "exterior"
+      ]
+    },
+    {
+      "name": "GeoLineString",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "points"
+      ]
+    },
+    {
+      "name": "ValuesCount",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "IsEmptyCondition",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "is_empty"
+      ]
+    },
+    {
+      "name": "PayloadField",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "key"
+      ]
+    },
+    {
+      "name": "IsNullCondition",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "is_null"
+      ]
+    },
+    {
+      "name": "HasIdCondition",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "has_id"
+      ]
+    },
+    {
+      "name": "HasVectorCondition",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "has_vector"
+      ]
+    },
+    {
+      "name": "NestedCondition",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "nested"
+      ]
+    },
+    {
+      "name": "Nested",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "filter",
+        "key"
+      ]
+    },
+    {
+      "name": "MinShould",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "conditions",
+        "min_count"
+      ]
+    },
+    {
+      "name": "SearchParams",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "QuantizationSearchParams",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "AcornSearchParams",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "ScoredPoint",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "id",
+        "score",
+        "version"
+      ]
+    },
+    {
+      "name": "UpdateResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "status"
+      ]
+    },
+    {
+      "name": "UpdateStatus",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "RecommendRequest",
+      "type": "object",
+      "propertyCount": 13,
+      "required": [
+        "limit"
+      ]
+    },
+    {
+      "name": "RecommendExample",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "RecommendStrategy",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "UsingVector",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "LookupLocation",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "collection"
+      ]
+    },
+    {
+      "name": "ScrollRequest",
+      "type": "object",
+      "propertyCount": 7,
+      "required": []
+    },
+    {
+      "name": "OrderByInterface",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "OrderBy",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "key"
+      ]
+    },
+    {
+      "name": "Direction",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StartFrom",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ScrollResult",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "points"
+      ]
+    },
+    {
+      "name": "CreateCollection",
+      "type": "object",
+      "propertyCount": 13,
+      "required": []
+    },
+    {
+      "name": "WalConfigDiff",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "OptimizersConfigDiff",
+      "type": "object",
+      "propertyCount": 9,
+      "required": []
+    },
+    {
+      "name": "MaxOptimizationThreads",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "MaxOptimizationThreadsSetting",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StrictModeConfig",
+      "type": "object",
+      "propertyCount": 20,
+      "required": []
+    },
+    {
+      "name": "StrictModeMultivectorConfig",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StrictModeMultivector",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "StrictModeSparseConfig",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "StrictModeSparse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "UpdateCollection",
+      "type": "object",
+      "propertyCount": 8,
+      "required": []
+    },
+    {
+      "name": "VectorsConfigDiff",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VectorParamsDiff",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "QuantizationConfigDiff",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Disabled",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "CollectionParamsDiff",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "SparseVectorsConfig",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ChangeAliasesOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "actions"
+      ]
+    },
+    {
+      "name": "AliasOperations",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "CreateAliasOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "create_alias"
+      ]
+    },
+    {
+      "name": "CreateAlias",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "alias_name",
+        "collection_name"
+      ]
+    },
+    {
+      "name": "DeleteAliasOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "delete_alias"
+      ]
+    },
+    {
+      "name": "DeleteAlias",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "alias_name"
+      ]
+    },
+    {
+      "name": "RenameAliasOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "rename_alias"
+      ]
+    },
+    {
+      "name": "RenameAlias",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "new_alias_name",
+        "old_alias_name"
+      ]
+    },
+    {
+      "name": "CreateFieldIndex",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "field_name"
+      ]
+    },
+    {
+      "name": "PayloadFieldSchema",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PointsSelector",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PointIdsList",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "points"
+      ]
+    },
+    {
+      "name": "FilterSelector",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "filter"
+      ]
+    },
+    {
+      "name": "PointInsertOperations",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PointsBatch",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "batch"
+      ]
+    },
+    {
+      "name": "Batch",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "ids",
+        "vectors"
+      ]
+    },
+    {
+      "name": "BatchVectorStruct",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Vector",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Document",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "model",
+        "text"
+      ]
+    },
+    {
+      "name": "DocumentOptions",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Bm25Config",
+      "type": "object",
+      "propertyCount": 11,
+      "required": []
+    },
+    {
+      "name": "Image",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "image",
+        "model"
+      ]
+    },
+    {
+      "name": "InferenceObject",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "model",
+        "object"
+      ]
+    },
+    {
+      "name": "UpdateMode",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PointsList",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "points"
+      ]
+    },
+    {
+      "name": "PointStruct",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "id",
+        "vector"
+      ]
+    },
+    {
+      "name": "VectorStruct",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SetPayload",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "payload"
+      ]
+    },
+    {
+      "name": "DeletePayload",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "keys"
+      ]
+    },
+    {
+      "name": "ClusterStatus",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PeerInfo",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "uri"
+      ]
+    },
+    {
+      "name": "RaftInfo",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "commit",
+        "is_voter",
+        "pending_operations",
+        "term"
+      ]
+    },
+    {
+      "name": "StateRole",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ConsensusThreadStatus",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "MessageSendErrors",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "count"
+      ]
+    },
+    {
+      "name": "SnapshotDescription",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "name",
+        "size"
+      ]
+    },
+    {
+      "name": "CountRequest",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "CountResult",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "count"
+      ]
+    },
+    {
+      "name": "CollectionClusterInfo",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "local_shards",
+        "peer_id",
+        "remote_shards",
+        "shard_count",
+        "shard_transfers"
+      ]
+    },
+    {
+      "name": "LocalShardInfo",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "points_count",
+        "shard_id",
+        "state"
+      ]
+    },
+    {
+      "name": "ReplicaState",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "RemoteShardInfo",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "peer_id",
+        "shard_id",
+        "state"
+      ]
+    },
+    {
+      "name": "ShardTransferInfo",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "from",
+        "shard_id",
+        "sync",
+        "to"
+      ]
+    },
+    {
+      "name": "ShardTransferMethod",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ReshardingInfo",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "direction",
+        "peer_id",
+        "shard_id"
+      ]
+    },
+    {
+      "name": "ReshardingDirection",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "TelemetryData",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "collections",
+        "id"
+      ]
+    },
+    {
+      "name": "AppBuildTelemetry",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "name",
+        "startup",
+        "version"
+      ]
+    },
+    {
+      "name": "AppFeaturesTelemetry",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "debug",
+        "gpu",
+        "recovery_mode",
+        "rocksdb",
+        "service_debug_feature",
+        "staging"
+      ]
+    },
+    {
+      "name": "FeatureFlags",
+      "type": "object",
+      "propertyCount": 11,
+      "required": []
+    },
+    {
+      "name": "HnswGlobalConfig",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "RunningEnvironmentTelemetry",
+      "type": "object",
+      "propertyCount": 9,
+      "required": [
+        "cpu_flags",
+        "is_docker"
+      ]
+    },
+    {
+      "name": "CpuEndian",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "GpuDeviceTelemetry",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "CollectionsTelemetry",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "number_of_collections"
+      ]
+    },
+    {
+      "name": "CollectionTelemetryEnum",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "CollectionTelemetry",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "id"
+      ]
+    },
+    {
+      "name": "CollectionConfigTelemetry",
+      "type": "object",
+      "propertyCount": 8,
+      "required": [
+        "hnsw_config",
+        "optimizer_config",
+        "params",
+        "wal_config"
+      ]
+    },
+    {
+      "name": "ReplicaSetTelemetry",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "id",
+        "remote",
+        "replicate_states"
+      ]
+    },
+    {
+      "name": "LocalShardTelemetry",
+      "type": "object",
+      "propertyCount": 13,
+      "required": [
+        "total_optimized_points"
+      ]
+    },
+    {
+      "name": "ShardStatus",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SegmentTelemetry",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "config",
+        "info",
+        "payload_field_indices",
+        "vector_index_searches"
+      ]
+    },
+    {
+      "name": "SegmentInfo",
+      "type": "object",
+      "propertyCount": 16,
+      "required": [
+        "disk_usage_bytes",
+        "index_schema",
+        "is_appendable",
+        "num_deleted_vectors",
+        "num_indexed_vectors",
+        "num_points",
+        "num_vectors",
+        "payloads_size_bytes",
+        "ram_usage_bytes",
+        "segment_type",
+        "uuid",
+        "vector_data",
+        "vectors_size_bytes"
+      ]
+    },
+    {
+      "name": "SegmentType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VectorDataInfo",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "num_deleted_vectors",
+        "num_indexed_vectors",
+        "num_vectors"
+      ]
+    },
+    {
+      "name": "SegmentConfig",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "payload_storage_type"
+      ]
+    },
+    {
+      "name": "VectorDataConfig",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "distance",
+        "index",
+        "size",
+        "storage_type"
+      ]
+    },
+    {
+      "name": "VectorStorageType",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Indexes",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VectorStorageDatatype",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SparseVectorDataConfig",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "index"
+      ]
+    },
+    {
+      "name": "SparseIndexConfig",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "index_type"
+      ]
+    },
+    {
+      "name": "SparseIndexType",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SparseVectorStorageType",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "PayloadStorageType",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VectorIndexSearchesTelemetry",
+      "type": "object",
+      "propertyCount": 10,
+      "required": [
+        "filtered_exact",
+        "filtered_large_cardinality",
+        "filtered_plain",
+        "filtered_small_cardinality",
+        "filtered_sparse",
+        "unfiltered_exact",
+        "unfiltered_hnsw",
+        "unfiltered_plain",
+        "unfiltered_sparse"
+      ]
+    },
+    {
+      "name": "OperationDurationStatistics",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "count"
+      ]
+    },
+    {
+      "name": "PayloadIndexTelemetry",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "index_type",
+        "points_count",
+        "points_values_count"
+      ]
+    },
+    {
+      "name": "OptimizerTelemetry",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "optimizations",
+        "status"
+      ]
+    },
+    {
+      "name": "TrackerTelemetry",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "name",
+        "segment_ids",
+        "segment_uuids",
+        "start_at",
+        "status",
+        "uuid"
+      ]
+    },
+    {
+      "name": "TrackerStatus",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ShardUpdateQueueInfo",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "length"
+      ]
+    },
+    {
+      "name": "RemoteShardTelemetry",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "peer_id",
+        "shard_id"
+      ]
+    },
+    {
+      "name": "PartialSnapshotTelemetry",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "is_recovering",
+        "ongoing_create_snapshot_requests",
+        "recovery_timestamp"
+      ]
+    },
+    {
+      "name": "ShardCleanStatusTelemetry",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ShardCleanStatusProgressTelemetry",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "deleted_points"
+      ]
+    },
+    {
+      "name": "ShardCleanStatusFailedTelemetry",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "reason"
+      ]
+    },
+    {
+      "name": "CollectionsAggregatedTelemetry",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "optimizers_status",
+        "params",
+        "vectors"
+      ]
+    },
+    {
+      "name": "CollectionSnapshotTelemetry",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "id"
+      ]
+    },
+    {
+      "name": "ClusterTelemetry",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "enabled"
+      ]
+    },
+    {
+      "name": "ClusterStatusTelemetry",
+      "type": "object",
+      "propertyCount": 8,
+      "required": [
+        "commit",
+        "consensus_thread_status",
+        "is_voter",
+        "number_of_peers",
+        "pending_operations",
+        "term"
+      ]
+    },
+    {
+      "name": "ClusterConfigTelemetry",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "consensus",
+        "grpc_timeout_ms",
+        "p2p"
+      ]
+    },
+    {
+      "name": "P2pConfigTelemetry",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "connection_pool_size"
+      ]
+    },
+    {
+      "name": "ConsensusConfigTelemetry",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "bootstrap_timeout_sec",
+        "max_message_queue_size",
+        "tick_period_ms"
+      ]
+    },
+    {
+      "name": "PeerMetadata",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "version"
+      ]
+    },
+    {
+      "name": "RequestsTelemetry",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "grpc",
+        "rest"
+      ]
+    },
+    {
+      "name": "WebApiTelemetry",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "responses"
+      ]
+    },
+    {
+      "name": "GrpcTelemetry",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "responses"
+      ]
+    },
+    {
+      "name": "MemoryTelemetry",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "active_bytes",
+        "allocated_bytes",
+        "metadata_bytes",
+        "resident_bytes",
+        "retained_bytes"
+      ]
+    },
+    {
+      "name": "HardwareTelemetry",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "collection_data"
+      ]
+    },
+    {
+      "name": "HardwareUsage",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "cpu",
+        "payload_index_io_read",
+        "payload_index_io_write",
+        "payload_io_read",
+        "payload_io_write",
+        "vector_io_read",
+        "vector_io_write"
+      ]
+    },
+    {
+      "name": "ClusterOperations",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "MoveShardOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "move_shard"
+      ]
+    },
+    {
+      "name": "MoveShard",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "from_peer_id",
+        "shard_id",
+        "to_peer_id"
+      ]
+    },
+    {
+      "name": "ReplicateShardOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "replicate_shard"
+      ]
+    },
+    {
+      "name": "ReplicateShard",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "from_peer_id",
+        "shard_id",
+        "to_peer_id"
+      ]
+    },
+    {
+      "name": "AbortTransferOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "abort_transfer"
+      ]
+    },
+    {
+      "name": "AbortShardTransfer",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "from_peer_id",
+        "shard_id",
+        "to_peer_id"
+      ]
+    },
+    {
+      "name": "DropReplicaOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "drop_replica"
+      ]
+    },
+    {
+      "name": "Replica",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "peer_id",
+        "shard_id"
+      ]
+    },
+    {
+      "name": "CreateShardingKeyOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "create_sharding_key"
+      ]
+    },
+    {
+      "name": "CreateShardingKey",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "shard_key"
+      ]
+    },
+    {
+      "name": "DropShardingKeyOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "drop_sharding_key"
+      ]
+    },
+    {
+      "name": "DropShardingKey",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "shard_key"
+      ]
+    },
+    {
+      "name": "RestartTransferOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "restart_transfer"
+      ]
+    },
+    {
+      "name": "RestartTransfer",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "from_peer_id",
+        "method",
+        "shard_id",
+        "to_peer_id"
+      ]
+    },
+    {
+      "name": "StartReshardingOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "start_resharding"
+      ]
+    },
+    {
+      "name": "StartResharding",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "direction"
+      ]
+    },
+    {
+      "name": "AbortReshardingOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "abort_resharding"
+      ]
+    },
+    {
+      "name": "AbortResharding",
+      "type": "object",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ReplicatePointsOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "replicate_points"
+      ]
+    },
+    {
+      "name": "ReplicatePoints",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "from_shard_key",
+        "to_shard_key"
+      ]
+    },
+    {
+      "name": "SearchRequestBatch",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "searches"
+      ]
+    },
+    {
+      "name": "RecommendRequestBatch",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "searches"
+      ]
+    },
+    {
+      "name": "SnapshotRecover",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "location"
+      ]
+    },
+    {
+      "name": "SnapshotPriority",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "CollectionsAliasesResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "aliases"
+      ]
+    },
+    {
+      "name": "AliasDescription",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "alias_name",
+        "collection_name"
+      ]
+    },
+    {
+      "name": "WriteOrdering",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ReadConsistency",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "ReadConsistencyType",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "UpdateVectors",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "points"
+      ]
+    },
+    {
+      "name": "PointVectors",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "id",
+        "vector"
+      ]
+    },
+    {
+      "name": "DeleteVectors",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "vector"
+      ]
+    },
+    {
+      "name": "PointGroup",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "hits",
+        "id"
+      ]
+    },
+    {
+      "name": "GroupId",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "SearchGroupsRequest",
+      "type": "object",
+      "propertyCount": 11,
+      "required": [
+        "group_by",
+        "group_size",
+        "limit",
+        "vector"
+      ]
+    },
+    {
+      "name": "WithLookupInterface",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "WithLookup",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "collection"
+      ]
+    },
+    {
+      "name": "RecommendGroupsRequest",
+      "type": "object",
+      "propertyCount": 15,
+      "required": [
+        "group_by",
+        "group_size",
+        "limit"
+      ]
+    },
+    {
+      "name": "GroupsResult",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "groups"
+      ]
+    },
+    {
+      "name": "UpdateOperations",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "operations"
+      ]
+    },
+    {
+      "name": "UpdateOperation",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "UpsertOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "upsert"
+      ]
+    },
+    {
+      "name": "DeleteOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "delete"
+      ]
+    },
+    {
+      "name": "SetPayloadOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "set_payload"
+      ]
+    },
+    {
+      "name": "OverwritePayloadOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "overwrite_payload"
+      ]
+    },
+    {
+      "name": "DeletePayloadOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "delete_payload"
+      ]
+    },
+    {
+      "name": "ClearPayloadOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "clear_payload"
+      ]
+    },
+    {
+      "name": "UpdateVectorsOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "update_vectors"
+      ]
+    },
+    {
+      "name": "DeleteVectorsOperation",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "delete_vectors"
+      ]
+    },
+    {
+      "name": "ShardSnapshotRecover",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "location"
+      ]
+    },
+    {
+      "name": "ShardSnapshotLocation",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "DiscoverRequest",
+      "type": "object",
+      "propertyCount": 11,
+      "required": [
+        "limit"
+      ]
+    },
+    {
+      "name": "ContextExamplePair",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "negative",
+        "positive"
+      ]
+    },
+    {
+      "name": "DiscoverRequestBatch",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "searches"
+      ]
+    },
+    {
+      "name": "VersionInfo",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "title",
+        "version"
+      ]
+    },
+    {
+      "name": "CollectionExistence",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "exists"
+      ]
+    },
+    {
+      "name": "QueryRequest",
+      "type": "object",
+      "propertyCount": 12,
+      "required": []
+    },
+    {
+      "name": "Prefetch",
+      "type": "object",
+      "propertyCount": 8,
+      "required": []
+    },
+    {
+      "name": "QueryInterface",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "VectorInput",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Query",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "NearestQuery",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "nearest"
+      ]
+    },
+    {
+      "name": "Mmr",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "RecommendQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "recommend"
+      ]
+    },
+    {
+      "name": "RecommendInput",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "DiscoverQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "discover"
+      ]
+    },
+    {
+      "name": "DiscoverInput",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "context",
+        "target"
+      ]
+    },
+    {
+      "name": "ContextPair",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "negative",
+        "positive"
+      ]
+    },
+    {
+      "name": "ContextQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "context"
+      ]
+    },
+    {
+      "name": "ContextInput",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "OrderByQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "order_by"
+      ]
+    },
+    {
+      "name": "FusionQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "fusion"
+      ]
+    },
+    {
+      "name": "Fusion",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "RrfQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "rrf"
+      ]
+    },
+    {
+      "name": "Rrf",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "FormulaQuery",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "formula"
+      ]
+    },
+    {
+      "name": "Expression",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "GeoDistance",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "geo_distance"
+      ]
+    },
+    {
+      "name": "GeoDistanceParams",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "origin",
+        "to"
+      ]
+    },
+    {
+      "name": "DatetimeExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "datetime"
+      ]
+    },
+    {
+      "name": "DatetimeKeyExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "datetime_key"
+      ]
+    },
+    {
+      "name": "MultExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "mult"
+      ]
+    },
+    {
+      "name": "SumExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "sum"
+      ]
+    },
+    {
+      "name": "NegExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "neg"
+      ]
+    },
+    {
+      "name": "AbsExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "abs"
+      ]
+    },
+    {
+      "name": "DivExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "div"
+      ]
+    },
+    {
+      "name": "DivParams",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "left",
+        "right"
+      ]
+    },
+    {
+      "name": "SqrtExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "sqrt"
+      ]
+    },
+    {
+      "name": "PowExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "pow"
+      ]
+    },
+    {
+      "name": "PowParams",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "base",
+        "exponent"
+      ]
+    },
+    {
+      "name": "ExpExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "exp"
+      ]
+    },
+    {
+      "name": "Log10Expression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "log10"
+      ]
+    },
+    {
+      "name": "LnExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "ln"
+      ]
+    },
+    {
+      "name": "LinDecayExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "lin_decay"
+      ]
+    },
+    {
+      "name": "DecayParamsExpression",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "x"
+      ]
+    },
+    {
+      "name": "ExpDecayExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "exp_decay"
+      ]
+    },
+    {
+      "name": "GaussDecayExpression",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "gauss_decay"
+      ]
+    },
+    {
+      "name": "SampleQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "sample"
+      ]
+    },
+    {
+      "name": "Sample",
+      "type": "string",
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "RelevanceFeedbackQuery",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "relevance_feedback"
+      ]
+    },
+    {
+      "name": "RelevanceFeedbackInput",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "feedback",
+        "strategy",
+        "target"
+      ]
+    },
+    {
+      "name": "FeedbackItem",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "example",
+        "score"
+      ]
+    },
+    {
+      "name": "FeedbackStrategy",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "NaiveFeedbackStrategy",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "naive"
+      ]
+    },
+    {
+      "name": "NaiveFeedbackStrategyParams",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "name": "QueryRequestBatch",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "searches"
+      ]
+    },
+    {
+      "name": "QueryResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "points"
+      ]
+    },
+    {
+      "name": "QueryGroupsRequest",
+      "type": "object",
+      "propertyCount": 14,
+      "required": [
+        "group_by"
+      ]
+    },
+    {
+      "name": "SearchMatrixRequest",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "SearchMatrixOffsetsResponse",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "ids",
+        "offsets_col",
+        "offsets_row",
+        "scores"
+      ]
+    },
+    {
+      "name": "SearchMatrixPairsResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "pairs"
+      ]
+    },
+    {
+      "name": "SearchMatrixPair",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "a",
+        "b",
+        "score"
+      ]
+    },
+    {
+      "name": "FacetRequest",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "key"
+      ]
+    },
+    {
+      "name": "FacetResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "hits"
+      ]
+    },
+    {
+      "name": "FacetValueHit",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "count",
+        "value"
+      ]
+    },
+    {
+      "name": "FacetValue",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Usage",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "InferenceUsage",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "models"
+      ]
+    },
+    {
+      "name": "ModelUsage",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "tokens"
+      ]
+    },
+    {
+      "name": "ShardKeysResponse",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "ShardKeyDescription",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "key"
+      ]
+    },
+    {
+      "name": "OptimizationsResponse",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "running",
+        "summary"
+      ]
+    },
+    {
+      "name": "OptimizationsSummary",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "idle_segments",
+        "queued_optimizations",
+        "queued_points",
+        "queued_segments"
+      ]
+    },
+    {
+      "name": "Optimization",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "optimizer",
+        "progress",
+        "segments",
+        "status",
+        "uuid"
+      ]
+    },
+    {
+      "name": "OptimizationSegmentInfo",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "points_count",
+        "uuid"
+      ]
+    },
+    {
+      "name": "ProgressTree",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "PendingOptimization",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "optimizer",
+        "segments"
+      ]
+    },
+    {
+      "name": "DistributedTelemetryData",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "collections"
+      ]
+    },
+    {
+      "name": "DistributedCollectionTelemetry",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "id"
+      ]
+    },
+    {
+      "name": "DistributedShardTelemetry",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "id",
+        "replicas"
+      ]
+    },
+    {
+      "name": "DistributedReplicaTelemetry",
+      "type": "object",
+      "propertyCount": 11,
+      "required": [
+        "peer_id",
+        "state"
+      ]
+    },
+    {
+      "name": "DistributedClusterTelemetry",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "enabled",
+        "peers"
+      ]
+    },
+    {
+      "name": "DistributedPeerInfo",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "responsive",
+        "uri"
+      ]
+    },
+    {
+      "name": "DistributedPeerDetails",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "commit",
+        "consensus_thread_status",
+        "is_voter",
+        "num_pending_operations",
+        "term",
+        "version"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/shards",
+      "operationId": "list_shard_keys",
+      "summary": "List shard keys",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}/shards",
+      "operationId": "create_shard_key",
+      "summary": "Create shard key",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/shards/delete",
+      "operationId": "delete_shard_key",
+      "summary": "Delete shard key",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/",
+      "operationId": "root",
+      "summary": "Returns information about the running Qdrant instance",
+      "tags": [
+        "Service"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/telemetry",
+      "operationId": "telemetry",
+      "summary": "Collect telemetry data",
+      "tags": [
+        "Service"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/metrics",
+      "operationId": "metrics",
+      "summary": "Collect Prometheus metrics data",
+      "tags": [
+        "Service"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/healthz",
+      "operationId": "healthz",
+      "summary": "Kubernetes healthz endpoint",
+      "tags": [
+        "Service"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/livez",
+      "operationId": "livez",
+      "summary": "Kubernetes livez endpoint",
+      "tags": [
+        "Service"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/readyz",
+      "operationId": "readyz",
+      "summary": "Kubernetes readyz endpoint",
+      "tags": [
+        "Service"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/issues",
+      "operationId": "get_issues",
+      "summary": "Get issues",
+      "tags": [
+        "Beta"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/issues",
+      "operationId": "clear_issues",
+      "summary": "Clear issues",
+      "tags": [
+        "Beta"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/cluster",
+      "operationId": "cluster_status",
+      "summary": "Get cluster status info",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/cluster/telemetry",
+      "operationId": "cluster_telemetry",
+      "summary": "Collect cluster telemetry data",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/cluster/recover",
+      "operationId": "recover_current_peer",
+      "summary": "Tries to recover current peer Raft state.",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/cluster/peer/{peer_id}",
+      "operationId": "remove_peer",
+      "summary": "Remove peer from the cluster",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections",
+      "operationId": "get_collections",
+      "summary": "List collections",
+      "tags": [
+        "Collections"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}",
+      "operationId": "get_collection",
+      "summary": "Collection info",
+      "tags": [
+        "Collections"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}",
+      "operationId": "create_collection",
+      "summary": "Create collection",
+      "tags": [
+        "Collections"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/collections/{collection_name}",
+      "operationId": "delete_collection",
+      "summary": "Delete collection",
+      "tags": [
+        "Collections"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/collections/{collection_name}",
+      "operationId": "update_collection",
+      "summary": "Update collection parameters",
+      "tags": [
+        "Collections"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/aliases",
+      "operationId": "update_aliases",
+      "summary": "Update aliases of the collections",
+      "tags": [
+        "Aliases"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}/index",
+      "operationId": "create_field_index",
+      "summary": "Create index for field in collection",
+      "tags": [
+        "Indexes"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/exists",
+      "operationId": "collection_exists",
+      "summary": "Check the existence of a collection",
+      "tags": [
+        "Collections"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/collections/{collection_name}/index/{field_name}",
+      "operationId": "delete_field_index",
+      "summary": "Delete index for field in collection",
+      "tags": [
+        "Indexes"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/cluster",
+      "operationId": "collection_cluster_info",
+      "summary": "Collection cluster info",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/cluster",
+      "operationId": "update_collection_cluster",
+      "summary": "Update collection cluster setup",
+      "tags": [
+        "Distributed"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/optimizations",
+      "operationId": "get_optimizations",
+      "summary": "Get optimization progress",
+      "tags": [
+        "Collections"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/aliases",
+      "operationId": "get_collection_aliases",
+      "summary": "List aliases for collection",
+      "tags": [
+        "Aliases"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/aliases",
+      "operationId": "get_collections_aliases",
+      "summary": "List collections aliases",
+      "tags": [
+        "Aliases"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/snapshots/upload",
+      "operationId": "recover_from_uploaded_snapshot",
+      "summary": "Recover from an uploaded snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}/snapshots/recover",
+      "operationId": "recover_from_snapshot",
+      "summary": "Recover from a snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/snapshots",
+      "operationId": "list_snapshots",
+      "summary": "List collection snapshots",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/snapshots",
+      "operationId": "create_snapshot",
+      "summary": "Create collection snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/snapshots/{snapshot_name}",
+      "operationId": "get_snapshot",
+      "summary": "Download collection snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/collections/{collection_name}/snapshots/{snapshot_name}",
+      "operationId": "delete_snapshot",
+      "summary": "Delete collection snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/snapshots",
+      "operationId": "list_full_snapshots",
+      "summary": "List of storage snapshots",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/snapshots",
+      "operationId": "create_full_snapshot",
+      "summary": "Create storage snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/snapshots/{snapshot_name}",
+      "operationId": "get_full_snapshot",
+      "summary": "Download storage snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/snapshots/{snapshot_name}",
+      "operationId": "delete_full_snapshot",
+      "summary": "Delete storage snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/shards/{shard_id}/snapshot",
+      "operationId": "stream_shard_snapshot",
+      "summary": "Download shard snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/shards/{shard_id}/snapshots/upload",
+      "operationId": "recover_shard_from_uploaded_snapshot",
+      "summary": "Recover shard from an uploaded snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}/shards/{shard_id}/snapshots/recover",
+      "operationId": "recover_shard_from_snapshot",
+      "summary": "Recover from a snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/shards/{shard_id}/snapshots",
+      "operationId": "list_shard_snapshots",
+      "summary": "List shards snapshots for a collection",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/shards/{shard_id}/snapshots",
+      "operationId": "create_shard_snapshot",
+      "summary": "Create shard snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/shards/{shard_id}/snapshots/{snapshot_name}",
+      "operationId": "get_shard_snapshot",
+      "summary": "Download collection snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/collections/{collection_name}/shards/{shard_id}/snapshots/{snapshot_name}",
+      "operationId": "delete_shard_snapshot",
+      "summary": "Delete shard snapshot",
+      "tags": [
+        "Snapshots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/collections/{collection_name}/points/{id}",
+      "operationId": "get_point",
+      "summary": "Get point",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points",
+      "operationId": "get_points",
+      "summary": "Get points",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}/points",
+      "operationId": "upsert_points",
+      "summary": "Upsert points",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/delete",
+      "operationId": "delete_points",
+      "summary": "Delete points",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}/points/vectors",
+      "operationId": "update_vectors",
+      "summary": "Update vectors",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/vectors/delete",
+      "operationId": "delete_vectors",
+      "summary": "Delete vectors",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/payload",
+      "operationId": "set_payload",
+      "summary": "Set payload",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/collections/{collection_name}/points/payload",
+      "operationId": "overwrite_payload",
+      "summary": "Overwrite payload",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/payload/delete",
+      "operationId": "delete_payload",
+      "summary": "Delete payload",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/payload/clear",
+      "operationId": "clear_payload",
+      "summary": "Clear payload",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/batch",
+      "operationId": "batch_update",
+      "summary": "Batch update points",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/scroll",
+      "operationId": "scroll_points",
+      "summary": "Scroll points",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/search",
+      "operationId": "search_points",
+      "summary": "Search points",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/search/batch",
+      "operationId": "search_batch_points",
+      "summary": "Search batch points",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/search/groups",
+      "operationId": "search_point_groups",
+      "summary": "Search point groups",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/recommend",
+      "operationId": "recommend_points",
+      "summary": "Recommend points",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/recommend/batch",
+      "operationId": "recommend_batch_points",
+      "summary": "Recommend batch points",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/recommend/groups",
+      "operationId": "recommend_point_groups",
+      "summary": "Recommend point groups",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/discover",
+      "operationId": "discover_points",
+      "summary": "Discover points",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/discover/batch",
+      "operationId": "discover_batch_points",
+      "summary": "Discover batch points",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/count",
+      "operationId": "count_points",
+      "summary": "Count points",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/facet",
+      "operationId": "facet",
+      "summary": "Facet a payload key with a given filter.",
+      "tags": [
+        "Points"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/query",
+      "operationId": "query_points",
+      "summary": "Query points",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/query/batch",
+      "operationId": "query_batch_points",
+      "summary": "Query points in batch",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/query/groups",
+      "operationId": "query_points_groups",
+      "summary": "Query points, grouped by a given payload field",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/search/matrix/pairs",
+      "operationId": "search_matrix_pairs",
+      "summary": "Search points matrix distance pairs",
+      "tags": [
+        "Search"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/collections/{collection_name}/points/search/matrix/offsets",
+      "operationId": "search_matrix_offsets",
+      "summary": "Search points matrix distance offsets",
+      "tags": [
+        "Search"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Image",
+  "title": "Image",
+  "description": "WARN: Work-in-progress, unimplemented\n\nImage object for embedding. Requires inference infrastructure, unimplemented.",
+  "type": "object",
+  "required": [
+    "image",
+    "model"
+  ],
+  "properties": {
+    "image": {
+      "description": "Image data: base64 encoded image or an URL",
+      "example": "https://example.com/image.jpg"
+    },
+    "model": {
+      "description": "Name of the model used to generate the vector. List of available models depends on a provider.",
+      "type": "string",
+      "minLength": 1,
+      "example": "Qdrant/clip-ViT-B-32-vision"
+    },
+    "options": {
+      "description": "Parameters for the model Values of the parameters are model-specific",
+      "type": "object",
+      "additionalProperties": true,
+      "nullable": true
+    }
+  }
+}

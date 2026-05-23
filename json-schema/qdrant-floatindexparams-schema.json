@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FloatIndexParams",
+  "title": "FloatIndexParams",
+  "type": "object",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "$ref": "#/components/schemas/FloatIndexType"
+    },
+    "is_principal": {
+      "description": "If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "on_disk": {
+      "description": "If true, store the index on disk. Default: false.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "enable_hnsw": {
+      "description": "Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.",
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

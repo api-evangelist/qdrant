@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IsEmptyCondition",
+  "title": "IsEmptyCondition",
+  "description": "Select points with empty payload for a specified field",
+  "type": "object",
+  "required": [
+    "is_empty"
+  ],
+  "properties": {
+    "is_empty": {
+      "$ref": "#/components/schemas/PayloadField"
+    }
+  }
+}

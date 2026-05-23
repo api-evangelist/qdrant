@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PeerMetadata",
+  "title": "PeerMetadata",
+  "description": "Metadata describing extra properties for each peer",
+  "type": "object",
+  "required": [
+    "version"
+  ],
+  "properties": {
+    "version": {
+      "description": "Peer Qdrant version",
+      "type": "string"
+    }
+  }
+}

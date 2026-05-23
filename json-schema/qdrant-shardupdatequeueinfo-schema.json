@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardUpdateQueueInfo",
+  "title": "ShardUpdateQueueInfo",
+  "type": "object",
+  "required": [
+    "length"
+  ],
+  "properties": {
+    "length": {
+      "description": "Number of elements in the queue",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "op_num": {
+      "description": "last operation number processed",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "deferred_points": {
+      "description": "Number of points that are deferred (i.e hidden from search as they're not yet optimized).",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SparseVector",
+  "title": "SparseVector",
+  "description": "Sparse vector structure",
+  "type": "object",
+  "required": [
+    "indices",
+    "values"
+  ],
+  "properties": {
+    "indices": {
+      "description": "Indices must be unique",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint32",
+        "minimum": 0
+      }
+    },
+    "values": {
+      "description": "Values and indices must be the same length",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "format": "float"
+      }
+    }
+  }
+}

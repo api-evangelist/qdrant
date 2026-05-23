@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DiscoverRequest",
+  "title": "DiscoverRequest",
+  "description": "Use context and a target to find the most similar points, constrained by the context.",
+  "type": "object",
+  "required": [
+    "limit"
+  ],
+  "properties": {
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "target": {
+      "description": "Look for vectors closest to this.\n\nWhen using the target (with or without context), the integer part of the score represents the rank with respect to the context, while the decimal part of the score relates to the distance to the target.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/RecommendExample"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "context": {
+      "description": "Pairs of { positive, negative } examples to constrain the search.\n\nWhen using only the context (without a target), a special search - called context search - is performed where pairs of points are used to generate a loss that guides the search towards the zone where most positive examples overlap. This means that the score minimizes the scenario of finding a point closer to a negative than to a positive part of a pair.\n\nSince the score of a context relates to loss, the maximum score a point can get is 0.0, and it becomes normal that many points can have a score of 0.0.\n\nFor discovery search (when including a target), the context part of the score for each pair is calculated +1 if the point is closer to a positive than to a negative part of a pair, and -1 otherwise.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ContextExamplePair"
+      },
+      "nullable": true
+    },
+    "filter": {
+      "description": "Look only for points which satisfies this conditions",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "params": {
+      "description": "Additional search params",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SearchParams"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "limit": {
+      "description": "Max number of result to return",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1
+    },
+    "offset": {
+      "description": "Offset of the first result to return. May be used to paginate results. Note: large offset values may cause performance issues.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "with_payload": {
+      "description": "Select which payload to return with the response. Default is false.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithPayloadInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "with_vector": {
+      "description": "Options for specifying which vectors to include into response. Default is false.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithVector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "using": {
+      "description": "Define which vector to use for recommendation, if not specified - try to use default vector",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/UsingVector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "lookup_from": {
+      "description": "The location used to lookup vectors. If not specified - use current collection. Note: the other collection should have the same vector size as the current collection",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/LookupLocation"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

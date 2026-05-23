@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WithPayloadInterface",
+  "title": "WithPayloadInterface",
+  "description": "Options for specifying which payload to include or not",
+  "anyOf": [
+    {
+      "description": "If `true` - return all payload, If `false` - do not return payload",
+      "type": "boolean"
+    },
+    {
+      "description": "Specify which fields to return",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    {
+      "$ref": "#/components/schemas/PayloadSelector"
+    }
+  ]
+}

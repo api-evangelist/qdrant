@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GeoPolygon",
+  "title": "GeoPolygon",
+  "description": "Geo filter request\n\nMatches coordinates inside the polygon, defined by `exterior` and `interiors`",
+  "type": "object",
+  "required": [
+    "exterior"
+  ],
+  "properties": {
+    "exterior": {
+      "$ref": "#/components/schemas/GeoLineString"
+    },
+    "interiors": {
+      "description": "Interior lines (if present) bound holes within the surface each GeoLineString must consist of a minimum of 4 points, and the first and last points must be the same.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/GeoLineString"
+      },
+      "nullable": true
+    }
+  }
+}

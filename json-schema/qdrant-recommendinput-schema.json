@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecommendInput",
+  "title": "RecommendInput",
+  "type": "object",
+  "properties": {
+    "positive": {
+      "description": "Look for vectors closest to the vectors from these points",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/VectorInput"
+      },
+      "nullable": true
+    },
+    "negative": {
+      "description": "Try to avoid vectors like the vector from these points",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/VectorInput"
+      },
+      "nullable": true
+    },
+    "strategy": {
+      "description": "How to use the provided vectors to find the results",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/RecommendStrategy"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

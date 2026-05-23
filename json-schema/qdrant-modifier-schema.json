@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Modifier",
+  "title": "Modifier",
+  "description": "If used, include weight modification, which will be applied to sparse vectors at query time: None - no modification (default) Idf - inverse document frequency, based on statistics of the collection",
+  "type": "string",
+  "enum": [
+    "none",
+    "idf"
+  ]
+}

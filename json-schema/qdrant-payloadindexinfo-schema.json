@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PayloadIndexInfo",
+  "title": "PayloadIndexInfo",
+  "description": "Display payload field type & index information",
+  "type": "object",
+  "required": [
+    "data_type",
+    "points"
+  ],
+  "properties": {
+    "data_type": {
+      "$ref": "#/components/schemas/PayloadSchemaType"
+    },
+    "params": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/PayloadSchemaParams"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "points": {
+      "description": "Number of points indexed with this index",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

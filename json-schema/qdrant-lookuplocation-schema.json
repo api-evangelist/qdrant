@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/LookupLocation",
+  "title": "LookupLocation",
+  "description": "Defines a location to use for looking up the vector. Specifies collection and vector field name.",
+  "type": "object",
+  "required": [
+    "collection"
+  ],
+  "properties": {
+    "collection": {
+      "description": "Name of the collection used for lookup",
+      "type": "string"
+    },
+    "vector": {
+      "description": "Optional name of the vector field within the collection. If not provided, the default vector field will be used.",
+      "default": null,
+      "type": "string",
+      "nullable": true
+    },
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

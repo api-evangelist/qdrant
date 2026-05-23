@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StrictModeMultivector",
+  "title": "StrictModeMultivector",
+  "type": "object",
+  "properties": {
+    "max_vectors": {
+      "description": "Max number of vectors in a multivector",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1,
+      "nullable": true
+    }
+  }
+}

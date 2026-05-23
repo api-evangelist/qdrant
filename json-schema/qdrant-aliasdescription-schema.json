@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AliasDescription",
+  "title": "AliasDescription",
+  "type": "object",
+  "required": [
+    "alias_name",
+    "collection_name"
+  ],
+  "properties": {
+    "alias_name": {
+      "type": "string"
+    },
+    "collection_name": {
+      "type": "string"
+    }
+  },
+  "example": {
+    "alias_name": "blogs-title",
+    "collection_name": "arivx-title"
+  }
+}

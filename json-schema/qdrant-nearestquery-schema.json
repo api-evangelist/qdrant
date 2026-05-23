@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NearestQuery",
+  "title": "NearestQuery",
+  "type": "object",
+  "required": [
+    "nearest"
+  ],
+  "properties": {
+    "nearest": {
+      "$ref": "#/components/schemas/VectorInput"
+    },
+    "mmr": {
+      "description": "Perform MMR (Maximal Marginal Relevance) reranking after search, using the same vector in this query to calculate relevance.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Mmr"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

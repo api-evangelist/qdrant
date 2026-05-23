@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DistributedTelemetryData",
+  "title": "DistributedTelemetryData",
+  "type": "object",
+  "required": [
+    "collections"
+  ],
+  "properties": {
+    "collections": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/DistributedCollectionTelemetry"
+      }
+    },
+    "cluster": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/DistributedClusterTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

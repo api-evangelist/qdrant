@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/MatchExcept",
+  "title": "MatchExcept",
+  "description": "Should have at least one value not matching the any given values",
+  "type": "object",
+  "required": [
+    "except"
+  ],
+  "properties": {
+    "except": {
+      "$ref": "#/components/schemas/AnyVariants"
+    }
+  }
+}

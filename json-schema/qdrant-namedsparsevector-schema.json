@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NamedSparseVector",
+  "title": "NamedSparseVector",
+  "description": "Sparse vector data with name",
+  "type": "object",
+  "required": [
+    "name",
+    "vector"
+  ],
+  "properties": {
+    "name": {
+      "description": "Name of vector data",
+      "type": "string"
+    },
+    "vector": {
+      "$ref": "#/components/schemas/SparseVector"
+    }
+  }
+}

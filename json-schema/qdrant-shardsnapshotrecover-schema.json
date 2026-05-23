@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardSnapshotRecover",
+  "title": "ShardSnapshotRecover",
+  "type": "object",
+  "required": [
+    "location"
+  ],
+  "properties": {
+    "location": {
+      "$ref": "#/components/schemas/ShardSnapshotLocation"
+    },
+    "priority": {
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SnapshotPriority"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "checksum": {
+      "description": "Optional SHA256 checksum to verify snapshot integrity before recovery.",
+      "default": null,
+      "type": "string",
+      "nullable": true
+    },
+    "api_key": {
+      "description": "Optional API key used when fetching the snapshot from a remote URL.",
+      "default": null,
+      "type": "string",
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorsConfig",
+  "title": "VectorsConfig",
+  "description": "Vector params separator for single and multiple vector modes Single mode:\n\n{ \"size\": 128, \"distance\": \"Cosine\" }\n\nor multiple mode:\n\n{ \"default\": { \"size\": 128, \"distance\": \"Cosine\" } }",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/VectorParams"
+    },
+    {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/VectorParams"
+      }
+    }
+  ]
+}

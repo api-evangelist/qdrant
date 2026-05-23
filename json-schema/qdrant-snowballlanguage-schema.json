@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SnowballLanguage",
+  "title": "SnowballLanguage",
+  "description": "Languages supported by snowball stemmer.",
+  "type": "string",
+  "enum": [
+    "arabic",
+    "armenian",
+    "danish",
+    "dutch",
+    "english",
+    "finnish",
+    "french",
+    "german",
+    "greek",
+    "hungarian",
+    "italian",
+    "norwegian",
+    "portuguese",
+    "romanian",
+    "russian",
+    "spanish",
+    "swedish",
+    "tamil",
+    "turkish"
+  ]
+}

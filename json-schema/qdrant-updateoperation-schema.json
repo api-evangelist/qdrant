@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateOperation",
+  "title": "UpdateOperation",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/UpsertOperation"
+    },
+    {
+      "$ref": "#/components/schemas/DeleteOperation"
+    },
+    {
+      "$ref": "#/components/schemas/SetPayloadOperation"
+    },
+    {
+      "$ref": "#/components/schemas/OverwritePayloadOperation"
+    },
+    {
+      "$ref": "#/components/schemas/DeletePayloadOperation"
+    },
+    {
+      "$ref": "#/components/schemas/ClearPayloadOperation"
+    },
+    {
+      "$ref": "#/components/schemas/UpdateVectorsOperation"
+    },
+    {
+      "$ref": "#/components/schemas/DeleteVectorsOperation"
+    }
+  ]
+}

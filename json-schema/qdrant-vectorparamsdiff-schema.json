@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorParamsDiff",
+  "title": "VectorParamsDiff",
+  "type": "object",
+  "properties": {
+    "hnsw_config": {
+      "description": "Update params for HNSW index. If empty object - it will be unset.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/HnswConfigDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "quantization_config": {
+      "description": "Update params for quantization. If none - it is left unchanged.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/QuantizationConfigDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "on_disk": {
+      "description": "If true, vectors are served from disk, improving RAM usage at the cost of latency",
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

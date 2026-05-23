@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/IsNullCondition",
+  "title": "IsNullCondition",
+  "description": "Select points with null payload for a specified field",
+  "type": "object",
+  "required": [
+    "is_null"
+  ],
+  "properties": {
+    "is_null": {
+      "$ref": "#/components/schemas/PayloadField"
+    }
+  }
+}

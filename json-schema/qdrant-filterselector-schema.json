@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FilterSelector",
+  "title": "FilterSelector",
+  "type": "object",
+  "required": [
+    "filter"
+  ],
+  "properties": {
+    "filter": {
+      "$ref": "#/components/schemas/Filter"
+    },
+    "shard_key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StopwordsSet",
+  "title": "StopwordsSet",
+  "type": "object",
+  "properties": {
+    "languages": {
+      "description": "Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Language"
+      },
+      "uniqueItems": true,
+      "nullable": true
+    },
+    "custom": {
+      "description": "Custom stopwords set. Will be merged with the languages set.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true,
+      "nullable": true
+    }
+  }
+}

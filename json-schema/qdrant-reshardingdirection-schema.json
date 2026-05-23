@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ReshardingDirection",
+  "title": "ReshardingDirection",
+  "description": "Resharding direction, scale up or down in number of shards\n\n- `up` - Scale up, add a new shard\n\n- `down` - Scale down, remove a shard",
+  "type": "string",
+  "enum": [
+    "up",
+    "down"
+  ]
+}

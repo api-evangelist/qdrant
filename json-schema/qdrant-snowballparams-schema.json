@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SnowballParams",
+  "title": "SnowballParams",
+  "type": "object",
+  "required": [
+    "language",
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "$ref": "#/components/schemas/Snowball"
+    },
+    "language": {
+      "$ref": "#/components/schemas/SnowballLanguage"
+    }
+  }
+}

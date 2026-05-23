@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SearchMatrixPairsResponse",
+  "title": "SearchMatrixPairsResponse",
+  "type": "object",
+  "required": [
+    "pairs"
+  ],
+  "properties": {
+    "pairs": {
+      "description": "List of pairs of points with scores",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/SearchMatrixPair"
+      }
+    }
+  }
+}

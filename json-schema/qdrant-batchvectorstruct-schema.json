@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BatchVectorStruct",
+  "title": "BatchVectorStruct",
+  "anyOf": [
+    {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Vector"
+        }
+      }
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Document"
+      }
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/Image"
+      }
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/InferenceObject"
+      }
+    }
+  ]
+}

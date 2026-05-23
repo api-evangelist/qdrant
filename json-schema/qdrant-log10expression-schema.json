@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Log10Expression",
+  "title": "Log10Expression",
+  "type": "object",
+  "required": [
+    "log10"
+  ],
+  "properties": {
+    "log10": {
+      "$ref": "#/components/schemas/Expression"
+    }
+  }
+}

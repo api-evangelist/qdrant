@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FeatureFlags",
+  "title": "FeatureFlags",
+  "type": "object",
+  "properties": {
+    "all": {
+      "description": "Magic feature flag that enables all features.\n\nNote that this will only be applied to all flags when passed into [`init_feature_flags`].",
+      "default": false,
+      "type": "boolean"
+    },
+    "payload_index_skip_rocksdb": {
+      "description": "Skip usage of RocksDB in new immutable payload indices.\n\nFirst implemented in Qdrant 1.13.5. Enabled by default in Qdrant 1.14.1.",
+      "default": true,
+      "type": "boolean"
+    },
+    "payload_index_skip_mutable_rocksdb": {
+      "description": "Skip usage of RocksDB in new mutable payload indices.\n\nFirst implemented in Qdrant 1.15.0. Enabled by default in Qdrant 1.16.0.",
+      "default": true,
+      "type": "boolean"
+    },
+    "payload_storage_skip_rocksdb": {
+      "description": "Skip usage of RocksDB in new payload storages.\n\nOn-disk payload storages never use Gridstore.\n\nFirst implemented in Qdrant 1.15.0. Enabled by default in Qdrant 1.16.0.",
+      "default": true,
+      "type": "boolean"
+    },
+    "incremental_hnsw_building": {
+      "description": "Use incremental HNSW building.\n\nEnabled by default in Qdrant 1.14.1.",
+      "default": true,
+      "type": "boolean"
+    },
+    "migrate_rocksdb_id_tracker": {
+      "description": "Migrate RocksDB based ID trackers into file based ID tracker on start.\n\nEnabled by default in Qdrant 1.15.0.",
+      "default": true,
+      "type": "boolean"
+    },
+    "migrate_rocksdb_vector_storage": {
+      "description": "Migrate RocksDB based vector storages into new format on start.\n\nEnabled by default in Qdrant 1.16.1.",
+      "default": true,
+      "type": "boolean"
+    },
+    "migrate_rocksdb_payload_storage": {
+      "description": "Migrate RocksDB based payload storages into new format on start.\n\nEnabled by default in Qdrant 1.16.1.",
+      "default": true,
+      "type": "boolean"
+    },
+    "migrate_rocksdb_payload_indices": {
+      "description": "Migrate RocksDB based payload indices into new format on start.\n\nRebuilds a new payload index from scratch.\n\nEnabled by default in Qdrant 1.16.1.",
+      "default": true,
+      "type": "boolean"
+    },
+    "appendable_quantization": {
+      "description": "Use appendable quantization in appendable plain segments.\n\nEnabled by default in Qdrant 1.16.0.",
+      "default": true,
+      "type": "boolean"
+    },
+    "single_file_mmap_vector_storage": {
+      "description": "Use single-file mmap in-ram vector storage (InRamMmap)\n\nEnabled by default in Qdrant 1.17.1+",
+      "default": false,
+      "type": "boolean"
+    }
+  }
+}

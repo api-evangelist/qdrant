@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Bm25Config",
+  "title": "Bm25Config",
+  "description": "Configuration of the local bm25 models.",
+  "type": "object",
+  "properties": {
+    "k": {
+      "description": "Controls term frequency saturation. Higher values mean term frequency has more impact. Default is 1.2",
+      "default": 1.2,
+      "type": "number",
+      "format": "double"
+    },
+    "b": {
+      "description": "Controls document length normalization. Ranges from 0 (no normalization) to 1 (full normalization). Higher values mean longer documents have less impact. Default is 0.75.",
+      "default": 0.75,
+      "type": "number",
+      "format": "double"
+    },
+    "avg_len": {
+      "description": "Expected average document length in the collection. Default is 256.",
+      "default": 256,
+      "type": "number",
+      "format": "double"
+    },
+    "tokenizer": {
+      "$ref": "#/components/schemas/TokenizerType"
+    },
+    "language": {
+      "description": "Defines which language to use for text preprocessing. This parameter is used to construct default stopwords filter and stemmer. To disable language-specific processing, set this to `\"language\": \"none\"`. If not specified, English is assumed.",
+      "type": "string",
+      "nullable": true
+    },
+    "lowercase": {
+      "description": "Lowercase the text before tokenization. Default is `true`.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "ascii_folding": {
+      "description": "If true, normalize tokens by folding accented characters to ASCII (e.g., \"a\u00e7\u00e3o\" -> \"acao\"). Default is `false`.",
+      "type": "boolean",
+      "nullable": true
+    },
+    "stopwords": {
+      "description": "Configuration of the stopwords filter. Supports list of pre-defined languages and custom stopwords. Default: initialized for specified `language` or English if not specified.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StopwordsInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "stemmer": {
+      "description": "Configuration of the stemmer. Processes tokens to their root form. Default: initialized Snowball stemmer for specified `language` or English if not specified.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StemmingAlgorithm"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "min_token_len": {
+      "description": "Minimum token length to keep. If token is shorter than this, it will be discarded. Default is `None`, which means no minimum length.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "max_token_len": {
+      "description": "Maximum token length to keep. If token is longer than this, it will be discarded. Default is `None`, which means no maximum length.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WithVector",
+  "title": "WithVector",
+  "description": "Options for specifying which vector to include",
+  "anyOf": [
+    {
+      "description": "If `true` - return all vector, If `false` - do not return vector",
+      "type": "boolean"
+    },
+    {
+      "description": "Specify which vector to return",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  ]
+}

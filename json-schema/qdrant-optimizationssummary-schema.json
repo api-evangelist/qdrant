@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OptimizationsSummary",
+  "title": "OptimizationsSummary",
+  "type": "object",
+  "required": [
+    "idle_segments",
+    "queued_optimizations",
+    "queued_points",
+    "queued_segments"
+  ],
+  "properties": {
+    "queued_optimizations": {
+      "description": "Number of pending optimizations in the queue. Each optimization will take one or more unoptimized segments and produce one optimized segment.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "queued_segments": {
+      "description": "Number of unoptimized segments in the queue.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "queued_points": {
+      "description": "Number of points in unoptimized segments in the queue.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "idle_segments": {
+      "description": "Number of segments that don't require optimization.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

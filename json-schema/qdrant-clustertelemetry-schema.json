@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ClusterTelemetry",
+  "title": "ClusterTelemetry",
+  "type": "object",
+  "required": [
+    "enabled"
+  ],
+  "properties": {
+    "enabled": {
+      "type": "boolean"
+    },
+    "status": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ClusterStatusTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ClusterConfigTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "peers": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/PeerInfo"
+      },
+      "nullable": true
+    },
+    "peer_metadata": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/PeerMetadata"
+      },
+      "nullable": true
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "nullable": true
+    },
+    "resharding_enabled": {
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

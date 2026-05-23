@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DeleteOperation",
+  "title": "DeleteOperation",
+  "type": "object",
+  "required": [
+    "delete"
+  ],
+  "properties": {
+    "delete": {
+      "$ref": "#/components/schemas/PointsSelector"
+    }
+  }
+}

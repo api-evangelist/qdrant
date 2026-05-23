@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AppFeaturesTelemetry",
+  "title": "AppFeaturesTelemetry",
+  "type": "object",
+  "required": [
+    "debug",
+    "gpu",
+    "recovery_mode",
+    "rocksdb",
+    "service_debug_feature",
+    "staging"
+  ],
+  "properties": {
+    "debug": {
+      "type": "boolean"
+    },
+    "service_debug_feature": {
+      "type": "boolean"
+    },
+    "recovery_mode": {
+      "type": "boolean"
+    },
+    "gpu": {
+      "type": "boolean"
+    },
+    "rocksdb": {
+      "type": "boolean"
+    },
+    "staging": {
+      "type": "boolean"
+    }
+  }
+}

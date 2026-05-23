@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorsConfigDiff",
+  "title": "VectorsConfigDiff",
+  "description": "Vector update params for multiple vectors\n\n{ \"vector_name\": { \"hnsw_config\": { \"m\": 8 } } }",
+  "type": "object",
+  "additionalProperties": {
+    "$ref": "#/components/schemas/VectorParamsDiff"
+  }
+}

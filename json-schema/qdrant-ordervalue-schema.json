@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderValue",
+  "title": "OrderValue",
+  "anyOf": [
+    {
+      "type": "integer",
+      "format": "int64",
+      "example": 42
+    },
+    {
+      "type": "number",
+      "format": "double",
+      "example": 42.5
+    }
+  ]
+}

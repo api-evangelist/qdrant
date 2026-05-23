@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OrderByQuery",
+  "title": "OrderByQuery",
+  "type": "object",
+  "required": [
+    "order_by"
+  ],
+  "properties": {
+    "order_by": {
+      "$ref": "#/components/schemas/OrderByInterface"
+    }
+  }
+}

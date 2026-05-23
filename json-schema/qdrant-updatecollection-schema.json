@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateCollection",
+  "title": "UpdateCollection",
+  "description": "Operation for updating parameters of the existing collection",
+  "type": "object",
+  "properties": {
+    "vectors": {
+      "description": "Map of vector data parameters to update for each named vector. To update parameters in a collection having a single unnamed vector, use an empty string as name.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/VectorsConfigDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "optimizers_config": {
+      "description": "Custom params for Optimizers.  If none - it is left unchanged. This operation is blocking, it will only proceed once all current optimizations are complete",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/OptimizersConfigDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "params": {
+      "description": "Collection base params. If none - it is left unchanged.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/CollectionParamsDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "hnsw_config": {
+      "description": "HNSW parameters to update for the collection index. If none - it is left unchanged.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/HnswConfigDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "quantization_config": {
+      "description": "Quantization parameters to update. If none - it is left unchanged.",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/QuantizationConfigDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "sparse_vectors": {
+      "description": "Map of sparse vector data parameters to update for each sparse vector.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SparseVectorsConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "strict_mode_config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StrictModeConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "metadata": {
+      "description": "Metadata to update for the collection. If provided, this will merge with existing metadata. To remove metadata, set it to an empty object.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Payload"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

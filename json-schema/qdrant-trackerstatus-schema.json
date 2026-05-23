@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TrackerStatus",
+  "title": "TrackerStatus",
+  "description": "Represents the current state of the optimizer being tracked",
+  "oneOf": [
+    {
+      "type": "string",
+      "enum": [
+        "optimizing",
+        "done"
+      ]
+    },
+    {
+      "type": "object",
+      "required": [
+        "cancelled"
+      ],
+      "properties": {
+        "cancelled": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}

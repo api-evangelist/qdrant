@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorParams",
+  "title": "VectorParams",
+  "description": "Params of single vector data storage",
+  "type": "object",
+  "required": [
+    "distance",
+    "size"
+  ],
+  "properties": {
+    "size": {
+      "description": "Size of a vectors used",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 1
+    },
+    "distance": {
+      "$ref": "#/components/schemas/Distance"
+    },
+    "hnsw_config": {
+      "description": "Custom params for HNSW index. If none - values from collection configuration are used.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/HnswConfigDiff"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "quantization_config": {
+      "description": "Custom params for quantization. If none - values from collection configuration are used.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/QuantizationConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "on_disk": {
+      "description": "If true, vectors are served from disk, improving RAM usage at the cost of latency Default: false",
+      "type": "boolean",
+      "nullable": true
+    },
+    "datatype": {
+      "description": "Defines which datatype should be used to represent vectors in the storage. Choosing different datatypes allows to optimize memory usage and performance vs accuracy.\n\n- For `float32` datatype - vectors are stored as single-precision floating point numbers, 4 bytes. - For `float16` datatype - vectors are stored as half-precision floating point numbers, 2 bytes. - For `uint8` datatype - vectors are stored as unsigned 8-bit integers, 1 byte. It expects vector elements to be in range `[0, 255]`.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Datatype"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "multivector_config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/MultiVectorConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

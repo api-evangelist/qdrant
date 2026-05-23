@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateShardingKeyOperation",
+  "title": "CreateShardingKeyOperation",
+  "type": "object",
+  "required": [
+    "create_sharding_key"
+  ],
+  "properties": {
+    "create_sharding_key": {
+      "$ref": "#/components/schemas/CreateShardingKey"
+    }
+  }
+}

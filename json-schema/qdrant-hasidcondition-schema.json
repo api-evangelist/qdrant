@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HasIdCondition",
+  "title": "HasIdCondition",
+  "description": "ID-based filtering condition",
+  "type": "object",
+  "required": [
+    "has_id"
+  ],
+  "properties": {
+    "has_id": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtendedPointId"
+      },
+      "uniqueItems": true
+    }
+  }
+}

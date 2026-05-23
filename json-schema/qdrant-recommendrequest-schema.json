@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecommendRequest",
+  "title": "RecommendRequest",
+  "description": "Recommendation request. Provides positive and negative examples of the vectors, which can be ids of points that are already stored in the collection, raw vectors, or even ids and vectors combined.\n\nService should look for the points which are closer to positive examples and at the same time further to negative examples. The concrete way of how to compare negative and positive distances is up to the `strategy` chosen.",
+  "type": "object",
+  "required": [
+    "limit"
+  ],
+  "properties": {
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "positive": {
+      "description": "Look for vectors closest to those",
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/RecommendExample"
+      }
+    },
+    "negative": {
+      "description": "Try to avoid vectors like this",
+      "default": [],
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/RecommendExample"
+      }
+    },
+    "strategy": {
+      "description": "How to use positive and negative examples to find the results",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/RecommendStrategy"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "filter": {
+      "description": "Look only for points which satisfies this conditions",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "params": {
+      "description": "Additional search params",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SearchParams"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "limit": {
+      "description": "Max number of result to return",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1
+    },
+    "offset": {
+      "description": "Offset of the first result to return. May be used to paginate results. Note: large offset values may cause performance issues.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "with_payload": {
+      "description": "Select which payload to return with the response. Default is false.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithPayloadInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "with_vector": {
+      "description": "Options for specifying which vectors to include into response. Default is false.",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithVector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "score_threshold": {
+      "description": "Define a minimal score threshold for the result. If defined, less similar results will not be returned. Score of the returned result might be higher or smaller than the threshold depending on the Distance function used. E.g. for cosine similarity only higher scores will be returned.",
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    },
+    "using": {
+      "description": "Define which vector to use for recommendation, if not specified - try to use default vector",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/UsingVector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "lookup_from": {
+      "description": "The location used to lookup vectors. If not specified - use current collection. Note: the other collection should have the same vector size as the current collection",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/LookupLocation"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

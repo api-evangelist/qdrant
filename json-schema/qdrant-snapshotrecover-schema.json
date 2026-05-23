@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SnapshotRecover",
+  "title": "SnapshotRecover",
+  "type": "object",
+  "required": [
+    "location"
+  ],
+  "properties": {
+    "location": {
+      "description": "Examples: - URL `http://localhost:8080/collections/my_collection/snapshots/my_snapshot` - Local path `file:///qdrant/snapshots/test_collection-2022-08-04-10-49-10.snapshot`",
+      "type": "string",
+      "format": "uri"
+    },
+    "priority": {
+      "description": "Defines which data should be used as a source of truth if there are other replicas in the cluster. If set to `Snapshot`, the snapshot will be used as a source of truth, and the current state will be overwritten. If set to `Replica`, the current state will be used as a source of truth, and after recovery if will be synchronized with the snapshot.",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SnapshotPriority"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "checksum": {
+      "description": "Optional SHA256 checksum to verify snapshot integrity before recovery.",
+      "default": null,
+      "type": "string",
+      "nullable": true
+    },
+    "api_key": {
+      "description": "Optional API key used when fetching the snapshot from a remote URL.",
+      "default": null,
+      "type": "string",
+      "nullable": true
+    }
+  }
+}

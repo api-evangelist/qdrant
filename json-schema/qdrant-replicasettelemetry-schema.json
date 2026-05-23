@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ReplicaSetTelemetry",
+  "title": "ReplicaSetTelemetry",
+  "type": "object",
+  "required": [
+    "id",
+    "remote",
+    "replicate_states"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKey"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "local": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/LocalShardTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "remote": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/RemoteShardTelemetry"
+      }
+    },
+    "replicate_states": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/ReplicaState"
+      }
+    },
+    "partial_snapshot": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/PartialSnapshotTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DeleteAliasOperation",
+  "title": "DeleteAliasOperation",
+  "description": "Delete alias if exists",
+  "type": "object",
+  "required": [
+    "delete_alias"
+  ],
+  "properties": {
+    "delete_alias": {
+      "$ref": "#/components/schemas/DeleteAlias"
+    }
+  }
+}

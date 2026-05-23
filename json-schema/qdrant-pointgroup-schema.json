@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PointGroup",
+  "title": "PointGroup",
+  "type": "object",
+  "required": [
+    "hits",
+    "id"
+  ],
+  "properties": {
+    "hits": {
+      "description": "Scored points that have the same value of the group_by key",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ScoredPoint"
+      }
+    },
+    "id": {
+      "$ref": "#/components/schemas/GroupId"
+    },
+    "lookup": {
+      "description": "Record that has been looked up using the group id",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Record"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PendingOptimization",
+  "title": "PendingOptimization",
+  "type": "object",
+  "required": [
+    "optimizer",
+    "segments"
+  ],
+  "properties": {
+    "optimizer": {
+      "description": "Name of the optimizer that scheduled this optimization.",
+      "type": "string"
+    },
+    "segments": {
+      "description": "Segments that will be optimized.",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/OptimizationSegmentInfo"
+      }
+    }
+  }
+}

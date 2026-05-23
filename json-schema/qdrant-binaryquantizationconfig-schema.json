@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BinaryQuantizationConfig",
+  "title": "BinaryQuantizationConfig",
+  "type": "object",
+  "properties": {
+    "always_ram": {
+      "type": "boolean",
+      "nullable": true
+    },
+    "encoding": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/BinaryQuantizationEncoding"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "query_encoding": {
+      "description": "Asymmetric quantization configuration allows a query to have different quantization than stored vectors. It can increase the accuracy of search at the cost of performance.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/BinaryQuantizationQueryEncoding"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

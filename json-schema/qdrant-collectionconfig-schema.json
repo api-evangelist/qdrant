@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionConfig",
+  "title": "CollectionConfig",
+  "description": "Information about the collection configuration",
+  "type": "object",
+  "required": [
+    "hnsw_config",
+    "optimizer_config",
+    "params"
+  ],
+  "properties": {
+    "params": {
+      "$ref": "#/components/schemas/CollectionParams"
+    },
+    "hnsw_config": {
+      "$ref": "#/components/schemas/HnswConfig"
+    },
+    "optimizer_config": {
+      "$ref": "#/components/schemas/OptimizersConfig"
+    },
+    "wal_config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WalConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "quantization_config": {
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/QuantizationConfig"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "strict_mode_config": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StrictModeConfigOutput"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "metadata": {
+      "description": "Arbitrary JSON metadata for the collection This can be used to store application-specific information such as creation time, migration data, inference model info, etc.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Payload"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

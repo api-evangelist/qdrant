@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SegmentInfo",
+  "title": "SegmentInfo",
+  "description": "Aggregated information about segment",
+  "type": "object",
+  "required": [
+    "disk_usage_bytes",
+    "index_schema",
+    "is_appendable",
+    "num_deleted_vectors",
+    "num_indexed_vectors",
+    "num_points",
+    "num_vectors",
+    "payloads_size_bytes",
+    "ram_usage_bytes",
+    "segment_type",
+    "uuid",
+    "vector_data",
+    "vectors_size_bytes"
+  ],
+  "properties": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "segment_type": {
+      "$ref": "#/components/schemas/SegmentType"
+    },
+    "num_vectors": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "num_points": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "num_deferred_points": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "num_deleted_deferred_points": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "num_indexed_vectors": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "num_deleted_vectors": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "vectors_size_bytes": {
+      "description": "An ESTIMATION of effective amount of bytes used for vectors Do NOT rely on this number unless you know what you are doing",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "payloads_size_bytes": {
+      "description": "An estimation of the effective amount of bytes used for payloads",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "ram_usage_bytes": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "disk_usage_bytes": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "is_appendable": {
+      "type": "boolean"
+    },
+    "index_schema": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/PayloadIndexInfo"
+      }
+    },
+    "vector_data": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/components/schemas/VectorDataInfo"
+      }
+    },
+    "deferred_internal_id": {
+      "description": "Internal ID from which points are deferred (hidden from reads). Only set for appendable segments.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0,
+      "nullable": true
+    }
+  }
+}

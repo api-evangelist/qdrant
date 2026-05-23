@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DistributedPeerInfo",
+  "title": "DistributedPeerInfo",
+  "type": "object",
+  "required": [
+    "responsive",
+    "uri"
+  ],
+  "properties": {
+    "uri": {
+      "description": "URI of the peer",
+      "type": "string"
+    },
+    "responsive": {
+      "description": "Whether this peer responded for this request",
+      "type": "boolean"
+    },
+    "details": {
+      "description": "If responsive, these details should be available",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/DistributedPeerDetails"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

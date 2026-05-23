@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GeoRadius",
+  "title": "GeoRadius",
+  "description": "Geo filter request\n\nMatches coordinates inside the circle of `radius` and center with coordinates `center`",
+  "type": "object",
+  "required": [
+    "center",
+    "radius"
+  ],
+  "properties": {
+    "center": {
+      "$ref": "#/components/schemas/GeoPoint"
+    },
+    "radius": {
+      "description": "Radius of the area in meters",
+      "type": "number",
+      "format": "double"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProductQuantizationConfig",
+  "title": "ProductQuantizationConfig",
+  "type": "object",
+  "required": [
+    "compression"
+  ],
+  "properties": {
+    "compression": {
+      "$ref": "#/components/schemas/CompressionRatio"
+    },
+    "always_ram": {
+      "type": "boolean",
+      "nullable": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ReplicateShardOperation",
+  "title": "ReplicateShardOperation",
+  "type": "object",
+  "required": [
+    "replicate_shard"
+  ],
+  "properties": {
+    "replicate_shard": {
+      "$ref": "#/components/schemas/ReplicateShard"
+    }
+  }
+}

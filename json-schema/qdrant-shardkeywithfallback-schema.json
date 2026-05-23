@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ShardKeyWithFallback",
+  "title": "ShardKeyWithFallback",
+  "type": "object",
+  "required": [
+    "fallback",
+    "target"
+  ],
+  "properties": {
+    "target": {
+      "$ref": "#/components/schemas/ShardKey"
+    },
+    "fallback": {
+      "$ref": "#/components/schemas/ShardKey"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/VectorIndexSearchesTelemetry",
+  "title": "VectorIndexSearchesTelemetry",
+  "type": "object",
+  "required": [
+    "filtered_exact",
+    "filtered_large_cardinality",
+    "filtered_plain",
+    "filtered_small_cardinality",
+    "filtered_sparse",
+    "unfiltered_exact",
+    "unfiltered_hnsw",
+    "unfiltered_plain",
+    "unfiltered_sparse"
+  ],
+  "properties": {
+    "index_name": {
+      "type": "string",
+      "nullable": true
+    },
+    "unfiltered_plain": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "unfiltered_hnsw": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "unfiltered_sparse": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "filtered_plain": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "filtered_small_cardinality": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "filtered_large_cardinality": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "filtered_exact": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "filtered_sparse": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    },
+    "unfiltered_exact": {
+      "$ref": "#/components/schemas/OperationDurationStatistics"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HardwareUsage",
+  "title": "HardwareUsage",
+  "description": "Usage of the hardware resources, spent to process the request",
+  "type": "object",
+  "required": [
+    "cpu",
+    "payload_index_io_read",
+    "payload_index_io_write",
+    "payload_io_read",
+    "payload_io_write",
+    "vector_io_read",
+    "vector_io_write"
+  ],
+  "properties": {
+    "cpu": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "payload_io_read": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "payload_io_write": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "payload_index_io_read": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "payload_index_io_write": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "vector_io_read": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "vector_io_write": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

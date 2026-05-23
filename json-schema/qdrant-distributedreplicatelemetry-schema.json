@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DistributedReplicaTelemetry",
+  "title": "DistributedReplicaTelemetry",
+  "type": "object",
+  "required": [
+    "peer_id",
+    "state"
+  ],
+  "properties": {
+    "peer_id": {
+      "description": "Peer ID hosting this replica",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "state": {
+      "$ref": "#/components/schemas/ReplicaState"
+    },
+    "status": {
+      "description": "Shard status",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardStatus"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "total_optimized_points": {
+      "description": "Total optimized points",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "vectors_size_bytes": {
+      "description": "Estimated vectors size in bytes",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "payloads_size_bytes": {
+      "description": "Estimated payloads size in bytes",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "num_points": {
+      "description": "Approximate number of points",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "num_vectors": {
+      "description": "Approximate number of vectors",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "num_vectors_by_name": {
+      "description": "Approximate number of vectors by name",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "format": "uint",
+        "minimum": 0
+      },
+      "nullable": true
+    },
+    "shard_cleaning_status": {
+      "description": "Shard cleaning task status. After a resharding, a cleanup task is performed to remove outdated points from this shard.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardCleanStatusTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "partial_snapshot": {
+      "description": "Partial snapshot telemetry",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/PartialSnapshotTelemetry"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

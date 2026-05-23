@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PointStruct",
+  "title": "PointStruct",
+  "type": "object",
+  "required": [
+    "id",
+    "vector"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/components/schemas/ExtendedPointId"
+    },
+    "vector": {
+      "$ref": "#/components/schemas/VectorStruct"
+    },
+    "payload": {
+      "description": "Payload values (optional)",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Payload"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

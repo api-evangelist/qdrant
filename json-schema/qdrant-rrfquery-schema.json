@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RrfQuery",
+  "title": "RrfQuery",
+  "type": "object",
+  "required": [
+    "rrf"
+  ],
+  "properties": {
+    "rrf": {
+      "$ref": "#/components/schemas/Rrf"
+    }
+  }
+}

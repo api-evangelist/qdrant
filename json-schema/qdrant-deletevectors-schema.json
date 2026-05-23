@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DeleteVectors",
+  "title": "DeleteVectors",
+  "type": "object",
+  "required": [
+    "vector"
+  ],
+  "properties": {
+    "points": {
+      "description": "Deletes values from each point in this list",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtendedPointId"
+      },
+      "nullable": true
+    },
+    "filter": {
+      "description": "Deletes values from points that satisfy this filter condition",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "vector": {
+      "description": "Vector names",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "shard_key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

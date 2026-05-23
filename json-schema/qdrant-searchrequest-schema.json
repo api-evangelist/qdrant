@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SearchRequest",
+  "title": "SearchRequest",
+  "description": "Search request. Holds all conditions and parameters for the search of most similar points by vector similarity given the filtering restrictions.",
+  "type": "object",
+  "required": [
+    "limit",
+    "vector"
+  ],
+  "properties": {
+    "shard_key": {
+      "description": "Specify in which shards to look for the points, if not specified - look in all shards",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "vector": {
+      "$ref": "#/components/schemas/NamedVectorStruct"
+    },
+    "filter": {
+      "description": "Look only for points which satisfies this conditions",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "params": {
+      "description": "Additional search params",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/SearchParams"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "limit": {
+      "description": "Max number of result to return",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 1
+    },
+    "offset": {
+      "description": "Offset of the first result to return. May be used to paginate results. Note: large offset values may cause performance issues.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0,
+      "nullable": true
+    },
+    "with_payload": {
+      "description": "Select which payload to return with the response. Default is false.",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithPayloadInterface"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "with_vector": {
+      "description": "Options for specifying which vectors to include into response. Default is false.",
+      "default": null,
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/WithVector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "score_threshold": {
+      "description": "Define a minimal score threshold for the result. If defined, less similar results will not be returned. Score of the returned result might be higher or smaller than the threshold depending on the Distance function used. E.g. for cosine similarity only higher scores will be returned.",
+      "type": "number",
+      "format": "float",
+      "nullable": true
+    }
+  }
+}

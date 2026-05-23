@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PayloadSelector",
+  "title": "PayloadSelector",
+  "description": "Specifies how to treat payload selector",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/PayloadSelectorInclude"
+    },
+    {
+      "$ref": "#/components/schemas/PayloadSelectorExclude"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionExistence",
+  "title": "CollectionExistence",
+  "description": "State of existence of a collection, true = exists, false = does not exist",
+  "type": "object",
+  "required": [
+    "exists"
+  ],
+  "properties": {
+    "exists": {
+      "type": "boolean"
+    }
+  }
+}

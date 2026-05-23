@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ReplicatePoints",
+  "title": "ReplicatePoints",
+  "type": "object",
+  "required": [
+    "from_shard_key",
+    "to_shard_key"
+  ],
+  "properties": {
+    "filter": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "from_shard_key": {
+      "$ref": "#/components/schemas/ShardKey"
+    },
+    "to_shard_key": {
+      "$ref": "#/components/schemas/ShardKey"
+    }
+  }
+}

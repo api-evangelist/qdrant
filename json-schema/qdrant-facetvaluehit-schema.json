@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FacetValueHit",
+  "title": "FacetValueHit",
+  "type": "object",
+  "required": [
+    "count",
+    "value"
+  ],
+  "properties": {
+    "value": {
+      "$ref": "#/components/schemas/FacetValue"
+    },
+    "count": {
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

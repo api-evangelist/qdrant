@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TrackerTelemetry",
+  "title": "TrackerTelemetry",
+  "description": "Tracker object used in telemetry",
+  "type": "object",
+  "required": [
+    "name",
+    "segment_ids",
+    "segment_uuids",
+    "start_at",
+    "status",
+    "uuid"
+  ],
+  "properties": {
+    "name": {
+      "description": "Name of the optimizer",
+      "type": "string"
+    },
+    "uuid": {
+      "description": "UUID of the upcoming segment being created by the optimizer",
+      "type": "string",
+      "format": "uuid"
+    },
+    "segment_ids": {
+      "description": "Internal segment IDs being optimized. These are local and in-memory, meaning that they can refer to different segments after a service restart.",
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "format": "uint",
+        "minimum": 0
+      }
+    },
+    "segment_uuids": {
+      "description": "Segment UUIDs being optimized. Refers to same segments as in `segment_ids`, but trackable across restarts, and reflect their directory name.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "status": {
+      "$ref": "#/components/schemas/TrackerStatus"
+    },
+    "start_at": {
+      "description": "Start time of the optimizer",
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_at": {
+      "description": "End time of the optimizer",
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+    }
+  }
+}

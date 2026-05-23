@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DeletePayload",
+  "title": "DeletePayload",
+  "description": "This data structure is used in API interface and applied across multiple shards",
+  "type": "object",
+  "required": [
+    "keys"
+  ],
+  "properties": {
+    "keys": {
+      "description": "List of payload keys to remove from payload",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "points": {
+      "description": "Deletes values from each point in this list",
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ExtendedPointId"
+      },
+      "nullable": true
+    },
+    "filter": {
+      "description": "Deletes values from points that satisfy this filter condition",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/Filter"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "shard_key": {
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/ShardKeySelector"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    }
+  }
+}

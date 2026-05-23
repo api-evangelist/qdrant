@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/OptimizationSegmentInfo",
+  "title": "OptimizationSegmentInfo",
+  "type": "object",
+  "required": [
+    "points_count",
+    "uuid"
+  ],
+  "properties": {
+    "uuid": {
+      "description": "Unique identifier of the segment.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "points_count": {
+      "description": "Number of non-deleted points in the segment.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    }
+  }
+}

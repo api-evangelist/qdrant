@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StartReshardingOperation",
+  "title": "StartReshardingOperation",
+  "type": "object",
+  "required": [
+    "start_resharding"
+  ],
+  "properties": {
+    "start_resharding": {
+      "$ref": "#/components/schemas/StartResharding"
+    }
+  }
+}

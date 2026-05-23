@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ContextInput",
+  "title": "ContextInput",
+  "anyOf": [
+    {
+      "$ref": "#/components/schemas/ContextPair"
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/ContextPair"
+      }
+    },
+    {
+      "nullable": true
+    }
+  ]
+}

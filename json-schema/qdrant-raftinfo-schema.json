@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RaftInfo",
+  "title": "RaftInfo",
+  "description": "Summary information about the current raft state",
+  "type": "object",
+  "required": [
+    "commit",
+    "is_voter",
+    "pending_operations",
+    "term"
+  ],
+  "properties": {
+    "term": {
+      "description": "Raft divides time into terms of arbitrary length, each beginning with an election. If a candidate wins the election, it remains the leader for the rest of the term. The term number increases monotonically. Each server stores the current term number which is also exchanged in every communication.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "commit": {
+      "description": "The index of the latest committed (finalized) operation that this peer is aware of.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "pending_operations": {
+      "description": "Number of consensus operations pending to be applied on this peer",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "leader": {
+      "description": "Leader of the current term",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0,
+      "nullable": true
+    },
+    "role": {
+      "description": "Role of this peer in the current term",
+      "anyOf": [
+        {
+          "$ref": "#/components/schemas/StateRole"
+        },
+        {
+          "nullable": true
+        }
+      ]
+    },
+    "is_voter": {
+      "description": "Is this peer a voter or a learner",
+      "type": "boolean"
+    }
+  }
+}

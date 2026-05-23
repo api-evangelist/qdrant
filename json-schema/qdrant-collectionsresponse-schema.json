@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollectionsResponse",
+  "title": "CollectionsResponse",
+  "type": "object",
+  "required": [
+    "collections"
+  ],
+  "properties": {
+    "collections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/components/schemas/CollectionDescription"
+      }
+    }
+  },
+  "example": {
+    "collections": [
+      {
+        "name": "arxiv-title"
+      },
+      {
+        "name": "arxiv-abstract"
+      },
+      {
+        "name": "medium-title"
+      },
+      {
+        "name": "medium-text"
+      }
+    ]
+  }
+}

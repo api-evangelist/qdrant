@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DropReplicaOperation",
+  "title": "DropReplicaOperation",
+  "type": "object",
+  "required": [
+    "drop_replica"
+  ],
+  "properties": {
+    "drop_replica": {
+      "$ref": "#/components/schemas/Replica"
+    }
+  }
+}

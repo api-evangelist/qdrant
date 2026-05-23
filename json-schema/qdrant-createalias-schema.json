@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateAlias",
+  "title": "CreateAlias",
+  "description": "Create alternative name for a collection. Collection will be available under both names for search, retrieve,",
+  "type": "object",
+  "required": [
+    "alias_name",
+    "collection_name"
+  ],
+  "properties": {
+    "collection_name": {
+      "type": "string"
+    },
+    "alias_name": {
+      "type": "string"
+    }
+  }
+}

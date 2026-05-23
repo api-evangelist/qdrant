@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Datatype",
+  "title": "Datatype",
+  "type": "string",
+  "enum": [
+    "float32",
+    "uint8",
+    "float16"
+  ]
+}
