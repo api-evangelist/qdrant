@@ -88,6 +88,8 @@ common:
     updated: '2026-05-04'
   - type: Integrations
     url: https://qdrant.tech/partners/
+  - type: LLMsTxt
+    url: https://qdrant.tech/llms.txt
 integrations:
   - name: logo
   - name: Partners logos
