@@ -2,12 +2,20 @@
   "repo": "qdrant",
   "feeds": [
     {
+      "source": "https://qdrant.tech/blog/index.xml",
+      "feed_url": "https://qdrant.tech/blog/index.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
       "source": "https://qdrant.tech/blog/",
       "feed_url": "https://qdrant.tech/blog/index.xml",
-      "title": "Qdrant Blog on Qdrant - Vector Search Engine",
-      "saved": 43
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
     }
   ],
-  "post_count": 53,
-  "fetched": "2026-05-17T20:20:35Z"
+  "post_count": 55,
+  "fetched": "2026-06-01T23:35:02Z"
 }
