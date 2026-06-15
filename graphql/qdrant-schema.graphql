@@ -1,0 +1,1258 @@
+"""
+Qdrant GraphQL Schema
+Derived from the Qdrant REST/gRPC API covering collection management,
+point upsert and search, payload filtering, vector quantization,
+snapshots, and cluster management.
+"""
+
+# ─── Scalar types ───────────────────────────────────────────────────────────
+
+scalar JSON
+scalar DateTime
+scalar Float32
+
+# ─── Enums ──────────────────────────────────────────────────────────────────
+
+"""Current status of a collection."""
+enum CollectionStatus {
+  GREEN
+  YELLOW
+  RED
+  GREY
+}
+
+"""Optimiser status."""
+enum OptimizerStatus {
+  OK
+  ERROR
+}
+
+"""Distance metric used for vector comparison."""
+enum Distance {
+  COSINE
+  EUCLID
+  DOT
+  MANHATTAN
+}
+
+"""Data type for vector components."""
+enum Datatype {
+  FLOAT32
+  UINT8
+  FLOAT16
+}
+
+"""Quantization method."""
+enum QuantizationType {
+  SCALAR
+  PRODUCT
+  BINARY
+}
+
+"""Product quantization compression ratio."""
+enum CompressionRatio {
+  X4
+  X8
+  X16
+  X32
+  X64
+}
+
+"""Write ordering guarantee."""
+enum WriteOrdering {
+  WEAK
+  MEDIUM
+  STRONG
+}
+
+"""Read consistency mode."""
+enum ReadConsistencyType {
+  ALL
+  MAJORITY
+  QUORUM
+}
+
+"""Shard transfer method."""
+enum ShardTransferMethod {
+  STREAM_RECORDS
+  SNAPSHOT
+  WAL_DELTA
+}
+
+"""Shard state."""
+enum ShardState {
+  ACTIVE
+  INACTIVE
+  MOVING
+  RESHARDING
+}
+
+"""Snapshot priority."""
+enum SnapshotPriority {
+  NO_SYNC
+  SNAPSHOT
+  REPLICA
+  SHARD_TRANSFER
+}
+
+"""Payload schema field types."""
+enum PayloadSchemaType {
+  KEYWORD
+  INTEGER
+  FLOAT
+  GEO
+  TEXT
+  BOOL
+  DATETIME
+  UUID
+}
+
+"""Point ID type selector."""
+enum PointIdType {
+  INTEGER
+  UUID
+}
+
+"""Condition match mode."""
+enum MatchMode {
+  ANY
+  EXCEPT
+}
+
+"""Vector fusion algorithm."""
+enum FusionAlgorithm {
+  RRF
+  DBSF
+}
+
+"""Tokenizer for full-text index."""
+enum TokenizerType {
+  PREFIX
+  WHITESPACE
+  WORD
+  MULTILINGUAL
+}
+
+"""Cluster node role."""
+enum NodeRole {
+  LISTENER
+  NORMAL
+}
+
+"""Cluster status."""
+enum ClusterStatus {
+  DISABLED
+  ENABLED
+}
+
+"""Lock options."""
+enum LockMode {
+  LOCKED
+  UNLOCKED
+}
+
+"""Direction for ordering query results."""
+enum Direction {
+  ASC
+  DESC
+}
+
+# ─── Core scalar-wrapper types ───────────────────────────────────────────────
+
+"""A point identifier — either a 64-bit unsigned integer or a UUID string."""
+type PointId {
+  intId: ID
+  uuidId: String
+}
+
+"""A dense floating-point vector."""
+type DenseVector {
+  values: [Float!]!
+}
+
+"""A sparse vector with explicit indices."""
+type SparseVector {
+  indices: [Int!]!
+  values: [Float!]!
+}
+
+"""Named vector bundle attached to a point."""
+type NamedVector {
+  name: String!
+  dense: DenseVector
+  sparse: SparseVector
+  multivec: MultiVector
+}
+
+"""Multiple dense vectors for multi-vector support."""
+type MultiVector {
+  vectors: [[Float!]!]!
+}
+
+# ─── Collection types ────────────────────────────────────────────────────────
+
+"""Top-level representation of a Qdrant collection."""
+type Collection {
+  name: String!
+  status: CollectionStatus!
+  optimizerStatus: OptimizerStatus!
+  vectorsCount: Int
+  indexedVectorsCount: Int
+  pointsCount: Int
+  segmentsCount: Int!
+  config: CollectionConfig!
+  payloadSchema: [PayloadSchemaField!]!
+}
+
+"""Collection configuration snapshot."""
+type CollectionConfig {
+  params: CollectionParams!
+  optimizerConfig: OptimizersConfig!
+  replicationFactor: Int!
+  writeConsistencyFactor: Int!
+  readFanOutFactor: Int
+  onDiskPayload: Boolean!
+  quantizationConfig: QuantizationConfig
+}
+
+"""Core per-collection parameters."""
+type CollectionParams {
+  vectors: [VectorParamsEntry!]!
+  shardNumber: Int
+  replicationFactor: Int
+  writeConsistencyFactor: Int
+  readFanOutFactor: Int
+  onDiskPayload: Boolean!
+}
+
+"""Named vector parameter entry."""
+type VectorParamsEntry {
+  name: String!
+  params: VectorParams!
+}
+
+"""Parameters for a single named vector space."""
+type VectorParams {
+  size: Int!
+  distance: Distance!
+  onDisk: Boolean
+  datatype: Datatype
+  multivectorConfig: MultivectorConfig
+  quantizationConfig: QuantizationConfig
+}
+
+"""Multi-vector configuration."""
+type MultivectorConfig {
+  comparator: String!
+}
+
+"""Optimiser tuning knobs."""
+type OptimizersConfig {
+  deletedThreshold: Float!
+  vacuumMinVectorNumber: Int!
+  defaultSegmentNumber: Int!
+  maxSegmentSize: Int
+  memmapThreshold: Int
+  indexingThreshold: Int
+  flushIntervalSec: Int!
+  maxOptimizationThreads: Int
+}
+
+"""Quantization configuration (union-like)."""
+type QuantizationConfig {
+  type: QuantizationType!
+  scalar: ScalarQuantizationConfig
+  product: ProductQuantizationConfig
+  binary: BinaryQuantizationConfig
+}
+
+"""Scalar quantization settings."""
+type ScalarQuantizationConfig {
+  quantile: Float
+  alwaysRam: Boolean
+}
+
+"""Product quantization settings."""
+type ProductQuantizationConfig {
+  compression: CompressionRatio!
+  alwaysRam: Boolean
+}
+
+"""Binary quantization settings."""
+type BinaryQuantizationConfig {
+  alwaysRam: Boolean
+}
+
+"""HNSW index configuration."""
+type HnswConfig {
+  m: Int!
+  efConstruct: Int!
+  fullScanThreshold: Int!
+  maxIndexingThreads: Int
+  onDisk: Boolean
+  payloadM: Int
+}
+
+"""WAL configuration."""
+type WalConfig {
+  walCapacityMb: Int!
+  walSegmentsAhead: Int!
+}
+
+"""Payload field schema entry."""
+type PayloadSchemaField {
+  name: String!
+  type: PayloadSchemaType!
+  params: PayloadSchemaParams
+}
+
+"""Extra parameters for payload index."""
+type PayloadSchemaParams {
+  tokenizerType: TokenizerType
+  minTokenLen: Int
+  maxTokenLen: Int
+  lowercase: Boolean
+  isTenant: Boolean
+  isPrincipal: Boolean
+  range: RangeIndexParams
+}
+
+"""Range index settings for numeric payloads."""
+type RangeIndexParams {
+  type: String
+}
+
+"""Paginated list of collection names."""
+type CollectionList {
+  collections: [CollectionSummary!]!
+}
+
+"""Brief collection summary returned in list operations."""
+type CollectionSummary {
+  name: String!
+}
+
+# ─── Point / record types ────────────────────────────────────────────────────
+
+"""A fully-populated point retrieved from Qdrant."""
+type Point {
+  id: PointId!
+  version: Int!
+  score: Float
+  payload: JSON
+  vectors: [NamedVector!]
+  shardKey: JSON
+  orderValue: JSON
+}
+
+"""Scored point returned from a search operation."""
+type ScoredPoint {
+  id: PointId!
+  version: Int!
+  score: Float!
+  payload: JSON
+  vectors: [NamedVector!]
+  shardKey: JSON
+  orderValue: JSON
+}
+
+"""Paginated points result."""
+type PointsPage {
+  points: [Point!]!
+  nextPageOffset: PointId
+}
+
+# ─── Search result wrappers ──────────────────────────────────────────────────
+
+"""Results from a single vector search."""
+type SearchResult {
+  result: [ScoredPoint!]!
+  time: Float!
+}
+
+"""Results from a batch of vector searches."""
+type BatchSearchResult {
+  results: [[ScoredPoint!]!]!
+  time: Float!
+}
+
+"""Results from a recommendation query."""
+type RecommendResult {
+  result: [ScoredPoint!]!
+  time: Float!
+}
+
+"""Results from a discovery query."""
+type DiscoverResult {
+  result: [ScoredPoint!]!
+  time: Float!
+}
+
+"""Results from a grouped search."""
+type GroupsResult {
+  groups: [PointGroup!]!
+  time: Float!
+}
+
+"""A single group in a grouped search."""
+type PointGroup {
+  id: JSON!
+  hits: [ScoredPoint!]!
+  lookup: Point
+}
+
+"""Result from count operation."""
+type CountResult {
+  count: Int!
+  time: Float!
+}
+
+# ─── Snapshot types ──────────────────────────────────────────────────────────
+
+"""A snapshot of a collection."""
+type SnapshotDescription {
+  name: String!
+  creationTime: DateTime
+  size: Int!
+  checksum: String
+}
+
+"""List of snapshots."""
+type SnapshotList {
+  result: [SnapshotDescription!]!
+  time: Float!
+}
+
+# ─── Cluster types ───────────────────────────────────────────────────────────
+
+"""Overall cluster information."""
+type ClusterInfo {
+  status: ClusterStatus!
+  peerId: ID
+  peers: [ClusterPeer!]!
+  raftInfo: RaftInfo
+  consensusThreadStatus: ConsensusThreadStatus
+  messagesSendErrors: JSON
+}
+
+"""A peer node in the cluster."""
+type ClusterPeer {
+  id: ID!
+  uri: String!
+  state: NodeRole
+  isVoter: Boolean
+  isSelf: Boolean
+}
+
+"""Raft consensus metadata."""
+type RaftInfo {
+  term: Int!
+  commit: Int!
+  pendingOperations: Int!
+  leader: ID
+  role: String
+  isVoter: Boolean!
+}
+
+"""Status of the consensus background thread."""
+type ConsensusThreadStatus {
+  consensusThreadStatus: String!
+  lastUpdate: DateTime
+}
+
+"""Collection-level cluster information."""
+type CollectionClusterInfo {
+  peerId: ID!
+  shardCount: Int!
+  localShards: [LocalShardInfo!]!
+  remoteShards: [RemoteShardInfo!]!
+  shardTransfers: [ShardTransferInfo!]!
+}
+
+"""Information about a local shard."""
+type LocalShardInfo {
+  shardId: Int!
+  pointsCount: Int!
+  state: ShardState!
+  shardKey: JSON
+}
+
+"""Information about a remote shard."""
+type RemoteShardInfo {
+  shardId: Int!
+  peerId: ID!
+  state: ShardState!
+  shardKey: JSON
+}
+
+"""Information about an ongoing shard transfer."""
+type ShardTransferInfo {
+  shardId: Int!
+  from: ID!
+  to: ID!
+  sync: Boolean!
+  method: ShardTransferMethod
+  comment: String
+}
+
+# ─── Alias types ─────────────────────────────────────────────────────────────
+
+"""A collection alias."""
+type AliasDescription {
+  aliasName: String!
+  collectionName: String!
+}
+
+"""List of aliases."""
+type AliasList {
+  aliases: [AliasDescription!]!
+}
+
+# ─── Write result types ───────────────────────────────────────────────────────
+
+"""Generic update result."""
+type UpdateResult {
+  operationId: Int
+  status: String!
+  time: Float!
+}
+
+"""Collection operation result."""
+type CollectionOperationResult {
+  result: Boolean!
+  time: Float!
+}
+
+"""Points operation result."""
+type PointsOperationResult {
+  result: UpdateResult
+  time: Float!
+}
+
+# ─── Lock types ──────────────────────────────────────────────────────────────
+
+"""Global lock state."""
+type LocksOption {
+  errorMessage: String
+  write: Boolean!
+}
+
+# ─── Telemetry type ───────────────────────────────────────────────────────────
+
+"""Telemetry data snapshot."""
+type TelemetryData {
+  id: ID!
+  app: AppBuildInfo!
+  collections: CollectionsTelemetry!
+  cluster: ClusterTelemetry
+  requests: RequestsTelemetry!
+}
+
+"""Application build metadata."""
+type AppBuildInfo {
+  name: String!
+  version: String!
+  commitId: String
+  buildTarget: String
+  cpuFeatures: String
+}
+
+"""Aggregate telemetry across all collections."""
+type CollectionsTelemetry {
+  numberOfCollections: Int!
+  collections: [CollectionTelemetry!]
+}
+
+"""Per-collection telemetry."""
+type CollectionTelemetry {
+  id: String!
+  initTime: Float!
+  config: CollectionConfig!
+  shards: [ShardTelemetry!]!
+}
+
+"""Per-shard telemetry."""
+type ShardTelemetry {
+  variant: String!
+  pointsCount: Int
+  segmentsCount: Int
+}
+
+"""Cluster-level telemetry."""
+type ClusterTelemetry {
+  enabled: Boolean!
+  status: ClusterInfo
+  config: JSON
+}
+
+"""HTTP/gRPC request telemetry."""
+type RequestsTelemetry {
+  rest: JSON
+  grpc: JSON
+}
+
+# ─── Input types ─────────────────────────────────────────────────────────────
+
+"""Input for creating a new collection."""
+input CreateCollectionInput {
+  collectionName: String!
+  vectors: [VectorParamsInput!]!
+  shardNumber: Int
+  replicationFactor: Int
+  writeConsistencyFactor: Int
+  onDiskPayload: Boolean
+  hnswConfig: HnswConfigInput
+  walConfig: WalConfigInput
+  optimizersConfig: OptimizersConfigInput
+  quantizationConfig: QuantizationConfigInput
+  initFrom: InitFromInput
+}
+
+"""Input for updating a collection."""
+input UpdateCollectionInput {
+  collectionName: String!
+  optimizersConfig: OptimizersConfigInput
+  params: CollectionParamsUpdateInput
+  hnswConfig: HnswConfigInput
+  quantizationConfig: QuantizationConfigInput
+  vectorsConfig: [VectorParamsInput!]
+}
+
+"""Mutable collection parameters."""
+input CollectionParamsUpdateInput {
+  replicationFactor: Int
+  writeConsistencyFactor: Int
+  readFanOutFactor: Int
+  onDiskPayload: Boolean
+}
+
+"""Named vector parameter input."""
+input VectorParamsInput {
+  name: String
+  size: Int!
+  distance: Distance!
+  onDisk: Boolean
+  datatype: Datatype
+  multivectorConfig: MultivectorConfigInput
+  quantizationConfig: QuantizationConfigInput
+}
+
+"""Multi-vector configuration input."""
+input MultivectorConfigInput {
+  comparator: String!
+}
+
+"""HNSW config input."""
+input HnswConfigInput {
+  m: Int
+  efConstruct: Int
+  fullScanThreshold: Int
+  maxIndexingThreads: Int
+  onDisk: Boolean
+  payloadM: Int
+}
+
+"""WAL config input."""
+input WalConfigInput {
+  walCapacityMb: Int
+  walSegmentsAhead: Int
+}
+
+"""Optimisers config input."""
+input OptimizersConfigInput {
+  deletedThreshold: Float
+  vacuumMinVectorNumber: Int
+  defaultSegmentNumber: Int
+  maxSegmentSize: Int
+  memmapThreshold: Int
+  indexingThreshold: Int
+  flushIntervalSec: Int
+  maxOptimizationThreads: Int
+}
+
+"""Quantization config input."""
+input QuantizationConfigInput {
+  scalar: ScalarQuantizationInput
+  product: ProductQuantizationInput
+  binary: BinaryQuantizationInput
+}
+
+"""Scalar quantization input."""
+input ScalarQuantizationInput {
+  quantile: Float
+  alwaysRam: Boolean
+}
+
+"""Product quantization input."""
+input ProductQuantizationInput {
+  compression: CompressionRatio!
+  alwaysRam: Boolean
+}
+
+"""Binary quantization input."""
+input BinaryQuantizationInput {
+  alwaysRam: Boolean
+}
+
+"""Initialize from another collection."""
+input InitFromInput {
+  collection: String!
+}
+
+"""Input for upserting points."""
+input UpsertPointsInput {
+  collectionName: String!
+  points: [PointStructInput!]!
+  wait: Boolean
+  ordering: WriteOrdering
+}
+
+"""Single point to upsert."""
+input PointStructInput {
+  id: ID!
+  vectors: [NamedVectorInput!]!
+  payload: JSON
+}
+
+"""Named vector input."""
+input NamedVectorInput {
+  name: String
+  dense: [Float!]
+  sparse: SparseVectorInput
+  multivec: [[Float!]!]
+}
+
+"""Sparse vector input."""
+input SparseVectorInput {
+  indices: [Int!]!
+  values: [Float!]!
+}
+
+"""Input for deleting points."""
+input DeletePointsInput {
+  collectionName: String!
+  points: PointsSelectorInput!
+  wait: Boolean
+  ordering: WriteOrdering
+}
+
+"""Selector for a set of points."""
+input PointsSelectorInput {
+  ids: [ID!]
+  filter: FilterInput
+}
+
+"""Filter input for query / delete / update operations."""
+input FilterInput {
+  must: [ConditionInput!]
+  should: [ConditionInput!]
+  mustNot: [ConditionInput!]
+  minShould: MinShouldInput
+}
+
+"""Minimum-should condition wrapper."""
+input MinShouldInput {
+  conditions: [ConditionInput!]!
+  minCount: Int!
+}
+
+"""A single filter condition."""
+input ConditionInput {
+  field: FieldConditionInput
+  hasId: [ID!]
+  nested: NestedConditionInput
+  filter: FilterInput
+  isNull: IsNullConditionInput
+  isEmpty: IsEmptyConditionInput
+  hasVector: String
+}
+
+"""Field-level condition."""
+input FieldConditionInput {
+  key: String!
+  match: MatchInput
+  range: RangeInput
+  geoRadius: GeoRadiusInput
+  geoBoundingBox: GeoBoundingBoxInput
+  geoPolygon: GeoPolygonInput
+  valuesCount: ValuesCountInput
+  datetimeRange: DatetimeRangeInput
+}
+
+"""Match condition."""
+input MatchInput {
+  value: JSON
+  any: [JSON!]
+  except: [JSON!]
+  text: String
+}
+
+"""Numeric / datetime range condition."""
+input RangeInput {
+  lt: Float
+  gt: Float
+  gte: Float
+  lte: Float
+}
+
+"""Datetime range condition."""
+input DatetimeRangeInput {
+  lt: DateTime
+  gt: DateTime
+  gte: DateTime
+  lte: DateTime
+}
+
+"""Geo-radius filter."""
+input GeoRadiusInput {
+  center: GeoPointInput!
+  radius: Float!
+}
+
+"""Geo-bounding-box filter."""
+input GeoBoundingBoxInput {
+  topLeft: GeoPointInput!
+  bottomRight: GeoPointInput!
+}
+
+"""Geo-polygon filter."""
+input GeoPolygonInput {
+  exterior: [GeoPointInput!]!
+  interiors: [[GeoPointInput!]!]
+}
+
+"""A geographic coordinate."""
+input GeoPointInput {
+  lat: Float!
+  lon: Float!
+}
+
+"""Values count condition."""
+input ValuesCountInput {
+  lt: Int
+  gt: Int
+  gte: Int
+  lte: Int
+}
+
+"""Is-null condition wrapper."""
+input IsNullConditionInput {
+  key: String!
+}
+
+"""Is-empty condition wrapper."""
+input IsEmptyConditionInput {
+  key: String!
+}
+
+"""Nested object condition."""
+input NestedConditionInput {
+  key: String!
+  filter: FilterInput!
+}
+
+"""Input for a vector search."""
+input SearchInput {
+  collectionName: String!
+  vector: NamedVectorInput!
+  filter: FilterInput
+  params: SearchParamsInput
+  limit: Int!
+  offset: Int
+  withPayload: Boolean
+  withVectors: Boolean
+  scoreThreshold: Float
+}
+
+"""Search tuning parameters."""
+input SearchParamsInput {
+  hnsw: HnswSearchParamsInput
+  exact: Boolean
+  quantization: QuantizationSearchParamsInput
+  indexedOnly: Boolean
+}
+
+"""HNSW search parameters."""
+input HnswSearchParamsInput {
+  ef: Int
+}
+
+"""Quantization search parameters."""
+input QuantizationSearchParamsInput {
+  ignore: Boolean
+  rescore: Boolean
+  oversample: Float
+}
+
+"""Input for batch vector search."""
+input BatchSearchInput {
+  collectionName: String!
+  searches: [SearchInput!]!
+}
+
+"""Input for scroll (cursor-based list)."""
+input ScrollInput {
+  collectionName: String!
+  filter: FilterInput
+  limit: Int
+  offset: PointId
+  withPayload: Boolean
+  withVectors: Boolean
+  orderBy: OrderByInput
+}
+
+"""Ordering specification for scroll queries."""
+input OrderByInput {
+  key: String!
+  direction: Direction
+  startFrom: JSON
+}
+
+"""Input for recommendation query."""
+input RecommendInput {
+  collectionName: String!
+  positive: [ID!]
+  negative: [ID!]
+  positiveVectors: [NamedVectorInput!]
+  negativeVectors: [NamedVectorInput!]
+  strategy: String
+  filter: FilterInput
+  params: SearchParamsInput
+  limit: Int!
+  offset: Int
+  withPayload: Boolean
+  withVectors: Boolean
+  scoreThreshold: Float
+  usingVector: String
+  lookupFrom: LookupLocationInput
+}
+
+"""Source collection for a lookup-based recommendation."""
+input LookupLocationInput {
+  collection: String!
+  vector: String
+}
+
+"""Input for discovery query."""
+input DiscoverInput {
+  collectionName: String!
+  target: TargetVectorInput
+  context: [ContextPairInput!]
+  filter: FilterInput
+  params: SearchParamsInput
+  limit: Int!
+  offset: Int
+  withPayload: Boolean
+  withVectors: Boolean
+  usingVector: String
+  lookupFrom: LookupLocationInput
+}
+
+"""Target vector for discovery."""
+input TargetVectorInput {
+  single: NamedVectorInput
+  pointId: ID
+}
+
+"""Positive/negative pair for context discovery."""
+input ContextPairInput {
+  positive: TargetVectorInput!
+  negative: TargetVectorInput!
+}
+
+"""Input for grouped search."""
+input SearchGroupsInput {
+  collectionName: String!
+  vector: NamedVectorInput!
+  groupBy: String!
+  groupSize: Int!
+  limit: Int!
+  filter: FilterInput
+  params: SearchParamsInput
+  withPayload: Boolean
+  withVectors: Boolean
+  scoreThreshold: Float
+  withLookup: WithLookupInput
+}
+
+"""Lookup configuration for grouped search."""
+input WithLookupInput {
+  collection: String!
+  withPayload: Boolean
+  withVectors: Boolean
+}
+
+"""Input for setting payload on points."""
+input SetPayloadInput {
+  collectionName: String!
+  payload: JSON!
+  points: PointsSelectorInput!
+  wait: Boolean
+  ordering: WriteOrdering
+}
+
+"""Input for deleting payload keys."""
+input DeletePayloadInput {
+  collectionName: String!
+  keys: [String!]!
+  points: PointsSelectorInput!
+  wait: Boolean
+  ordering: WriteOrdering
+}
+
+"""Input for creating or updating a payload field index."""
+input CreateFieldIndexInput {
+  collectionName: String!
+  fieldName: String!
+  fieldSchema: PayloadSchemaType!
+  wait: Boolean
+  ordering: WriteOrdering
+}
+
+"""Input for counting points."""
+input CountInput {
+  collectionName: String!
+  filter: FilterInput
+  exact: Boolean
+}
+
+"""Input for creating a snapshot."""
+input CreateSnapshotInput {
+  collectionName: String!
+  wait: Boolean
+}
+
+"""Input for alias operations."""
+input AliasOperationInput {
+  createAlias: CreateAliasInput
+  deleteAlias: DeleteAliasInput
+  renameAlias: RenameAliasInput
+}
+
+"""Create alias operation."""
+input CreateAliasInput {
+  collectionName: String!
+  aliasName: String!
+}
+
+"""Delete alias operation."""
+input DeleteAliasInput {
+  aliasName: String!
+}
+
+"""Rename alias operation."""
+input RenameAliasInput {
+  oldAliasName: String!
+  newAliasName: String!
+}
+
+"""Input for moving a shard."""
+input MoveShardInput {
+  collectionName: String!
+  shardId: Int!
+  fromPeer: ID!
+  toPeer: ID!
+  method: ShardTransferMethod
+}
+
+"""Input for replicating a shard."""
+input ReplicateShardInput {
+  collectionName: String!
+  shardId: Int!
+  fromPeer: ID!
+  toPeer: ID!
+  method: ShardTransferMethod
+}
+
+"""Input for aborting a shard transfer."""
+input AbortShardTransferInput {
+  collectionName: String!
+  shardId: Int!
+  fromPeer: ID!
+  toPeer: ID!
+}
+
+"""Input for setting shard replica state."""
+input SetShardReplicaStateInput {
+  collectionName: String!
+  shardId: Int!
+  peerId: ID!
+  state: ShardState!
+  fromState: ShardState
+}
+
+"""Input for updating a point vector."""
+input UpdateVectorsInput {
+  collectionName: String!
+  points: [PointVectorsInput!]!
+  wait: Boolean
+  ordering: WriteOrdering
+}
+
+"""Point with updated vectors."""
+input PointVectorsInput {
+  id: ID!
+  vectors: [NamedVectorInput!]!
+}
+
+"""Input for deleting vectors from points."""
+input DeleteVectorsInput {
+  collectionName: String!
+  pointsSelector: PointsSelectorInput!
+  vectors: [String!]!
+  wait: Boolean
+  ordering: WriteOrdering
+}
+
+# ─── Query root ───────────────────────────────────────────────────────────────
+
+type Query {
+  """List all collections."""
+  collections: CollectionList!
+
+  """Get details of a single collection."""
+  collection(name: String!): Collection!
+
+  """Get cluster info for a collection."""
+  collectionCluster(name: String!): CollectionClusterInfo!
+
+  """Retrieve a specific point from a collection."""
+  point(collectionName: String!, id: ID!, withPayload: Boolean, withVectors: Boolean): Point
+
+  """Retrieve multiple points by ID."""
+  points(collectionName: String!, ids: [ID!]!, withPayload: Boolean, withVectors: Boolean): [Point!]!
+
+  """Scroll through points with optional filtering."""
+  scrollPoints(input: ScrollInput!): PointsPage!
+
+  """Perform a vector similarity search."""
+  search(input: SearchInput!): SearchResult!
+
+  """Perform a batch of vector similarity searches."""
+  batchSearch(input: BatchSearchInput!): BatchSearchResult!
+
+  """Perform a recommendation search."""
+  recommend(input: RecommendInput!): RecommendResult!
+
+  """Perform a discovery search."""
+  discover(input: DiscoverInput!): DiscoverResult!
+
+  """Perform a grouped similarity search."""
+  searchGroups(input: SearchGroupsInput!): GroupsResult!
+
+  """Count points matching a filter."""
+  countPoints(input: CountInput!): CountResult!
+
+  """List all aliases."""
+  aliases: AliasList!
+
+  """List aliases for a specific collection."""
+  collectionAliases(collectionName: String!): AliasList!
+
+  """List snapshots for a collection."""
+  snapshots(collectionName: String!): SnapshotList!
+
+  """List full-system snapshots."""
+  fullSnapshots: SnapshotList!
+
+  """Get cluster information."""
+  clusterInfo: ClusterInfo!
+
+  """Get telemetry data."""
+  telemetry(anonymize: Boolean): TelemetryData!
+
+  """Get lock status."""
+  locks: LocksOption!
+}
+
+# ─── Mutation root ────────────────────────────────────────────────────────────
+
+type Mutation {
+  """Create a new collection."""
+  createCollection(input: CreateCollectionInput!): CollectionOperationResult!
+
+  """Update an existing collection."""
+  updateCollection(input: UpdateCollectionInput!): CollectionOperationResult!
+
+  """Delete a collection."""
+  deleteCollection(collectionName: String!, timeout: Int): CollectionOperationResult!
+
+  """Upsert points into a collection."""
+  upsertPoints(input: UpsertPointsInput!): PointsOperationResult!
+
+  """Delete points from a collection."""
+  deletePoints(input: DeletePointsInput!): PointsOperationResult!
+
+  """Set payload on points."""
+  setPayload(input: SetPayloadInput!): PointsOperationResult!
+
+  """Overwrite entire payload on points."""
+  overwritePayload(input: SetPayloadInput!): PointsOperationResult!
+
+  """Delete specific payload keys from points."""
+  deletePayload(input: DeletePayloadInput!): PointsOperationResult!
+
+  """Clear entire payload from points."""
+  clearPayload(collectionName: String!, points: PointsSelectorInput!, wait: Boolean): PointsOperationResult!
+
+  """Update vectors on existing points."""
+  updateVectors(input: UpdateVectorsInput!): PointsOperationResult!
+
+  """Delete named vectors from points."""
+  deleteVectors(input: DeleteVectorsInput!): PointsOperationResult!
+
+  """Create a payload field index."""
+  createFieldIndex(input: CreateFieldIndexInput!): PointsOperationResult!
+
+  """Delete a payload field index."""
+  deleteFieldIndex(collectionName: String!, fieldName: String!, wait: Boolean): PointsOperationResult!
+
+  """Perform alias operations (create / rename / delete)."""
+  updateAliases(actions: [AliasOperationInput!]!): CollectionOperationResult!
+
+  """Create a collection snapshot."""
+  createSnapshot(input: CreateSnapshotInput!): SnapshotDescription!
+
+  """Delete a collection snapshot."""
+  deleteSnapshot(collectionName: String!, snapshotName: String!): CollectionOperationResult!
+
+  """Create a full-system snapshot."""
+  createFullSnapshot: SnapshotDescription!
+
+  """Delete a full-system snapshot."""
+  deleteFullSnapshot(snapshotName: String!): CollectionOperationResult!
+
+  """Move a shard to another peer."""
+  moveShard(input: MoveShardInput!): CollectionOperationResult!
+
+  """Replicate a shard to another peer."""
+  replicateShard(input: ReplicateShardInput!): CollectionOperationResult!
+
+  """Abort an in-progress shard transfer."""
+  abortShardTransfer(input: AbortShardTransferInput!): CollectionOperationResult!
+
+  """Set replica state for a shard."""
+  setShardReplicaState(input: SetShardReplicaStateInput!): CollectionOperationResult!
+
+  """Remove a peer from the cluster."""
+  removePeer(peerId: ID!, force: Boolean): CollectionOperationResult!
+
+  """Set global write lock."""
+  setLock(write: Boolean!, errorMessage: String): LocksOption!
+}
+
+# ─── Subscription root ────────────────────────────────────────────────────────
+
+type Subscription {
+  """Stream point update events for a collection."""
+  pointsUpdated(collectionName: String!): PointsOperationResult!
+
+  """Stream collection status changes."""
+  collectionStatusChanged(collectionName: String!): Collection!
+
+  """Stream cluster peer state changes."""
+  clusterPeerChanged: ClusterPeer!
+
+  """Stream shard transfer progress events."""
+  shardTransferProgress(collectionName: String!): ShardTransferInfo!
+}
