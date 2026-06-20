@@ -6,7 +6,7 @@ description: Qdrant is a vector similarity search engine that provides a product
   information that can help you hone in on your search and also receive useful information
   that you can give to your users.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - AI
 - Artificial Intelligence
