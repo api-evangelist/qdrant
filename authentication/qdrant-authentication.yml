@@ -1,0 +1,22 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/qdrant-openapi-original.json
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: api-key
+  type: apiKey
+  in: header
+  parameter: api-key
+  description: Authorization key, either read-write or read-only
+  sources:
+  - openapi/qdrant-openapi-original.json
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/qdrant-openapi-original.json
