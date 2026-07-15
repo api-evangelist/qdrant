@@ -36,6 +36,8 @@ apis:
     features allow for all sorts of neural network or semantic-based matching, faceted
     search, and other applications.'
 common:
+- type: AgenticAccess
+  url: agentic-access/qdrant-agentic-access.yml
 - type: DomainSecurity
   url: security/qdrant-domain-security.yml
 - type: Authentication
