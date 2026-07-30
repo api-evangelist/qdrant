@@ -6,7 +6,20 @@ description: Qdrant is a vector similarity search engine that provides a product
   information that can help you hone in on your search and also receive useful information
   that you can give to your users.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/qdrant.png
 tags:
 - AI
 - Artificial Intelligence
@@ -16,25 +29,123 @@ created: '2024-06-18'
 modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
-- aid: qdrant:qdrant-api
-  name: Qdrant API
-  tags:
-  - AI
-  - Artificial Intelligence
-  - Vector Databases
+- aid: qdrant:qdrant-aliases-api
+  name: Qdrant Aliases API
+  description: Additional names for existing collections.
   humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Aliases
   properties:
-  - url: https://qdrant.tech/documentation/
-    type: Documentation
-  - url: openapi/qdrant-openapi-original.json
-    type: OpenAPI
-  - url: graphql/qdrant-graphql.md
-    type: GraphQL
-  description: 'Qdrant (read: quadrant) is a vector similarity search engine. Use
-    our documentation to develop a production-ready service with a convenient API
-    to store, search, and manage vectors with an additional payload. Qdrant''s expanding
-    features allow for all sorts of neural network or semantic-based matching, faceted
-    search, and other applications.'
+  - type: OpenAPI
+    url: openapi/qdrant-aliases-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-beta-api
+  name: Qdrant Beta API
+  description: Beta features, do not depend on these yet.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Beta
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-beta-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-collections-api
+  name: Qdrant Collections API
+  description: Searchable collections of points.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Collections
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-collections-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-distributed-api
+  name: Qdrant Distributed API
+  description: Service distributed setup.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Distributed
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-distributed-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-indexes-api
+  name: Qdrant Indexes API
+  description: Indexes for payloads associated with points.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Indexes
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-indexes-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-points-api
+  name: Qdrant Points API
+  description: Float-point vectors with payload.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Points
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-points-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-search-api
+  name: Qdrant Search API
+  description: Find points in a collection.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-search-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-service-api
+  name: Qdrant Service API
+  description: Qdrant service utilities.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Service
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-service-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
+- aid: qdrant:qdrant-snapshots-api
+  name: Qdrant Snapshots API
+  description: Storage and collections snapshots.
+  humanURL: https://qdrant.tech/documentation/
+  tags:
+  - Snapshots
+  properties:
+  - type: OpenAPI
+    url: openapi/qdrant-snapshots-api-openapi.yml
+  - type: Documentation
+    url: https://qdrant.tech/documentation/
+  - type: GraphQL
+    url: graphql/qdrant-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/qdrant-agentic-access.yml
