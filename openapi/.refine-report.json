@@ -1,0 +1,30 @@
+{
+  "provider": "qdrant",
+  "sources": [
+    "qdrant-aliases-api-openapi.yml",
+    "qdrant-beta-api-openapi.yml",
+    "qdrant-collections-api-openapi.yml",
+    "qdrant-distributed-api-openapi.yml",
+    "qdrant-indexes-api-openapi.yml",
+    "qdrant-points-api-openapi.yml",
+    "qdrant-search-api-openapi.yml",
+    "qdrant-service-api-openapi.yml",
+    "qdrant-snapshots-api-openapi.yml"
+  ],
+  "outputs": [
+    "qdrant-aliases-api-openapi.yml",
+    "qdrant-beta-api-openapi.yml",
+    "qdrant-collections-api-openapi.yml",
+    "qdrant-distributed-api-openapi.yml",
+    "qdrant-indexes-api-openapi.yml",
+    "qdrant-points-api-openapi.yml",
+    "qdrant-search-api-openapi.yml",
+    "qdrant-service-api-openapi.yml",
+    "qdrant-snapshots-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
