@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qdrant Aliases Service API",
+    "version": "master"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Service",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns information about the running Qdrant instance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/"
+          },
+          "docs": "Returns information about the running Qdrant instance like version and commit id"
+        },
+        {
+          "info": {
+            "name": "Collect telemetry data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/telemetry",
+            "params": [
+              {
+                "name": "anonymize",
+                "value": "",
+                "type": "query",
+                "description": "If true, anonymize result"
+              },
+              {
+                "name": "details_level",
+                "value": "",
+                "type": "query",
+                "description": "Level of details in telemetry data. Minimal level is 0, maximal is infinity"
+              },
+              {
+                "name": "per_collection",
+                "value": "",
+                "type": "query",
+                "description": "If true, include per-collection request statistics in the response"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for this request"
+              }
+            ]
+          },
+          "docs": "Collect telemetry data including app info, system info, collections info, cluster info, configs and statistics"
+        },
+        {
+          "info": {
+            "name": "Collect Prometheus metrics data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/metrics",
+            "params": [
+              {
+                "name": "anonymize",
+                "value": "",
+                "type": "query",
+                "description": "If true, anonymize result"
+              },
+              {
+                "name": "per_collection",
+                "value": "",
+                "type": "query",
+                "description": "If true, include per-collection request metrics with a collection label instead of global request metrics"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for this request"
+              }
+            ]
+          },
+          "docs": "Collect metrics data including app info, collections info, cluster info and statistics"
+        },
+        {
+          "info": {
+            "name": "Kubernetes healthz endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/healthz"
+          },
+          "docs": "An endpoint for health checking used in Kubernetes."
+        },
+        {
+          "info": {
+            "name": "Kubernetes livez endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/livez"
+          },
+          "docs": "An endpoint for health checking used in Kubernetes."
+        },
+        {
+          "info": {
+            "name": "Kubernetes readyz endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/readyz"
+          },
+          "docs": "An endpoint for health checking used in Kubernetes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1421 @@
+{
+  "item": [
+    {
+      "id": "a6113b7f-af68-4bd8-b706-adbb46074bd2",
+      "name": "Service",
+      "description": {
+        "content": "Qdrant service utilities.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2258df78-0659-4642-926f-ada5c8f85f78",
+          "name": "Returns information about the running Qdrant instance",
+          "request": {
+            "name": "Returns information about the running Qdrant instance",
+            "description": {
+              "content": "Returns information about the running Qdrant instance like version and commit id",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0b0a44ef-aaa9-41bf-80c0-a8b9bc5c6764",
+              "name": "Qdrant server version information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"title\": \"string\",\n  \"version\": \"string\",\n  \"commit\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c14b01c-8fc7-4843-a348-679070822d03",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "324504e2-a4d9-48d7-9ea0-cb18243a851e",
+          "name": "Collect telemetry data",
+          "request": {
+            "name": "Collect telemetry data",
+            "description": {
+              "content": "Collect telemetry data including app info, system info, collections info, cluster info, configs and statistics",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "telemetry"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "anonymize",
+                  "value": "<boolean>",
+                  "description": "If true, anonymize result"
+                },
+                {
+                  "disabled": false,
+                  "key": "details_level",
+                  "value": "<integer>",
+                  "description": "Level of details in telemetry data. Minimal level is 0, maximal is infinity"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_collection",
+                  "value": "<boolean>",
+                  "description": "If true, include per-collection request statistics in the response"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeout",
+                  "value": "60",
+                  "description": "Timeout for this request"
+                }
+              ],
+              "variable": [
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "756ece0b-dbc0-4465-b2d4-d9ab476e598f",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "telemetry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "anonymize",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "details_level",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_collection",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "timeout",
+                      "value": "60"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 5867,\n      \"payload_index_io_read\": 2425,\n      \"payload_index_io_write\": 8103,\n      \"payload_io_read\": 3125,\n      \"payload_io_write\": 7277,\n      \"vector_io_read\": 2232,\n      \"vector_io_write\": 5030\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": {\n    \"collections\": {\n      \"number_of_collections\": 3832,\n      \"max_collections\": 8516,\n      \"collections\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"init_time_ms\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"config\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"shards\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"transfers\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"resharding\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"shard_clean_tasks\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"init_time_ms\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"config\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"shards\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"transfers\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"resharding\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"shard_clean_tasks\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"snapshots\": [\n        {\n          \"id\": \"string\",\n          \"running_snapshots\": 3688,\n          \"running_snapshot_recovery\": 7641,\n          \"total_snapshot_creations\": 6840\n        },\n        {\n          \"id\": \"string\",\n          \"running_snapshots\": 8836,\n          \"running_snapshot_recovery\": 5554,\n          \"total_snapshot_creations\": 3755\n        }\n      ]\n    },\n    \"id\": \"string\",\n    \"app\": {\n      \"name\": \"string\",\n      \"startup\": \"2022-12-01T18:43:06.889Z\",\n      \"version\": \"string\",\n      \"features\": {\n        \"debug\": false,\n        \"gpu\": false,\n        \"recovery_mode\": false,\n        \"rocksdb\": false,\n        \"service_debug_feature\": true,\n        \"staging\": true\n      },\n      \"runtime_features\": {\n        \"all\": false,\n        \"payload_index_skip_rocksdb\": true,\n        \"payload_index_skip_mutable_rocksdb\": true,\n        \"payload_storage_skip_rocksdb\": true,\n        \"incremental_hnsw_building\": true,\n        \"migrate_rocksdb_id_tracker\": true,\n        \"migrate_rocksdb_vector_storage\": true,\n        \"migrate_rocksdb_payload_storage\": true,\n        \"migrate_rocksdb_payload_indices\": true,\n        \"appendable_quantization\": true,\n        \"single_file_mmap_vector_storage\": false\n      },\n      \"hnsw_global_config\": {\n        \"healing_threshold\": 0.3\n      },\n      \"system\": {\n        \"cpu_flags\": \"string\",\n        \"is_docker\": true,\n        \"distribution\": \"string\",\n        \"distribution_version\": \"string\",\n        \"cores\": 7457,\n        \"ram_size\": 131,\n        \"disk_size\": 2303,\n        \"cpu_endian\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"gpu_devices\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"jwt_rbac\": true,\n      \"hide_jwt_dashboard\": true\n    },\n    \"cluster\": {\n      \"enabled\": false,\n      \"status\": {\n        \"commit\": 8979,\n        \"consensus_thread_status\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"is_voter\": true,\n        \"number_of_peers\": 8885,\n        \"pending_operations\": 871,\n        \"term\": 2191,\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"peer_id\": 8348\n      },\n      \"config\": {\n        \"consensus\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"grpc_timeout_ms\": 1736,\n        \"p2p\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"peers\": {\n        \"key_0\": {\n          \"uri\": \"string\"\n        },\n        \"key_1\": {\n          \"uri\": \"string\"\n        },\n        \"key_2\": {\n          \"uri\": \"string\"\n        }\n      },\n      \"peer_metadata\": {\n        \"key_0\": {\n          \"version\": \"string\"\n        }\n      },\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 3895,\n        \"key_2\": 2209.784553728965,\n        \"key_3\": false\n      },\n      \"resharding_enabled\": false\n    },\n    \"requests\": {\n      \"grpc\": {\n        \"responses\": {\n          \"key_0\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_2\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_3\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"per_collection_responses\": {\n          \"key_0\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"rest\": {\n        \"responses\": {\n          \"key_0\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_2\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"key_1\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"key_1\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"per_collection_responses\": {\n          \"key_0\": {\n            \"key_0\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      }\n    },\n    \"memory\": {\n      \"active_bytes\": 8379,\n      \"allocated_bytes\": 6656,\n      \"metadata_bytes\": 897,\n      \"resident_bytes\": 2217,\n      \"retained_bytes\": 1283\n    },\n    \"hardware\": {\n      \"collection_data\": {\n        \"key_0\": {\n          \"cpu\": 6970,\n          \"payload_index_io_read\": 744,\n          \"payload_index_io_write\": 8329,\n          \"payload_io_read\": 5248,\n          \"payload_io_write\": 6156,\n          \"vector_io_read\": 715,\n          \"vector_io_write\": 5340\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f8d8673-c99a-4ab7-a816-cb2c71a7e82d",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "telemetry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "anonymize",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "details_level",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_collection",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "timeout",
+                      "value": "60"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 476.65669244558393,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb632f9d-b306-4a7a-9532-bf67a0788e7d",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "telemetry"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "anonymize",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "details_level",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "per_collection",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "timeout",
+                      "value": "60"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 476.65669244558393,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a3e89fcf-b800-45ba-bff6-a418a33d4aca",
+          "name": "Collect Prometheus metrics data",
+          "request": {
+            "name": "Collect Prometheus metrics data",
+            "description": {
+              "content": "Collect metrics data including app info, collections info, cluster info and statistics",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "metrics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "anonymize",
+                  "value": "<boolean>",
+                  "description": "If true, anonymize result"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_collection",
+                  "value": "<boolean>",
+                  "description": "If true, include per-collection request metrics with a collection label instead of global request metrics"
+                },
+                {
+                  "disabled": false,
+                  "key": "timeout",
+                  "value": "60",
+                  "description": "Timeout for this request"
+                }
+              ],
+              "variable": [
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c78feab8-15a6-4edf-8fc0-d88e65ab2cfd",
+              "name": "Metrics data in Prometheus format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "anonymize",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "per_collection",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "timeout",
+                      "value": "60"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "# HELP app_info information about qdrant server\n# TYPE app_info gauge\napp_info{name=\"qdrant\",version=\"0.11.1\"} 1\n# HELP cluster_enabled is cluster support enabled\n# TYPE cluster_enabled gauge\ncluster_enabled 0\n# HELP collections_total number of collections\n# TYPE collections_total gauge\ncollections_total 1\n",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cd7cd54b-5242-4f4d-93af-fabde35e1acd",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "metrics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "anonymize",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "per_collection",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "timeout",
+                      "value": "60"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf27f3cb-33de-4a7b-97e4-1502eeedd7b7",
+          "name": "Kubernetes healthz endpoint",
+          "request": {
+            "name": "Kubernetes healthz endpoint",
+            "description": {
+              "content": "An endpoint for health checking used in Kubernetes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "healthz"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f08ff064-316a-48c4-b554-d27266da4a66",
+              "name": "Healthz response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "healthz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "healthz check passed",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "88fb196c-498b-4a42-b7ab-d8fcdabc3a7a",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "healthz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7f00e2b9-83c1-4836-b283-192d75fd54f4",
+          "name": "Kubernetes livez endpoint",
+          "request": {
+            "name": "Kubernetes livez endpoint",
+            "description": {
+              "content": "An endpoint for health checking used in Kubernetes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "livez"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "08a880fe-3e2b-4286-a956-4d40bb699569",
+              "name": "Healthz response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livez"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "healthz check passed",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "215aa9da-ee29-4c06-abd4-482a3af3afd0",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "livez"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a7cbc5e6-f64f-4d19-b68a-80bcb5923353",
+          "name": "Kubernetes readyz endpoint",
+          "request": {
+            "name": "Kubernetes readyz endpoint",
+            "description": {
+              "content": "An endpoint for health checking used in Kubernetes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "readyz"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "879795e2-4e5b-4f57-9cc4-8c369ae4431d",
+              "name": "Healthz response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "readyz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/plain"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "healthz check passed",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7883df02-78b4-4df0-bb0c-7dd96616fa00",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "readyz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": " (This can only be one of http,https)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "http",
+      "key": "protocol"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost",
+      "key": "hostname"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "6333",
+      "key": "port"
+    },
+    {
+      "type": "string",
+      "value": "{{protocol}}://{{hostname}}:{{port}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "773954cd-6b7e-456c-893a-f606d7e07e4d",
+    "name": "Qdrant Aliases Service API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API description for Qdrant vector search engine.\n\nThis document describes CRUD and search operations on collections of points (vectors with payload).\n\nQdrant supports any combinations of `should`, `min_should`, `must` and `must_not` conditions, which makes it possible to use in applications when object could not be described solely by vector. It could be location features, availability flags, and other custom properties businesses should take into account.\n## Examples\nThis examples cover the most basic use-cases - collection creation and basic vector search.\n### Create collection\nFirst - let's create a collection with dot-production metric.\n```\ncurl -X PUT 'http://localhost:6333/collections/test_collection' \\\n  -H 'Content-Type: application/json' \\\n  --data-raw '{\n    \"vectors\": {\n      \"size\": 4,\n      \"distance\": \"Dot\"\n    }\n  }'\n\n```\nExpected response:\n```\n{\n    \"result\": true,\n    \"status\": \"ok\",\n    \"time\": 0.031095451\n}\n```\nWe can ensure that collection was created:\n```\ncurl 'http://localhost:6333/collections/test_collection'\n```\nExpected response:\n```\n{\n  \"result\": {\n    \"status\": \"green\",\n    \"segments_count\": 5,\n    \"disk_data_size\": 0,\n    \"ram_data_size\": 0,\n    \"config\": {\n      \"params\": {\n        \"vectors\": {\n          \"size\": 4,\n          \"distance\": \"Dot\"\n        }\n      },\n      \"hnsw_config\": {\n        \"m\": 16,\n        \"ef_construct\": 100,\n        \"full_scan_threshold\": 10000\n      },\n      \"optimizer_config\": {\n        \"deleted_threshold\": 0.2,\n        \"vacuum_min_vector_number\": 1000,\n        \"default_segment_number\": 2,\n        \"max_segment_size\": null,\n        \"memmap_threshold\": null,\n        \"indexing_threshold\": 20000,\n        \"flush_interval_sec\": 5,\n        \"max_optimization_threads\": null\n      },\n      \"wal_config\": {\n        \"wal_capacity_mb\": 32,\n        \"wal_segments_ahead\": 0\n      }\n    }\n  },\n  \"status\": \"ok\",\n  \"time\": 2.1199e-05\n}\n```\n\n### Add points\nLet's now add vectors with some payload:\n```\ncurl -L -X PUT 'http://localhost:6333/collections/test_collection/points?wait=true' \\ -H 'Content-Type: application/json' \\ --data-raw '{\n  \"points\": [\n    {\"id\": 1, \"vector\": [0.05, 0.61, 0.76, 0.74], \"payload\": {\"city\": \"Berlin\"}},\n    {\"id\": 2, \"vector\": [0.19, 0.81, 0.75, 0.11], \"payload\": {\"city\": [\"Berlin\", \"London\"] }},\n    {\"id\": 3, \"vector\": [0.36, 0.55, 0.47, 0.94], \"payload\": {\"city\": [\"Berlin\", \"Moscow\"] }},\n    {\"id\": 4, \"vector\": [0.18, 0.01, 0.85, 0.80], \"payload\": {\"city\": [\"London\", \"Moscow\"] }},\n    {\"id\": 5, \"vector\": [0.24, 0.18, 0.22, 0.44], \"payload\": {\"count\": [0]}},\n    {\"id\": 6, \"vector\": [0.35, 0.08, 0.11, 0.44]}\n  ]\n}'\n```\nExpected response:\n```\n{\n    \"result\": {\n        \"operation_id\": 0,\n        \"status\": \"completed\"\n    },\n    \"status\": \"ok\",\n    \"time\": 0.000206061\n}\n```\n### Search with filtering\nLet's start with a basic request:\n```\ncurl -L -X POST 'http://localhost:6333/collections/test_collection/points/search' \\ -H 'Content-Type: application/json' \\ --data-raw '{\n    \"vector\": [0.2,0.1,0.9,0.7],\n    \"top\": 3\n}'\n```\nExpected response:\n```\n{\n    \"result\": [\n        { \"id\": 4, \"score\": 1.362, \"payload\": null, \"version\": 0 },\n        { \"id\": 1, \"score\": 1.273, \"payload\": null, \"version\": 0 },\n        { \"id\": 3, \"score\": 1.208, \"payload\": null, \"version\": 0 }\n    ],\n    \"status\": \"ok\",\n    \"time\": 0.000055785\n}\n```\nBut result is different if we add a filter:\n```\ncurl -L -X POST 'http://localhost:6333/collections/test_collection/points/search' \\ -H 'Content-Type: application/json' \\ --data-raw '{\n    \"filter\": {\n        \"should\": [\n            {\n                \"key\": \"city\",\n                \"match\": {\n                    \"value\": \"London\"\n                }\n            }\n        ]\n    },\n    \"vector\": [0.2, 0.1, 0.9, 0.7],\n    \"top\": 3\n}'\n```\nExpected response:\n```\n{\n    \"result\": [\n        { \"id\": 4, \"score\": 1.362, \"payload\": null, \"version\": 0 },\n        { \"id\": 2, \"score\": 0.871, \"payload\": null, \"version\": 0 }\n    ],\n    \"status\": \"ok\",\n    \"time\": 0.000093972\n}\n```\n\n\nContact Support:\n Email: andrey@vasnetsov.com",
+      "type": "text/plain"
+    }
+  }
+}

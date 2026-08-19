@@ -1,0 +1,566 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qdrant Aliases Points API",
+    "version": "master"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Points",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get point",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/:id",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to retrieve from"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the point"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              }
+            ]
+          },
+          "docs": "Retrieve full information of single point by id"
+        },
+        {
+          "info": {
+            "name": "Get points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to retrieve from"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve multiple points by specified IDs"
+        },
+        {
+          "info": {
+            "name": "Upsert points",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to update from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Perform insert + updates on points. If point with given ID already exists - it will be overwritten."
+        },
+        {
+          "info": {
+            "name": "Delete points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/delete",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to delete from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete points"
+        },
+        {
+          "info": {
+            "name": "Update vectors",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/vectors",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to update from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update specified named vectors on points, keep unspecified vectors intact."
+        },
+        {
+          "info": {
+            "name": "Delete vectors",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/vectors/delete",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to delete from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete named vectors from the given points."
+        },
+        {
+          "info": {
+            "name": "Set payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/payload",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to set from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set payload values for points"
+        },
+        {
+          "info": {
+            "name": "Overwrite payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/payload",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to set from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replace full payload of points with new one"
+        },
+        {
+          "info": {
+            "name": "Delete payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/payload/delete",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to delete from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete specified key payload for points"
+        },
+        {
+          "info": {
+            "name": "Clear payload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/payload/clear",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to clear payload from"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Remove all payload for specified points"
+        },
+        {
+          "info": {
+            "name": "Batch update points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/batch",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to apply operations on"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "define ordering guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Timeout for the operation"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Apply a series of update operations for points, vectors and payloads"
+        },
+        {
+          "info": {
+            "name": "Scroll points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/scroll",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to retrieve from"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Scroll request - paginate over all points which matches given filtering condition"
+        },
+        {
+          "info": {
+            "name": "Count points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/count",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to count in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Count points which matches given filtering condition"
+        },
+        {
+          "info": {
+            "name": "Facet a payload key with a given filter.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/facet",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to facet in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Count points that satisfy the given filter for each unique value of a payload key."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

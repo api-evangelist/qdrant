@@ -1,0 +1,513 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qdrant Aliases Snapshots API",
+    "version": "master"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Snapshots",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Recover from an uploaded snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/snapshots/upload",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              },
+              {
+                "name": "priority",
+                "value": "",
+                "type": "query",
+                "description": "Defines source of truth for snapshot recovery"
+              },
+              {
+                "name": "checksum",
+                "value": "",
+                "type": "query",
+                "description": "Optional SHA256 checksum to verify snapshot integrity before recovery."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "snapshot",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Recover local collection data from an uploaded snapshot. This will overwrite any data, stored on this node, for the collection. If collection does not exist - it will be created."
+        },
+        {
+          "info": {
+            "name": "Recover from a snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/snapshots/recover",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Recover local collection data from a snapshot. This will overwrite any data, stored on this node, for the collection. If collection does not exist - it will be created."
+        },
+        {
+          "info": {
+            "name": "List collection snapshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/snapshots",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              }
+            ]
+          },
+          "docs": "Get list of snapshots for a collection"
+        },
+        {
+          "info": {
+            "name": "Create collection snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/snapshots",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection for which to create a snapshot"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ]
+          },
+          "docs": "Create new snapshot for a collection"
+        },
+        {
+          "info": {
+            "name": "Download collection snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/snapshots/:snapshot_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "snapshot_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the snapshot to download"
+              }
+            ]
+          },
+          "docs": "Download specified snapshot from a collection as a file"
+        },
+        {
+          "info": {
+            "name": "Delete collection snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/snapshots/:snapshot_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection for which to delete a snapshot"
+              },
+              {
+                "name": "snapshot_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the snapshot to delete"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ]
+          },
+          "docs": "Delete snapshot for a collection"
+        },
+        {
+          "info": {
+            "name": "List of storage snapshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/snapshots"
+          },
+          "docs": "Get list of snapshots of the whole storage"
+        },
+        {
+          "info": {
+            "name": "Create storage snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/snapshots",
+            "params": [
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ]
+          },
+          "docs": "Create new snapshot of the whole storage"
+        },
+        {
+          "info": {
+            "name": "Download storage snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/snapshots/:snapshot_name",
+            "params": [
+              {
+                "name": "snapshot_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the snapshot to download"
+              }
+            ]
+          },
+          "docs": "Download specified snapshot of the whole storage as a file"
+        },
+        {
+          "info": {
+            "name": "Delete storage snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{protocol}://{hostname}:{port}/snapshots/:snapshot_name",
+            "params": [
+              {
+                "name": "snapshot_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the full snapshot to delete"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ]
+          },
+          "docs": "Delete snapshot of the whole storage"
+        },
+        {
+          "info": {
+            "name": "Download shard snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/shards/:shard_id/snapshot",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "shard_id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shard"
+              }
+            ]
+          },
+          "docs": "Stream the current state of a shard as a snapshot file"
+        },
+        {
+          "info": {
+            "name": "Recover shard from an uploaded snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/shards/:shard_id/snapshots/upload",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "shard_id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shard to recover"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              },
+              {
+                "name": "priority",
+                "value": "",
+                "type": "query",
+                "description": "Defines source of truth for snapshot recovery"
+              },
+              {
+                "name": "checksum",
+                "value": "",
+                "type": "query",
+                "description": "Optional SHA256 checksum to verify snapshot integrity before recovery."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "snapshot",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Recover shard of a local collection from an uploaded snapshot. This will overwrite any data, stored on this node, for the collection shard."
+        },
+        {
+          "info": {
+            "name": "Recover from a snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/shards/:shard_id/snapshots/recover",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "shard_id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shard to recover"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Recover shard of a local collection data from a snapshot. This will overwrite any data, stored in this shard, for the collection."
+        },
+        {
+          "info": {
+            "name": "List shards snapshots for a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/shards/:shard_id/snapshots",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "shard_id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shard"
+              }
+            ]
+          },
+          "docs": "Get list of snapshots for a shard of a collection"
+        },
+        {
+          "info": {
+            "name": "Create shard snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/shards/:shard_id/snapshots",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection for which to create a snapshot"
+              },
+              {
+                "name": "shard_id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shard"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ]
+          },
+          "docs": "Create new snapshot of a shard for a collection"
+        },
+        {
+          "info": {
+            "name": "Download collection snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/shards/:shard_id/snapshots/:snapshot_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "shard_id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shard"
+              },
+              {
+                "name": "snapshot_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the snapshot to download"
+              }
+            ]
+          },
+          "docs": "Download specified snapshot of a shard from a collection as a file"
+        },
+        {
+          "info": {
+            "name": "Delete shard snapshot",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/shards/:shard_id/snapshots/:snapshot_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection for which to delete a snapshot"
+              },
+              {
+                "name": "shard_id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the shard"
+              },
+              {
+                "name": "snapshot_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the snapshot to delete"
+              },
+              {
+                "name": "wait",
+                "value": "",
+                "type": "query",
+                "description": "If true, wait for changes to actually happen. If false - let changes happen in background. Default is true."
+              }
+            ]
+          },
+          "docs": "Delete snapshot of a shard for a collection"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

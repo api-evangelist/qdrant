@@ -1,0 +1,481 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qdrant Aliases Search API",
+    "version": "master"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/search",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve closest points based on vector similarity and given filtering conditions"
+        },
+        {
+          "info": {
+            "name": "Search batch points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/search/batch",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve by batch the closest points based on vector similarity and given filtering conditions"
+        },
+        {
+          "info": {
+            "name": "Search point groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/search/groups",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieve closest points based on vector similarity and given filtering conditions, grouped by a given payload field"
+        },
+        {
+          "info": {
+            "name": "Recommend points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/recommend",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Look for the points which are closer to stored positive examples and at the same time further to negative examples."
+        },
+        {
+          "info": {
+            "name": "Recommend batch points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/recommend/batch",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Look for the points which are closer to stored positive examples and at the same time further to negative examples."
+        },
+        {
+          "info": {
+            "name": "Recommend point groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/recommend/groups",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Look for the points which are closer to stored positive examples and at the same time further to negative examples, grouped by a given payload field."
+        },
+        {
+          "info": {
+            "name": "Discover points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/discover",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Use context and a target to find the most similar points to the target, constrained by the context.\nWhen using only the context (without a target), a special search - called context search - is performed where pairs of points are used to generate a loss that guides the search towards the zone where most positive examples overlap. This means that the score minimizes the scenario of finding a point closer to a negative than to a positive part of a pair.\nSince the score of a context relates to loss"
+        },
+        {
+          "info": {
+            "name": "Discover batch points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/discover/batch",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Look for points based on target and/or positive and negative example pairs, in batch."
+        },
+        {
+          "info": {
+            "name": "Query points",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/query",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to query"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Universally query points. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries."
+        },
+        {
+          "info": {
+            "name": "Query points in batch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/query/batch",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to query"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Universally query points in batch. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries."
+        },
+        {
+          "info": {
+            "name": "Query points, grouped by a given payload field",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/query/groups",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to query"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Universally query points, grouped by a given payload field"
+        },
+        {
+          "info": {
+            "name": "Search points matrix distance pairs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/search/matrix/pairs",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Compute distance matrix for sampled points with a pair based output format"
+        },
+        {
+          "info": {
+            "name": "Search points matrix distance offsets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/points/search/matrix/offsets",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to search in"
+              },
+              {
+                "name": "consistency",
+                "value": "",
+                "type": "query",
+                "description": "Define read consistency guarantees for the operation"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "If set, overrides global timeout for this request. Unit is seconds."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Compute distance matrix for sampled points with an offset based output format"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,189 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qdrant Aliases Collections API",
+    "version": "master"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections"
+          },
+          "docs": "Get list name of all existing collections"
+        },
+        {
+          "info": {
+            "name": "Collection info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to retrieve"
+              }
+            ]
+          },
+          "docs": "Get detailed information about specified existing collection"
+        },
+        {
+          "info": {
+            "name": "Create collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the new collection"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Wait for operation commit timeout in seconds.\nIf timeout is reached - request will return with service error.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create new collection with given parameters"
+        },
+        {
+          "info": {
+            "name": "Update collection parameters",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to update"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Wait for operation commit timeout in seconds.\nIf timeout is reached - request will return with service error.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update parameters of the existing collection"
+        },
+        {
+          "info": {
+            "name": "Delete collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection to delete"
+              },
+              {
+                "name": "timeout",
+                "value": "",
+                "type": "query",
+                "description": "Wait for operation commit timeout in seconds.\nIf timeout is reached - request will return with service error.\n"
+              }
+            ]
+          },
+          "docs": "Drop collection and all associated data"
+        },
+        {
+          "info": {
+            "name": "Check the existence of a collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/exists",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              }
+            ]
+          },
+          "docs": "Returns \"true\" if the given collection name exists, and \"false\" otherwise"
+        },
+        {
+          "info": {
+            "name": "Get optimization progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/collections/:collection_name/optimizations",
+            "params": [
+              {
+                "name": "collection_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the collection"
+              },
+              {
+                "name": "with",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of optional fields to include in the response.\nPossible values: queued, completed, idle_segments."
+              },
+              {
+                "name": "completed_limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of completed optimizations to return.\nIgnored if `completed` is not in the `with` parameter."
+              }
+            ]
+          },
+          "docs": "Get progress of ongoing and completed optimizations for a collection"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

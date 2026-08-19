@@ -1,0 +1,2304 @@
+{
+  "item": [
+    {
+      "id": "3602ee3b-f0a9-4923-a278-2db8c72161e1",
+      "name": "Collections",
+      "description": {
+        "content": "Searchable collections of points.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "00a44b42-663d-49ce-b542-32fd49d0a48a",
+          "name": "List collections",
+          "request": {
+            "name": "List collections",
+            "description": {
+              "content": "Get list name of all existing collections",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23de68d0-a205-4b15-8c9b-fd6f3b19593d",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 8279,\n      \"payload_index_io_read\": 9552,\n      \"payload_index_io_write\": 716,\n      \"payload_io_read\": 8197,\n      \"payload_io_write\": 7093,\n      \"vector_io_read\": 8797,\n      \"vector_io_write\": 6536\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": {\n    \"collections\": [\n      {\n        \"name\": \"string\"\n      },\n      {\n        \"name\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e32b92b-6d41-41bc-924d-5eb4e852ead2",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5fe11ae8-e0ef-4369-92a6-fed07b33bee2",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f17a1666-2636-479b-9650-d79fc6faccba",
+          "name": "Collection info",
+          "request": {
+            "name": "Collection info",
+            "description": {
+              "content": "Get detailed information about specified existing collection",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_name",
+                  "description": "(Required) Name of the collection to retrieve"
+                },
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "60685dbe-2ce2-48f6-b6ba-6077b88d6f4d",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to retrieve"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 4203,\n      \"payload_index_io_read\": 3358,\n      \"payload_index_io_write\": 9520,\n      \"payload_io_read\": 7746,\n      \"payload_io_write\": 3856,\n      \"vector_io_read\": 4967,\n      \"vector_io_write\": 1467\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_1\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_2\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"key_3\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": {\n    \"config\": {\n      \"hnsw_config\": {\n        \"ef_construct\": 6840,\n        \"full_scan_threshold\": 2188,\n        \"m\": 2903,\n        \"max_indexing_threads\": 0,\n        \"on_disk\": false,\n        \"payload_m\": 6166,\n        \"inline_storage\": false\n      },\n      \"optimizer_config\": {\n        \"default_segment_number\": 8887,\n        \"flush_interval_sec\": 1862,\n        \"deleted_threshold\": 0.2,\n        \"vacuum_min_vector_number\": 1000,\n        \"max_segment_size\": null,\n        \"memmap_threshold\": null,\n        \"indexing_threshold\": null,\n        \"max_optimization_threads\": null,\n        \"prevent_unoptimized\": null\n      },\n      \"params\": {\n        \"vectors\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"shard_number\": 1,\n        \"sharding_method\": \"custom\",\n        \"replication_factor\": 1,\n        \"write_consistency_factor\": 1,\n        \"read_fan_out_factor\": 4024,\n        \"read_fan_out_delay_ms\": 9010,\n        \"on_disk_payload\": true,\n        \"sparse_vectors\": {\n          \"key_0\": {\n            \"index\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"modifier\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        }\n      },\n      \"wal_config\": {\n        \"wal_capacity_mb\": 3937,\n        \"wal_segments_ahead\": 1568,\n        \"wal_retain_closed\": 1\n      },\n      \"quantization_config\": {\n        \"scalar\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"strict_mode_config\": {\n        \"enabled\": true,\n        \"max_query_limit\": 6154,\n        \"max_timeout\": 3577,\n        \"unindexed_filtering_retrieve\": true,\n        \"unindexed_filtering_update\": true,\n        \"search_max_hnsw_ef\": 2808,\n        \"search_allow_exact\": true,\n        \"search_max_oversampling\": 8246.454931478322,\n        \"upsert_max_batchsize\": 1632,\n        \"search_max_batchsize\": 6864,\n        \"max_collection_vector_size_bytes\": 3764,\n        \"read_rate_limit\": 4158,\n        \"write_rate_limit\": 7835,\n        \"max_collection_payload_size_bytes\": 6812,\n        \"max_points_count\": 915,\n        \"filter_max_conditions\": 611,\n        \"condition_max_size\": 5798,\n        \"multivector_config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"sparse_config\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"max_payload_index_count\": 1871\n      },\n      \"metadata\": {\n        \"city\": \"London\",\n        \"color\": \"green\"\n      }\n    },\n    \"optimizer_status\": \"ok\",\n    \"payload_schema\": {\n      \"key_0\": {\n        \"data_type\": \"float\",\n        \"points\": 3909,\n        \"params\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    \"segments_count\": 4463,\n    \"status\": \"red\",\n    \"warnings\": [\n      {\n        \"message\": \"string\"\n      },\n      {\n        \"message\": \"string\"\n      }\n    ],\n    \"indexed_vectors_count\": 6814,\n    \"points_count\": 6390,\n    \"update_queue\": {\n      \"length\": 5322,\n      \"deferred_points\": 4787\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57e16229-66c2-48dc-92ef-dab65c020073",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to retrieve"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c70a7354-7621-49bd-871d-48eab93ef84a",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to retrieve"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40ec42af-a63b-4184-808b-79ec5fe19eef",
+          "name": "Create collection",
+          "request": {
+            "name": "Create collection",
+            "description": {
+              "content": "Create new collection with given parameters",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "timeout",
+                  "value": "<integer>",
+                  "description": "Wait for operation commit timeout in seconds.\nIf timeout is reached - request will return with service error.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_name",
+                  "description": "(Required) Name of the new collection"
+                },
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vectors\": {\n    \"distance\": \"<string>\",\n    \"size\": \"<uint64>\",\n    \"hnsw_config\": {\n      \"m\": \"<uint>\",\n      \"ef_construct\": \"<uint>\",\n      \"full_scan_threshold\": \"<uint>\",\n      \"max_indexing_threads\": \"<uint>\",\n      \"on_disk\": \"<boolean>\",\n      \"payload_m\": \"<uint>\",\n      \"inline_storage\": \"<boolean>\"\n    },\n    \"quantization_config\": {\n      \"scalar\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    \"on_disk\": \"<boolean>\",\n    \"datatype\": \"<string>\",\n    \"multivector_config\": {\n      \"comparator\": \"<string>\"\n    }\n  },\n  \"shard_number\": null,\n  \"sharding_method\": \"<string>\",\n  \"replication_factor\": null,\n  \"write_consistency_factor\": null,\n  \"on_disk_payload\": null,\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"wal_config\": {\n    \"wal_capacity_mb\": \"<uint>\",\n    \"wal_segments_ahead\": \"<uint>\",\n    \"wal_retain_closed\": \"<uint>\"\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    },\n    \"key_1\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    },\n    \"key_2\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_2\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_3\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"string\",\n    \"key_1\": false\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1499fb23-baae-4871-b412-6d5c4645ffa9",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the new collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vectors\": {\n    \"distance\": \"<string>\",\n    \"size\": \"<uint64>\",\n    \"hnsw_config\": {\n      \"m\": \"<uint>\",\n      \"ef_construct\": \"<uint>\",\n      \"full_scan_threshold\": \"<uint>\",\n      \"max_indexing_threads\": \"<uint>\",\n      \"on_disk\": \"<boolean>\",\n      \"payload_m\": \"<uint>\",\n      \"inline_storage\": \"<boolean>\"\n    },\n    \"quantization_config\": {\n      \"scalar\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    \"on_disk\": \"<boolean>\",\n    \"datatype\": \"<string>\",\n    \"multivector_config\": {\n      \"comparator\": \"<string>\"\n    }\n  },\n  \"shard_number\": null,\n  \"sharding_method\": \"<string>\",\n  \"replication_factor\": null,\n  \"write_consistency_factor\": null,\n  \"on_disk_payload\": null,\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"wal_config\": {\n    \"wal_capacity_mb\": \"<uint>\",\n    \"wal_segments_ahead\": \"<uint>\",\n    \"wal_retain_closed\": \"<uint>\"\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    },\n    \"key_1\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"city\": \"London\",\n    \"color\": \"green\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 5223,\n      \"payload_index_io_read\": 990,\n      \"payload_index_io_write\": 4459,\n      \"payload_io_read\": 5754,\n      \"payload_io_write\": 5943,\n      \"vector_io_read\": 4457,\n      \"vector_io_write\": 8941\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fbe76e58-538d-4d13-828b-72959bcd89fd",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the new collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vectors\": {\n    \"distance\": \"<string>\",\n    \"size\": \"<uint64>\",\n    \"hnsw_config\": {\n      \"m\": \"<uint>\",\n      \"ef_construct\": \"<uint>\",\n      \"full_scan_threshold\": \"<uint>\",\n      \"max_indexing_threads\": \"<uint>\",\n      \"on_disk\": \"<boolean>\",\n      \"payload_m\": \"<uint>\",\n      \"inline_storage\": \"<boolean>\"\n    },\n    \"quantization_config\": {\n      \"scalar\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    \"on_disk\": \"<boolean>\",\n    \"datatype\": \"<string>\",\n    \"multivector_config\": {\n      \"comparator\": \"<string>\"\n    }\n  },\n  \"shard_number\": null,\n  \"sharding_method\": \"<string>\",\n  \"replication_factor\": null,\n  \"write_consistency_factor\": null,\n  \"on_disk_payload\": null,\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"wal_config\": {\n    \"wal_capacity_mb\": \"<uint>\",\n    \"wal_segments_ahead\": \"<uint>\",\n    \"wal_retain_closed\": \"<uint>\"\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    },\n    \"key_1\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"city\": \"London\",\n    \"color\": \"green\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f7a29cf-b453-473d-9f95-bfce05f98a87",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the new collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vectors\": {\n    \"distance\": \"<string>\",\n    \"size\": \"<uint64>\",\n    \"hnsw_config\": {\n      \"m\": \"<uint>\",\n      \"ef_construct\": \"<uint>\",\n      \"full_scan_threshold\": \"<uint>\",\n      \"max_indexing_threads\": \"<uint>\",\n      \"on_disk\": \"<boolean>\",\n      \"payload_m\": \"<uint>\",\n      \"inline_storage\": \"<boolean>\"\n    },\n    \"quantization_config\": {\n      \"scalar\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    \"on_disk\": \"<boolean>\",\n    \"datatype\": \"<string>\",\n    \"multivector_config\": {\n      \"comparator\": \"<string>\"\n    }\n  },\n  \"shard_number\": null,\n  \"sharding_method\": \"<string>\",\n  \"replication_factor\": null,\n  \"write_consistency_factor\": null,\n  \"on_disk_payload\": null,\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"wal_config\": {\n    \"wal_capacity_mb\": \"<uint>\",\n    \"wal_segments_ahead\": \"<uint>\",\n    \"wal_retain_closed\": \"<uint>\"\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    },\n    \"key_1\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": \"<string>\"\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"city\": \"London\",\n    \"color\": \"green\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d05d5f9b-eb5a-48cc-bc96-03b409c2eac1",
+          "name": "Update collection parameters",
+          "request": {
+            "name": "Update collection parameters",
+            "description": {
+              "content": "Update parameters of the existing collection",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "timeout",
+                  "value": "<integer>",
+                  "description": "Wait for operation commit timeout in seconds.\nIf timeout is reached - request will return with service error.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_name",
+                  "description": "(Required) Name of the collection to update"
+                },
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vectors\": {\n    \"key_0\": {\n      \"hnsw_config\": {\n        \"m\": \"<uint>\",\n        \"ef_construct\": \"<uint>\",\n        \"full_scan_threshold\": \"<uint>\",\n        \"max_indexing_threads\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"payload_m\": \"<uint>\",\n        \"inline_storage\": \"<boolean>\"\n      },\n      \"quantization_config\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"on_disk\": \"<boolean>\"\n    }\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"params\": {\n    \"replication_factor\": \"<uint32>\",\n    \"write_consistency_factor\": \"<uint32>\",\n    \"read_fan_out_factor\": \"<uint32>\",\n    \"read_fan_out_delay_ms\": \"<uint64>\",\n    \"on_disk_payload\": null\n  },\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"modifier\": \"<string>\"\n    },\n    \"key_1\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_2\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"key_0\": true,\n    \"key_1\": 1575\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f97ade50-54ce-4bf1-9eca-1e749d7a9f1d",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to update"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vectors\": {\n    \"key_0\": {\n      \"hnsw_config\": {\n        \"m\": \"<uint>\",\n        \"ef_construct\": \"<uint>\",\n        \"full_scan_threshold\": \"<uint>\",\n        \"max_indexing_threads\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"payload_m\": \"<uint>\",\n        \"inline_storage\": \"<boolean>\"\n      },\n      \"quantization_config\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"on_disk\": \"<boolean>\"\n    },\n    \"key_1\": {\n      \"hnsw_config\": {\n        \"m\": \"<uint>\",\n        \"ef_construct\": \"<uint>\",\n        \"full_scan_threshold\": \"<uint>\",\n        \"max_indexing_threads\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"payload_m\": \"<uint>\",\n        \"inline_storage\": \"<boolean>\"\n      },\n      \"quantization_config\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"on_disk\": \"<boolean>\"\n    }\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"params\": {\n    \"replication_factor\": \"<uint32>\",\n    \"write_consistency_factor\": \"<uint32>\",\n    \"read_fan_out_factor\": \"<uint32>\",\n    \"read_fan_out_delay_ms\": \"<uint64>\",\n    \"on_disk_payload\": null\n  },\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_2\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_3\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"city\": \"London\",\n    \"color\": \"green\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 5223,\n      \"payload_index_io_read\": 990,\n      \"payload_index_io_write\": 4459,\n      \"payload_io_read\": 5754,\n      \"payload_io_write\": 5943,\n      \"vector_io_read\": 4457,\n      \"vector_io_write\": 8941\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c7ab1a24-55fc-4249-a647-d9377c3a235a",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to update"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vectors\": {\n    \"key_0\": {\n      \"hnsw_config\": {\n        \"m\": \"<uint>\",\n        \"ef_construct\": \"<uint>\",\n        \"full_scan_threshold\": \"<uint>\",\n        \"max_indexing_threads\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"payload_m\": \"<uint>\",\n        \"inline_storage\": \"<boolean>\"\n      },\n      \"quantization_config\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"on_disk\": \"<boolean>\"\n    },\n    \"key_1\": {\n      \"hnsw_config\": {\n        \"m\": \"<uint>\",\n        \"ef_construct\": \"<uint>\",\n        \"full_scan_threshold\": \"<uint>\",\n        \"max_indexing_threads\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"payload_m\": \"<uint>\",\n        \"inline_storage\": \"<boolean>\"\n      },\n      \"quantization_config\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"on_disk\": \"<boolean>\"\n    }\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"params\": {\n    \"replication_factor\": \"<uint32>\",\n    \"write_consistency_factor\": \"<uint32>\",\n    \"read_fan_out_factor\": \"<uint32>\",\n    \"read_fan_out_delay_ms\": \"<uint64>\",\n    \"on_disk_payload\": null\n  },\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_2\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_3\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"city\": \"London\",\n    \"color\": \"green\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee829748-b176-4b7f-99a0-387e039aa350",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to update"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"vectors\": {\n    \"key_0\": {\n      \"hnsw_config\": {\n        \"m\": \"<uint>\",\n        \"ef_construct\": \"<uint>\",\n        \"full_scan_threshold\": \"<uint>\",\n        \"max_indexing_threads\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"payload_m\": \"<uint>\",\n        \"inline_storage\": \"<boolean>\"\n      },\n      \"quantization_config\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"on_disk\": \"<boolean>\"\n    },\n    \"key_1\": {\n      \"hnsw_config\": {\n        \"m\": \"<uint>\",\n        \"ef_construct\": \"<uint>\",\n        \"full_scan_threshold\": \"<uint>\",\n        \"max_indexing_threads\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"payload_m\": \"<uint>\",\n        \"inline_storage\": \"<boolean>\"\n      },\n      \"quantization_config\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"on_disk\": \"<boolean>\"\n    }\n  },\n  \"optimizers_config\": {\n    \"deleted_threshold\": \"<double>\",\n    \"vacuum_min_vector_number\": \"<uint>\",\n    \"default_segment_number\": \"<uint>\",\n    \"max_segment_size\": \"<uint>\",\n    \"memmap_threshold\": \"<uint>\",\n    \"indexing_threshold\": \"<uint>\",\n    \"flush_interval_sec\": \"<uint64>\",\n    \"max_optimization_threads\": \"<string>\",\n    \"prevent_unoptimized\": null\n  },\n  \"params\": {\n    \"replication_factor\": \"<uint32>\",\n    \"write_consistency_factor\": \"<uint32>\",\n    \"read_fan_out_factor\": \"<uint32>\",\n    \"read_fan_out_delay_ms\": \"<uint64>\",\n    \"on_disk_payload\": null\n  },\n  \"hnsw_config\": {\n    \"m\": \"<uint>\",\n    \"ef_construct\": \"<uint>\",\n    \"full_scan_threshold\": \"<uint>\",\n    \"max_indexing_threads\": \"<uint>\",\n    \"on_disk\": \"<boolean>\",\n    \"payload_m\": \"<uint>\",\n    \"inline_storage\": \"<boolean>\"\n  },\n  \"quantization_config\": {\n    \"scalar\": {\n      \"type\": \"<string>\",\n      \"quantile\": \"<float>\",\n      \"always_ram\": \"<boolean>\"\n    }\n  },\n  \"sparse_vectors\": {\n    \"key_0\": {\n      \"index\": {\n        \"full_scan_threshold\": \"<uint>\",\n        \"on_disk\": \"<boolean>\",\n        \"datatype\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      },\n      \"modifier\": \"<string>\"\n    }\n  },\n  \"strict_mode_config\": {\n    \"enabled\": \"<boolean>\",\n    \"max_query_limit\": \"<uint>\",\n    \"max_timeout\": \"<uint>\",\n    \"unindexed_filtering_retrieve\": \"<boolean>\",\n    \"unindexed_filtering_update\": \"<boolean>\",\n    \"search_max_hnsw_ef\": \"<uint>\",\n    \"search_allow_exact\": \"<boolean>\",\n    \"search_max_oversampling\": \"<double>\",\n    \"upsert_max_batchsize\": \"<uint>\",\n    \"search_max_batchsize\": \"<uint>\",\n    \"max_collection_vector_size_bytes\": \"<uint>\",\n    \"read_rate_limit\": \"<uint>\",\n    \"write_rate_limit\": \"<uint>\",\n    \"max_collection_payload_size_bytes\": \"<uint>\",\n    \"max_points_count\": \"<uint>\",\n    \"filter_max_conditions\": \"<uint>\",\n    \"condition_max_size\": \"<uint>\",\n    \"multivector_config\": {\n      \"key_0\": {\n        \"max_vectors\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_vectors\": \"<uint>\"\n      }\n    },\n    \"sparse_config\": {\n      \"key_0\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_1\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_2\": {\n        \"max_length\": \"<uint>\"\n      },\n      \"key_3\": {\n        \"max_length\": \"<uint>\"\n      }\n    },\n    \"max_payload_index_count\": \"<uint>\"\n  },\n  \"metadata\": {\n    \"city\": \"London\",\n    \"color\": \"green\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1d092648-7b00-4bb6-ad85-a1eaab751c15",
+          "name": "Delete collection",
+          "request": {
+            "name": "Delete collection",
+            "description": {
+              "content": "Drop collection and all associated data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "timeout",
+                  "value": "<integer>",
+                  "description": "Wait for operation commit timeout in seconds.\nIf timeout is reached - request will return with service error.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_name",
+                  "description": "(Required) Name of the collection to delete"
+                },
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dc447f39-fa1b-493d-a7ff-7efa69886138",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to delete"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 5223,\n      \"payload_index_io_read\": 990,\n      \"payload_index_io_write\": 4459,\n      \"payload_io_read\": 5754,\n      \"payload_io_write\": 5943,\n      \"vector_io_read\": 4457,\n      \"vector_io_write\": 8941\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "182f2c3a-904f-48e4-8035-eeb2b82546e2",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to delete"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "180bcc4d-80ce-41c9-93d9-8eb8720cf95c",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "timeout",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection to delete"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6755443d-1fa4-42e6-884c-026197b81216",
+          "name": "Check the existence of a collection",
+          "request": {
+            "name": "Check the existence of a collection",
+            "description": {
+              "content": "Returns \"true\" if the given collection name exists, and \"false\" otherwise",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_name",
+                "exists"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_name",
+                  "description": "(Required) Name of the collection"
+                },
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ed8336fb-8e2a-45b9-902d-f9b71d944b77",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name",
+                    "exists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 8606,\n      \"payload_index_io_read\": 6770,\n      \"payload_index_io_write\": 3125,\n      \"payload_io_read\": 9307,\n      \"payload_io_write\": 8323,\n      \"vector_io_read\": 305,\n      \"vector_io_write\": 9041\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": {\n    \"exists\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5da92abe-fe78-4b0e-8d00-6242eb1aeae1",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name",
+                    "exists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47849094-b2e4-47d8-8b69-2e438247ab56",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name",
+                    "exists"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "28f7d6b9-e180-40d9-bb23-8a2d933ae649",
+          "name": "Get optimization progress",
+          "request": {
+            "name": "Get optimization progress",
+            "description": {
+              "content": "Get progress of ongoing and completed optimizations for a collection",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "collections",
+                ":collection_name",
+                "optimizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "with",
+                  "value": "<string>",
+                  "description": "Comma-separated list of optional fields to include in the response.\nPossible values: queued, completed, idle_segments."
+                },
+                {
+                  "disabled": false,
+                  "key": "completed_limit",
+                  "value": "16",
+                  "description": "Maximum number of completed optimizations to return.\nIgnored if `completed` is not in the `with` parameter."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_name",
+                  "description": "(Required) Name of the collection"
+                },
+                {
+                  "description": " (This can only be one of http,https)",
+                  "type": "any",
+                  "value": "{{protocol}}",
+                  "key": "protocol"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{hostname}}",
+                  "key": "hostname"
+                },
+                {
+                  "description": {
+                    "content": "",
+                    "type": "text/plain"
+                  },
+                  "type": "any",
+                  "value": "{{port}}",
+                  "key": "port"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "579fdbef-0ce5-4f0c-83d8-f29605765d60",
+              "name": "successful operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name",
+                    "optimizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "with",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "completed_limit",
+                      "value": "16"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"usage\": {\n    \"hardware\": {\n      \"cpu\": 5303,\n      \"payload_index_io_read\": 4441,\n      \"payload_index_io_write\": 8711,\n      \"payload_io_read\": 3634,\n      \"payload_io_write\": 4836,\n      \"vector_io_read\": 5758,\n      \"vector_io_write\": 6966\n    },\n    \"inference\": {\n      \"models\": {\n        \"key_0\": {\n          \"tokens\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      }\n    }\n  },\n  \"time\": 0.002,\n  \"status\": \"ok\",\n  \"result\": {\n    \"running\": [\n      {\n        \"optimizer\": \"string\",\n        \"progress\": {\n          \"name\": \"string\",\n          \"started_at\": \"1987-09-04T22:06:01.170Z\",\n          \"finished_at\": \"2022-08-29T19:37:02.919Z\",\n          \"duration_sec\": 5527.529570370676,\n          \"done\": 1547,\n          \"total\": 2102,\n          \"children\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            }\n          ]\n        },\n        \"segments\": [\n          {\n            \"points_count\": 1336,\n            \"uuid\": \"9dc4ff4f-d378-46e3-5f0e-b84402fe7e1c\"\n          },\n          {\n            \"points_count\": 4079,\n            \"uuid\": \"0752aa42-9c9c-6550-d03c-4454f91cf255\"\n          }\n        ],\n        \"status\": \"optimizing\",\n        \"uuid\": \"2d859559-8bbb-d83f-6d49-72abbb77e81f\"\n      },\n      {\n        \"optimizer\": \"string\",\n        \"progress\": {\n          \"name\": \"string\",\n          \"started_at\": \"2006-07-17T00:31:49.301Z\",\n          \"finished_at\": \"1990-12-22T20:14:09.841Z\",\n          \"duration_sec\": 5720.900978715468,\n          \"done\": 6853,\n          \"total\": 585,\n          \"children\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            }\n          ]\n        },\n        \"segments\": [\n          {\n            \"points_count\": 7058,\n            \"uuid\": \"17e23456-6507-a26f-18eb-a57b867e4310\"\n          },\n          {\n            \"points_count\": 7783,\n            \"uuid\": \"9688a4fb-324e-a34d-bb0c-55a36645f65e\"\n          }\n        ],\n        \"status\": \"done\",\n        \"uuid\": \"7f03f049-c2ca-97b3-ce68-e111b6a5aa3d\"\n      }\n    ],\n    \"summary\": {\n      \"idle_segments\": 8085,\n      \"queued_optimizations\": 8892,\n      \"queued_points\": 8133,\n      \"queued_segments\": 1556\n    },\n    \"queued\": [\n      {\n        \"optimizer\": \"string\",\n        \"segments\": [\n          {\n            \"points_count\": 1999,\n            \"uuid\": \"6714ec11-9393-b057-afcc-ea10069a1c8a\"\n          },\n          {\n            \"points_count\": 5642,\n            \"uuid\": \"9777be33-38db-0aa1-191c-e670d2a4287c\"\n          }\n        ]\n      },\n      {\n        \"optimizer\": \"string\",\n        \"segments\": [\n          {\n            \"points_count\": 4865,\n            \"uuid\": \"7556c42f-d424-b8b3-4372-2334857fe064\"\n          },\n          {\n            \"points_count\": 4925,\n            \"uuid\": \"d1e14f23-77e1-707d-95e1-d8b736f8e2f4\"\n          }\n        ]\n      }\n    ],\n    \"completed\": [\n      {\n        \"optimizer\": \"string\",\n        \"progress\": {\n          \"name\": \"string\",\n          \"started_at\": \"1953-05-22T12:55:26.316Z\",\n          \"finished_at\": \"2000-09-09T21:13:09.089Z\",\n          \"duration_sec\": 8974.583726767403,\n          \"done\": 7407,\n          \"total\": 3189,\n          \"children\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            }\n          ]\n        },\n        \"segments\": [\n          {\n            \"points_count\": 8280,\n            \"uuid\": \"202a947e-aeb4-8e6f-4b11-fbe16fbbb1e6\"\n          },\n          {\n            \"points_count\": 8779,\n            \"uuid\": \"148cd1bb-f806-ad85-e1f3-0ffb99ed851a\"\n          }\n        ],\n        \"status\": \"optimizing\",\n        \"uuid\": \"4e742036-b8f1-45cf-137e-7c7aa7c740a1\"\n      },\n      {\n        \"optimizer\": \"string\",\n        \"progress\": {\n          \"name\": \"string\",\n          \"started_at\": \"2002-07-14T18:24:02.708Z\",\n          \"finished_at\": \"2002-06-01T08:28:12.086Z\",\n          \"duration_sec\": 3286.268616583027,\n          \"done\": 3312,\n          \"total\": 5971,\n          \"children\": [\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            },\n            {\n              \"value\": \"<Circular reference to #/components/schemas/ProgressTree detected>\"\n            }\n          ]\n        },\n        \"segments\": [\n          {\n            \"points_count\": 1284,\n            \"uuid\": \"b05df540-d58c-4bba-2b11-9f53164ea4a9\"\n          },\n          {\n            \"points_count\": 8836,\n            \"uuid\": \"3d7fc8f6-88a9-db5d-e826-0b9ddffe4e9f\"\n          }\n        ],\n        \"status\": \"optimizing\",\n        \"uuid\": \"9c1fccdf-8692-1135-2ea7-c5af9ef63a42\"\n      }\n    ],\n    \"idle_segments\": [\n      {\n        \"points_count\": 2707,\n        \"uuid\": \"630e35a5-ffd4-1db5-b1b7-e792314793c6\"\n      },\n      {\n        \"points_count\": 6995,\n        \"uuid\": \"c0f57fa6-3232-d69a-f9e9-537e758b1f41\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "46304d4e-9343-4c44-a1c8-4eb3472da7b9",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name",
+                    "optimizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "with",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "completed_limit",
+                      "value": "16"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8c4f666e-ec4f-41a2-8e5e-da70ad06fb01",
+              "name": "error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "collections",
+                    ":collection_name",
+                    "optimizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "with",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "completed_limit",
+                      "value": "16"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_name",
+                      "description": "(Required) Name of the collection"
+                    },
+                    {
+                      "description": " (This can only be one of http,https)",
+                      "type": "any",
+                      "value": "{{protocol}}",
+                      "key": "protocol"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{hostname}}",
+                      "key": "hostname"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "type": "any",
+                      "value": "{{port}}",
+                      "key": "port"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"time\": 1697.38258311664,\n  \"status\": {\n    \"error\": \"string\"\n  },\n  \"result\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": " (This can only be one of http,https)",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "http",
+      "key": "protocol"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "localhost",
+      "key": "hostname"
+    },
+    {
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "6333",
+      "key": "port"
+    },
+    {
+      "type": "string",
+      "value": "{{protocol}}://{{hostname}}:{{port}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2dd087c8-5826-4bb0-9a8f-3b8a81d4e55b",
+    "name": "Qdrant Aliases Collections API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API description for Qdrant vector search engine.\n\nThis document describes CRUD and search operations on collections of points (vectors with payload).\n\nQdrant supports any combinations of `should`, `min_should`, `must` and `must_not` conditions, which makes it possible to use in applications when object could not be described solely by vector. It could be location features, availability flags, and other custom properties businesses should take into account.\n## Examples\nThis examples cover the most basic use-cases - collection creation and basic vector search.\n### Create collection\nFirst - let's create a collection with dot-production metric.\n```\ncurl -X PUT 'http://localhost:6333/collections/test_collection' \\\n  -H 'Content-Type: application/json' \\\n  --data-raw '{\n    \"vectors\": {\n      \"size\": 4,\n      \"distance\": \"Dot\"\n    }\n  }'\n\n```\nExpected response:\n```\n{\n    \"result\": true,\n    \"status\": \"ok\",\n    \"time\": 0.031095451\n}\n```\nWe can ensure that collection was created:\n```\ncurl 'http://localhost:6333/collections/test_collection'\n```\nExpected response:\n```\n{\n  \"result\": {\n    \"status\": \"green\",\n    \"segments_count\": 5,\n    \"disk_data_size\": 0,\n    \"ram_data_size\": 0,\n    \"config\": {\n      \"params\": {\n        \"vectors\": {\n          \"size\": 4,\n          \"distance\": \"Dot\"\n        }\n      },\n      \"hnsw_config\": {\n        \"m\": 16,\n        \"ef_construct\": 100,\n        \"full_scan_threshold\": 10000\n      },\n      \"optimizer_config\": {\n        \"deleted_threshold\": 0.2,\n        \"vacuum_min_vector_number\": 1000,\n        \"default_segment_number\": 2,\n        \"max_segment_size\": null,\n        \"memmap_threshold\": null,\n        \"indexing_threshold\": 20000,\n        \"flush_interval_sec\": 5,\n        \"max_optimization_threads\": null\n      },\n      \"wal_config\": {\n        \"wal_capacity_mb\": 32,\n        \"wal_segments_ahead\": 0\n      }\n    }\n  },\n  \"status\": \"ok\",\n  \"time\": 2.1199e-05\n}\n```\n\n### Add points\nLet's now add vectors with some payload:\n```\ncurl -L -X PUT 'http://localhost:6333/collections/test_collection/points?wait=true' \\ -H 'Content-Type: application/json' \\ --data-raw '{\n  \"points\": [\n    {\"id\": 1, \"vector\": [0.05, 0.61, 0.76, 0.74], \"payload\": {\"city\": \"Berlin\"}},\n    {\"id\": 2, \"vector\": [0.19, 0.81, 0.75, 0.11], \"payload\": {\"city\": [\"Berlin\", \"London\"] }},\n    {\"id\": 3, \"vector\": [0.36, 0.55, 0.47, 0.94], \"payload\": {\"city\": [\"Berlin\", \"Moscow\"] }},\n    {\"id\": 4, \"vector\": [0.18, 0.01, 0.85, 0.80], \"payload\": {\"city\": [\"London\", \"Moscow\"] }},\n    {\"id\": 5, \"vector\": [0.24, 0.18, 0.22, 0.44], \"payload\": {\"count\": [0]}},\n    {\"id\": 6, \"vector\": [0.35, 0.08, 0.11, 0.44]}\n  ]\n}'\n```\nExpected response:\n```\n{\n    \"result\": {\n        \"operation_id\": 0,\n        \"status\": \"completed\"\n    },\n    \"status\": \"ok\",\n    \"time\": 0.000206061\n}\n```\n### Search with filtering\nLet's start with a basic request:\n```\ncurl -L -X POST 'http://localhost:6333/collections/test_collection/points/search' \\ -H 'Content-Type: application/json' \\ --data-raw '{\n    \"vector\": [0.2,0.1,0.9,0.7],\n    \"top\": 3\n}'\n```\nExpected response:\n```\n{\n    \"result\": [\n        { \"id\": 4, \"score\": 1.362, \"payload\": null, \"version\": 0 },\n        { \"id\": 1, \"score\": 1.273, \"payload\": null, \"version\": 0 },\n        { \"id\": 3, \"score\": 1.208, \"payload\": null, \"version\": 0 }\n    ],\n    \"status\": \"ok\",\n    \"time\": 0.000055785\n}\n```\nBut result is different if we add a filter:\n```\ncurl -L -X POST 'http://localhost:6333/collections/test_collection/points/search' \\ -H 'Content-Type: application/json' \\ --data-raw '{\n    \"filter\": {\n        \"should\": [\n            {\n                \"key\": \"city\",\n                \"match\": {\n                    \"value\": \"London\"\n                }\n            }\n        ]\n    },\n    \"vector\": [0.2, 0.1, 0.9, 0.7],\n    \"top\": 3\n}'\n```\nExpected response:\n```\n{\n    \"result\": [\n        { \"id\": 4, \"score\": 1.362, \"payload\": null, \"version\": 0 },\n        { \"id\": 2, \"score\": 0.871, \"payload\": null, \"version\": 0 }\n    ],\n    \"status\": \"ok\",\n    \"time\": 0.000093972\n}\n```\n\n\nContact Support:\n Email: andrey@vasnetsov.com",
+      "type": "text/plain"
+    }
+  }
+}

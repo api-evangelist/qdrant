@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qdrant Aliases Beta API",
+    "version": "master"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "api-key",
+      "value": "{{api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Beta",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get issues",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{protocol}://{hostname}:{port}/issues"
+          },
+          "docs": "Get a report of performance issues and configuration suggestions"
+        },
+        {
+          "info": {
+            "name": "Clear issues",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{protocol}://{hostname}:{port}/issues"
+          },
+          "docs": "Removes all issues reported so far"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
