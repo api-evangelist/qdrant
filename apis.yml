@@ -35,7 +35,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/qdrant.png
 tags:
 - Artificial Intelligence
-- Vector Databases
+- Vector Database
 tags_raw:
 - AI
 - Artificial Intelligence
@@ -104,6 +104,8 @@ apis:
   description: Indexes for payloads associated with points.
   humanURL: https://qdrant.tech/documentation/
   tags:
+  - Index
+  tags_raw:
   - Indexes
   properties:
   - type: OpenAPI
@@ -143,6 +145,8 @@ apis:
   description: Qdrant service utilities.
   humanURL: https://qdrant.tech/documentation/
   tags:
+  - Services
+  tags_raw:
   - Service
   properties:
   - type: OpenAPI
