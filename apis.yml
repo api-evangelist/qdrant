@@ -36,10 +36,12 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/qdrant.png
 tags:
 - Artificial Intelligence
 - Vector Database
+- Database
 tags_raw:
 - AI
 - Artificial Intelligence
 - Vector Databases
+- Database
 url: https://raw.githubusercontent.com/api-evangelist/qdrant/refs/heads/main/apis.yml
 created: '2024-06-18'
 modified: '2026-05-19'
@@ -56,8 +58,6 @@ apis:
     url: openapi/qdrant-aliases-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-beta-api
   name: Qdrant Beta API
   description: Beta features, do not depend on these yet.
@@ -69,8 +69,6 @@ apis:
     url: openapi/qdrant-beta-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-collections-api
   name: Qdrant Collections API
   description: Searchable collections of points.
@@ -84,8 +82,6 @@ apis:
     url: openapi/qdrant-collections-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-distributed-api
   name: Qdrant Distributed API
   description: Service distributed setup.
@@ -97,8 +93,6 @@ apis:
     url: openapi/qdrant-distributed-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-indexes-api
   name: Qdrant Indexes API
   description: Indexes for payloads associated with points.
@@ -112,8 +106,6 @@ apis:
     url: openapi/qdrant-indexes-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-points-api
   name: Qdrant Points API
   description: Float-point vectors with payload.
@@ -125,8 +117,6 @@ apis:
     url: openapi/qdrant-points-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-search-api
   name: Qdrant Search API
   description: Find points in a collection.
@@ -138,8 +128,6 @@ apis:
     url: openapi/qdrant-search-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-service-api
   name: Qdrant Service API
   description: Qdrant service utilities.
@@ -153,8 +141,6 @@ apis:
     url: openapi/qdrant-service-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 - aid: qdrant:qdrant-snapshots-api
   name: Qdrant Snapshots API
   description: Storage and collections snapshots.
@@ -166,8 +152,6 @@ apis:
     url: openapi/qdrant-snapshots-api-openapi.yml
   - type: Documentation
     url: https://qdrant.tech/documentation/
-  - type: GraphQL
-    url: graphql/qdrant-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/qdrant-agentic-access.yml
