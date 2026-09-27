@@ -1052,68 +1052,15 @@ paths:
                 format: binary
 components:
   schemas:
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    ShardSnapshotRecover:
+    ModelUsage:
       type: object
       required:
-      - location
+      - tokens
       properties:
-        location:
-          $ref: '#/components/schemas/ShardSnapshotLocation'
-        priority:
-          default: null
-          anyOf:
-          - $ref: '#/components/schemas/SnapshotPriority'
-          - {}
-        checksum:
-          description: Optional SHA256 checksum to verify snapshot integrity before recovery.
-          default: null
-          type:
-          - string
-          - 'null'
-        api_key:
-          description: Optional API key used when fetching the snapshot from a remote URL.
-          default: null
-          type:
-          - string
-          - 'null'
-    ErrorResponse:
-      type: object
-      properties:
-        time:
-          type: number
-          format: float
-          description: Time spent to process this request
-        status:
-          type: object
-          properties:
-            error:
-              type: string
-              description: Description of the occurred error.
-        result:
-          type:
-          - object
-          - 'null'
-    InferenceUsage:
-      type: object
-      required:
-      - models
-      properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
     SnapshotRecover:
       type: object
       required:
@@ -1141,32 +1088,18 @@ components:
           type:
           - string
           - 'null'
-    SnapshotDescription:
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
       type: object
-      required:
-      - name
-      - size
       properties:
-        name:
-          type: string
-        creation_time:
-          type:
-          - string
-          - 'null'
-          format: partial-date-time
-        size:
-          type: integer
-          format: uint64
-          minimum: 0
-        checksum:
-          type:
-          - string
-          - 'null'
-      example:
-        name: my-collection-3766212330831337-2024-07-22-08-31-55.snapshot
-        creation_time: '2022-08-04T10:49:10'
-        size: 1000000
-        checksum: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -1207,6 +1140,41 @@ components:
           type: integer
           format: uint
           minimum: 0
+    SnapshotDescription:
+      type: object
+      required:
+      - name
+      - size
+      properties:
+        name:
+          type: string
+        creation_time:
+          type:
+          - string
+          - 'null'
+          format: partial-date-time
+        size:
+          type: integer
+          format: uint64
+          minimum: 0
+        checksum:
+          type:
+          - string
+          - 'null'
+      example:
+        name: my-collection-3766212330831337-2024-07-22-08-31-55.snapshot
+        creation_time: '2022-08-04T10:49:10'
+        size: 1000000
+        checksum: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
     SnapshotPriority:
       description: 'Defines source of truth for snapshot recovery:
 
@@ -1217,20 +1185,52 @@ components:
       - no_sync
       - snapshot
       - replica
-    ModelUsage:
-      type: object
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: integer
-          format: uint64
-          minimum: 0
     ShardSnapshotLocation:
       anyOf:
       - type: string
         format: uri
       - type: string
+    ErrorResponse:
+      type: object
+      properties:
+        time:
+          type: number
+          format: float
+          description: Time spent to process this request
+        status:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Description of the occurred error.
+        result:
+          type:
+          - object
+          - 'null'
+    ShardSnapshotRecover:
+      type: object
+      required:
+      - location
+      properties:
+        location:
+          $ref: '#/components/schemas/ShardSnapshotLocation'
+        priority:
+          default: null
+          anyOf:
+          - $ref: '#/components/schemas/SnapshotPriority'
+          - {}
+        checksum:
+          description: Optional SHA256 checksum to verify snapshot integrity before recovery.
+          default: null
+          type:
+          - string
+          - 'null'
+        api_key:
+          description: Optional API key used when fetching the snapshot from a remote URL.
+          default: null
+          type:
+          - string
+          - 'null'
   securitySchemes:
     api-key:
       type: apiKey
