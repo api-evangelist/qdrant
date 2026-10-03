@@ -223,6 +223,139 @@ paths:
           description: error
 components:
   schemas:
+    VectorsConfig:
+      description: 'Vector params separator for single and multiple vector modes Single mode:
+
+
+        { "size": 128, "distance": "Cosine" }
+
+
+        or multiple mode:
+
+
+        { "default": { "size": 128, "distance": "Cosine" } }'
+      anyOf:
+      - $ref: '#/components/schemas/VectorParams'
+      - type: object
+        additionalProperties:
+          $ref: '#/components/schemas/VectorParams'
+    ScalarQuantization:
+      type: object
+      required:
+      - scalar
+      properties:
+        scalar:
+          $ref: '#/components/schemas/ScalarQuantizationConfig'
+    SegmentInfo:
+      description: Aggregated information about segment
+      type: object
+      required:
+      - disk_usage_bytes
+      - index_schema
+      - is_appendable
+      - num_deleted_vectors
+      - num_indexed_vectors
+      - num_points
+      - num_vectors
+      - payloads_size_bytes
+      - ram_usage_bytes
+      - segment_type
+      - uuid
+      - vector_data
+      - vectors_size_bytes
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        segment_type:
+          $ref: '#/components/schemas/SegmentType'
+        num_vectors:
+          type: integer
+          format: uint
+          minimum: 0
+        num_points:
+          type: integer
+          format: uint
+          minimum: 0
+        num_deferred_points:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        num_deleted_deferred_points:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        num_indexed_vectors:
+          type: integer
+          format: uint
+          minimum: 0
+        num_deleted_vectors:
+          type: integer
+          format: uint
+          minimum: 0
+        vectors_size_bytes:
+          description: An ESTIMATION of effective amount of bytes used for vectors Do NOT rely on this number unless you know what you are doing
+          type: integer
+          format: uint
+          minimum: 0
+        payloads_size_bytes:
+          description: An estimation of the effective amount of bytes used for payloads
+          type: integer
+          format: uint
+          minimum: 0
+        ram_usage_bytes:
+          type: integer
+          format: uint
+          minimum: 0
+        disk_usage_bytes:
+          type: integer
+          format: uint
+          minimum: 0
+        is_appendable:
+          type: boolean
+        index_schema:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PayloadIndexInfo'
+        vector_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VectorDataInfo'
+        deferred_internal_id:
+          description: Internal ID from which points are deferred (hidden from reads). Only set for appendable segments.
+          type:
+          - integer
+          - 'null'
+          format: uint32
+          minimum: 0
+    SparseVectorDataConfig:
+      description: Config of single sparse vector data storage
+      type: object
+      required:
+      - index
+      properties:
+        index:
+          $ref: '#/components/schemas/SparseIndexConfig'
+        storage_type:
+          $ref: '#/components/schemas/SparseVectorStorageType'
+        modifier:
+          description: 'Configures addition value modifications for sparse vectors. Default: none'
+          anyOf:
+          - $ref: '#/components/schemas/Modifier'
+          - {}
+    ModelUsage:
+      type: object
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
     VectorParams:
       description: Params of single vector data storage
       type: object
@@ -264,93 +397,73 @@ components:
           anyOf:
           - $ref: '#/components/schemas/MultiVectorConfig'
           - {}
-    StopwordsInterface:
-      anyOf:
-      - $ref: '#/components/schemas/Language'
-      - $ref: '#/components/schemas/StopwordsSet'
-    ShardCleanStatusProgressTelemetry:
+    OptimizerTelemetry:
       type: object
       required:
-      - deleted_points
+      - optimizations
+      - status
       properties:
-        deleted_points:
-          type: integer
-          format: uint
-          minimum: 0
-    ShardStatus:
-      description: 'Current state of the shard (supports same states as the collection)
-
-
-        `Green` - all good. `Yellow` - optimization is running, ''Grey'' - optimizations are possible but not triggered, `Red` - some operations failed and was not recovered'
-      type: string
-      enum:
-      - green
-      - yellow
-      - grey
-      - red
-    WalConfig:
-      type: object
-      required:
-      - wal_capacity_mb
-      - wal_segments_ahead
-      properties:
-        wal_capacity_mb:
-          description: Size of a single WAL segment in MB
-          type: integer
-          format: uint
-          minimum: 1
-        wal_segments_ahead:
-          description: Number of WAL segments to create ahead of actually used ones
-          type: integer
-          format: uint
-          minimum: 0
-        wal_retain_closed:
-          description: Number of closed WAL segments to keep
-          default: 1
-          type: integer
-          format: uint
-          minimum: 1
-    SegmentTelemetry:
-      type: object
-      required:
-      - config
-      - info
-      - payload_field_indices
-      - vector_index_searches
-      properties:
-        info:
-          $ref: '#/components/schemas/SegmentInfo'
-        config:
-          $ref: '#/components/schemas/SegmentConfig'
-        vector_index_searches:
-          type: array
+        status:
+          $ref: '#/components/schemas/OptimizersStatus'
+        optimizations:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        log:
+          type:
+          - array
+          - 'null'
           items:
-            $ref: '#/components/schemas/VectorIndexSearchesTelemetry'
-        payload_field_indices:
-          type: array
-          items:
-            $ref: '#/components/schemas/PayloadIndexTelemetry'
-    ReshardingInfo:
+            $ref: '#/components/schemas/TrackerTelemetry'
+    AppFeaturesTelemetry:
       type: object
       required:
-      - direction
-      - peer_id
-      - shard_id
+      - debug
+      - gpu
+      - recovery_mode
+      - rocksdb
+      - service_debug_feature
+      - staging
       properties:
-        direction:
-          $ref: '#/components/schemas/ReshardingDirection'
-        shard_id:
+        debug:
+          type: boolean
+        service_debug_feature:
+          type: boolean
+        recovery_mode:
+          type: boolean
+        gpu:
+          type: boolean
+        rocksdb:
+          type: boolean
+        staging:
+          type: boolean
+    ConsensusConfigTelemetry:
+      type: object
+      required:
+      - bootstrap_timeout_sec
+      - max_message_queue_size
+      - tick_period_ms
+      properties:
+        max_message_queue_size:
           type: integer
-          format: uint32
+          format: uint
           minimum: 0
-        peer_id:
+        tick_period_ms:
           type: integer
           format: uint64
           minimum: 0
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKey'
-          - {}
+        bootstrap_timeout_sec:
+          type: integer
+          format: uint64
+          minimum: 0
+    SparseVectorStorageType:
+      oneOf:
+      - description: Storage on disk (rocksdb storage)
+        type: string
+        enum:
+        - on_disk
+      - description: Storage in memory maps (gridstore storage)
+        type: string
+        enum:
+        - mmap
     ReplicaSetTelemetry:
       type: object
       required:
@@ -382,102 +495,457 @@ components:
           anyOf:
           - $ref: '#/components/schemas/PartialSnapshotTelemetry'
           - {}
-    StrictModeSparseOutput:
-      type: object
-      properties:
-        max_length:
-          description: Max length of sparse vector
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-    RunningEnvironmentTelemetry:
+    PayloadSchemaParams:
+      description: Payload type with parameters
+      anyOf:
+      - $ref: '#/components/schemas/KeywordIndexParams'
+      - $ref: '#/components/schemas/IntegerIndexParams'
+      - $ref: '#/components/schemas/FloatIndexParams'
+      - $ref: '#/components/schemas/GeoIndexParams'
+      - $ref: '#/components/schemas/TextIndexParams'
+      - $ref: '#/components/schemas/BoolIndexParams'
+      - $ref: '#/components/schemas/DatetimeIndexParams'
+      - $ref: '#/components/schemas/UuidIndexParams'
+    TextIndexParams:
       type: object
       required:
-      - cpu_flags
-      - is_docker
+      - type
       properties:
-        distribution:
-          type:
-          - string
-          - 'null'
-        distribution_version:
-          type:
-          - string
-          - 'null'
-        is_docker:
-          type: boolean
-        cores:
+        type:
+          $ref: '#/components/schemas/TextIndexType'
+        tokenizer:
+          $ref: '#/components/schemas/TokenizerType'
+        min_token_len:
+          description: Minimum characters to be tokenized.
           type:
           - integer
           - 'null'
           format: uint
           minimum: 0
-        ram_size:
+        max_token_len:
+          description: Maximum characters to be tokenized.
           type:
           - integer
           - 'null'
           format: uint
           minimum: 0
-        disk_size:
+        lowercase:
+          description: 'If true, lowercase all tokens. Default: true.'
           type:
-          - integer
+          - boolean
           - 'null'
-          format: uint
-          minimum: 0
-        cpu_flags:
-          type: string
-        cpu_endian:
+        ascii_folding:
+          description: 'If true, normalize tokens by folding accented characters to ASCII (e.g., "ação" -> "acao"). Default: false.'
+          type:
+          - boolean
+          - 'null'
+        phrase_matching:
+          description: 'If true, support phrase matching. Default: false.'
+          type:
+          - boolean
+          - 'null'
+        stopwords:
+          description: Ignore this set of tokens. Can select from predefined languages and/or provide a custom set.
           anyOf:
-          - $ref: '#/components/schemas/CpuEndian'
+          - $ref: '#/components/schemas/StopwordsInterface'
           - {}
-        gpu_devices:
+        on_disk:
+          description: 'If true, store the index on disk. Default: false.'
           type:
-          - array
+          - boolean
           - 'null'
-          items:
-            $ref: '#/components/schemas/GpuDeviceTelemetry'
-    TelemetryData:
+        stemmer:
+          description: 'Algorithm for stemming. Default: disabled.'
+          anyOf:
+          - $ref: '#/components/schemas/StemmingAlgorithm'
+          - {}
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    FeatureFlags:
+      type: object
+      properties:
+        all:
+          description: 'Magic feature flag that enables all features.
+
+
+            Note that this will only be applied to all flags when passed into [`init_feature_flags`].'
+          default: false
+          type: boolean
+        payload_index_skip_rocksdb:
+          description: 'Skip usage of RocksDB in new immutable payload indices.
+
+
+            First implemented in Qdrant 1.13.5. Enabled by default in Qdrant 1.14.1.'
+          default: true
+          type: boolean
+        payload_index_skip_mutable_rocksdb:
+          description: 'Skip usage of RocksDB in new mutable payload indices.
+
+
+            First implemented in Qdrant 1.15.0. Enabled by default in Qdrant 1.16.0.'
+          default: true
+          type: boolean
+        payload_storage_skip_rocksdb:
+          description: 'Skip usage of RocksDB in new payload storages.
+
+
+            On-disk payload storages never use Gridstore.
+
+
+            First implemented in Qdrant 1.15.0. Enabled by default in Qdrant 1.16.0.'
+          default: true
+          type: boolean
+        incremental_hnsw_building:
+          description: 'Use incremental HNSW building.
+
+
+            Enabled by default in Qdrant 1.14.1.'
+          default: true
+          type: boolean
+        migrate_rocksdb_id_tracker:
+          description: 'Migrate RocksDB based ID trackers into file based ID tracker on start.
+
+
+            Enabled by default in Qdrant 1.15.0.'
+          default: true
+          type: boolean
+        migrate_rocksdb_vector_storage:
+          description: 'Migrate RocksDB based vector storages into new format on start.
+
+
+            Enabled by default in Qdrant 1.16.1.'
+          default: true
+          type: boolean
+        migrate_rocksdb_payload_storage:
+          description: 'Migrate RocksDB based payload storages into new format on start.
+
+
+            Enabled by default in Qdrant 1.16.1.'
+          default: true
+          type: boolean
+        migrate_rocksdb_payload_indices:
+          description: 'Migrate RocksDB based payload indices into new format on start.
+
+
+            Rebuilds a new payload index from scratch.
+
+
+            Enabled by default in Qdrant 1.16.1.'
+          default: true
+          type: boolean
+        appendable_quantization:
+          description: 'Use appendable quantization in appendable plain segments.
+
+
+            Enabled by default in Qdrant 1.16.0.'
+          default: true
+          type: boolean
+        single_file_mmap_vector_storage:
+          description: 'Use single-file mmap in-ram vector storage (InRamMmap)
+
+
+            Enabled by default in Qdrant 1.17.1+'
+          default: false
+          type: boolean
+    PeerMetadata:
+      description: Metadata describing extra properties for each peer
       type: object
       required:
-      - collections
+      - version
+      properties:
+        version:
+          description: Peer Qdrant version
+          type: string
+    PartialSnapshotTelemetry:
+      type: object
+      required:
+      - is_recovering
+      - ongoing_create_snapshot_requests
+      - recovery_timestamp
+      properties:
+        ongoing_create_snapshot_requests:
+          type: integer
+          format: uint
+          minimum: 0
+        is_recovering:
+          type: boolean
+        recovery_timestamp:
+          type: integer
+          format: uint64
+          minimum: 0
+    KeywordIndexType:
+      type: string
+      enum:
+      - keyword
+    Snowball:
+      type: string
+      enum:
+      - snowball
+    CollectionConfigTelemetry:
+      type: object
+      required:
+      - hnsw_config
+      - optimizer_config
+      - params
+      - wal_config
+      properties:
+        params:
+          $ref: '#/components/schemas/CollectionParams'
+        hnsw_config:
+          $ref: '#/components/schemas/HnswConfig'
+        optimizer_config:
+          $ref: '#/components/schemas/OptimizersConfig'
+        wal_config:
+          $ref: '#/components/schemas/WalConfig'
+        quantization_config:
+          default: null
+          anyOf:
+          - $ref: '#/components/schemas/QuantizationConfig'
+          - {}
+        strict_mode_config:
+          anyOf:
+          - $ref: '#/components/schemas/StrictModeConfigOutput'
+          - {}
+        uuid:
+          default: null
+          type:
+          - string
+          - 'null'
+          format: uuid
+        metadata:
+          description: Arbitrary JSON metadata for the collection
+          anyOf:
+          - $ref: '#/components/schemas/Payload'
+          - {}
+    DatetimeIndexType:
+      type: string
+      enum:
+      - datetime
+    ShardTransferMethod:
+      description: 'Methods for transferring a shard from one node to another.
+
+
+        - `stream_records` - Stream all shard records in batches until the whole shard is transferred.
+
+
+        - `snapshot` - Snapshot the shard, transfer and restore it on the receiver.
+
+
+        - `wal_delta` - Attempt to transfer shard difference by WAL delta.
+
+
+        - `resharding_stream_records` - Shard transfer for resharding: stream all records in batches until all points are transferred.'
+      type: string
+      enum:
+      - stream_records
+      - snapshot
+      - wal_delta
+      - resharding_stream_records
+    CollectionSnapshotTelemetry:
+      type: object
+      required:
       - id
       properties:
         id:
           type: string
-        app:
-          anyOf:
-          - $ref: '#/components/schemas/AppBuildTelemetry'
-          - {}
-        collections:
-          $ref: '#/components/schemas/CollectionsTelemetry'
-        cluster:
-          anyOf:
-          - $ref: '#/components/schemas/ClusterTelemetry'
-          - {}
-        requests:
-          anyOf:
-          - $ref: '#/components/schemas/RequestsTelemetry'
-          - {}
-        memory:
-          anyOf:
-          - $ref: '#/components/schemas/MemoryTelemetry'
-          - {}
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareTelemetry'
-          - {}
-    StrictModeMultivectorOutput:
-      type: object
-      properties:
-        max_vectors:
-          description: Max number of vectors in a multivector
+        running_snapshots:
           type:
           - integer
           - 'null'
           format: uint
           minimum: 0
+        running_snapshot_recovery:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        total_snapshot_creations:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+    SnowballLanguage:
+      description: Languages supported by snowball stemmer.
+      type: string
+      enum:
+      - arabic
+      - armenian
+      - danish
+      - dutch
+      - english
+      - finnish
+      - french
+      - german
+      - greek
+      - hungarian
+      - italian
+      - norwegian
+      - portuguese
+      - romanian
+      - russian
+      - spanish
+      - swedish
+      - tamil
+      - turkish
+    StrictModeMultivectorConfigOutput:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/StrictModeMultivectorOutput'
+    P2pConfigTelemetry:
+      type: object
+      required:
+      - connection_pool_size
+      properties:
+        connection_pool_size:
+          type: integer
+          format: uint
+          minimum: 0
+    UuidIndexParams:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/UuidIndexType'
+        is_tenant:
+          description: If true - used for tenant optimization.
+          type:
+          - boolean
+          - 'null'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    IntegerIndexType:
+      type: string
+      enum:
+      - integer
+    OptimizersConfig:
+      type: object
+      required:
+      - default_segment_number
+      - flush_interval_sec
+      properties:
+        deleted_threshold:
+          description: The minimal fraction of deleted vectors in a segment, required to perform segment optimization
+          default: 0.2
+          type: number
+          format: double
+          maximum: 1
+          minimum: 0
+        vacuum_min_vector_number:
+          description: The minimal number of vectors in a segment, required to perform segment optimization
+          default: 1000
+          type: integer
+          format: uint
+          minimum: 100
+        default_segment_number:
+          description: 'Target amount of segments optimizer will try to keep. Real amount of segments may vary depending on multiple parameters: - Amount of stored points - Current write RPS
+
+
+            It is recommended to select default number of segments as a factor of the number of search threads, so that each segment would be handled evenly by one of the threads. If `default_segment_number = 0`, will be automatically selected by the number of available CPUs.'
+          type: integer
+          format: uint
+          minimum: 0
+        max_segment_size:
+          description: 'Do not create segments larger this size (in kilobytes). Large segments might require disproportionately long indexation times, therefore it makes sense to limit the size of segments.
+
+
+            If indexing speed is more important - make this parameter lower. If search speed is more important - make this parameter higher. Note: 1Kb = 1 vector of size 256 If not set, will be automatically selected considering the number of available CPUs.'
+          default: null
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 1
+        memmap_threshold:
+          description: 'Maximum size (in kilobytes) of vectors to store in-memory per segment. Segments larger than this threshold will be stored as read-only memmapped file.
+
+
+            Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.
+
+
+            To disable memmap storage, set this to `0`. Internally it will use the largest threshold possible.
+
+
+            Note: 1Kb = 1 vector of size 256'
+          default: null
+          deprecated: true
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        indexing_threshold:
+          description: 'Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing
+
+
+            Default value is 10,000, based on experiments and observations.
+
+
+            To disable vector indexing, set to `0`.
+
+
+            Note: 1kB = 1 vector of size 256.'
+          default: null
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        flush_interval_sec:
+          description: Minimum interval between forced flushes.
+          type: integer
+          format: uint64
+          minimum: 0
+        max_optimization_threads:
+          description: 'Max number of threads (jobs) for running optimizations per shard. Note: each optimization job will also use `max_indexing_threads` threads by itself for index building. If null - have no limit and choose dynamically to saturate CPU. If 0 - no optimization threads, optimizations will be disabled.'
+          default: null
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        prevent_unoptimized:
+          description: If this option is set, service will try to prevent creation of large unoptimized segments. When enabled, updates may be blocked at request level if there are unoptimized segments larger than indexing threshold. Updates will be resumed when optimization is completed and segments are optimized below the threshold. Using this option may lead to increased delay between submitting an update and its application. Default is disabled.
+          default: null
+          type:
+          - boolean
+          - 'null'
+    ShardKey:
+      anyOf:
+      - type: string
+        example: region_1
+      - type: integer
+        format: uint64
+        minimum: 0
+        example: 12
+    ProductQuantizationConfig:
+      type: object
+      required:
+      - compression
+      properties:
+        compression:
+          $ref: '#/components/schemas/CompressionRatio'
+        always_ram:
+          type:
+          - boolean
+          - 'null'
+    ScalarType:
+      type: string
+      enum:
+      - int8
     ClusterTelemetry:
       type: object
       required:
@@ -514,577 +982,114 @@ components:
           type:
           - boolean
           - 'null'
-    ProductQuantization:
+    TelemetryData:
       type: object
       required:
-      - product
+      - collections
+      - id
       properties:
-        product:
-          $ref: '#/components/schemas/ProductQuantizationConfig'
-    CompressionRatio:
-      type: string
-      enum:
-      - x4
-      - x8
-      - x16
-      - x32
-      - x64
-    LocalShardTelemetry:
-      type: object
-      required:
-      - total_optimized_points
-      properties:
-        variant_name:
-          type:
-          - string
-          - 'null'
-        status:
+        id:
+          type: string
+        app:
           anyOf:
-          - $ref: '#/components/schemas/ShardStatus'
+          - $ref: '#/components/schemas/AppBuildTelemetry'
           - {}
-        total_optimized_points:
-          description: Total number of optimized points since the last start.
-          type: integer
-          format: uint
-          minimum: 0
-        vectors_size_bytes:
-          description: An ESTIMATION of effective amount of bytes used for vectors Do NOT rely on this number unless you know what you are doing
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        payloads_size_bytes:
-          description: An estimation of the effective amount of bytes used for payloads Do NOT rely on this number unless you know what you are doing
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        num_points:
-          description: Sum of segment points This is an approximate number Do NOT rely on this number unless you know what you are doing
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        num_vectors:
-          description: Sum of number of vectors in all segments This is an approximate number Do NOT rely on this number unless you know what you are doing
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        num_vectors_by_name:
-          description: Sum of number of vectors across all segments, grouped by their name. This is an approximate number. Do NOT rely on this number unless you know what you are doing
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: integer
-            format: uint
-            minimum: 0
-        segments:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/SegmentTelemetry'
-        optimizations:
+        collections:
+          $ref: '#/components/schemas/CollectionsTelemetry'
+        cluster:
           anyOf:
-          - $ref: '#/components/schemas/OptimizerTelemetry'
+          - $ref: '#/components/schemas/ClusterTelemetry'
           - {}
-        async_scorer:
-          type:
-          - boolean
-          - 'null'
-        indexed_only_excluded_vectors:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: integer
-            format: uint
-            minimum: 0
-        update_queue:
-          description: Update queue status
+        requests:
           anyOf:
-          - $ref: '#/components/schemas/ShardUpdateQueueInfo'
+          - $ref: '#/components/schemas/RequestsTelemetry'
           - {}
-    BinaryQuantizationConfig:
-      type: object
-      properties:
-        always_ram:
-          type:
-          - boolean
-          - 'null'
-        encoding:
+        memory:
           anyOf:
-          - $ref: '#/components/schemas/BinaryQuantizationEncoding'
+          - $ref: '#/components/schemas/MemoryTelemetry'
           - {}
-        query_encoding:
-          description: Asymmetric quantization configuration allows a query to have different quantization than stored vectors. It can increase the accuracy of search at the cost of performance.
+        hardware:
           anyOf:
-          - $ref: '#/components/schemas/BinaryQuantizationQueryEncoding'
+          - $ref: '#/components/schemas/HardwareTelemetry'
           - {}
-    PartialSnapshotTelemetry:
-      type: object
-      required:
-      - is_recovering
-      - ongoing_create_snapshot_requests
-      - recovery_timestamp
-      properties:
-        ongoing_create_snapshot_requests:
-          type: integer
-          format: uint
-          minimum: 0
-        is_recovering:
-          type: boolean
-        recovery_timestamp:
-          type: integer
-          format: uint64
-          minimum: 0
-    Snowball:
-      type: string
-      enum:
-      - snowball
-    VectorDataConfig:
-      description: Config of single vector data storage
-      type: object
-      required:
-      - distance
-      - index
-      - size
-      - storage_type
-      properties:
-        size:
-          description: Size/dimensionality of the vectors used
-          type: integer
-          format: uint
-          minimum: 0
-        distance:
-          $ref: '#/components/schemas/Distance'
-        storage_type:
-          $ref: '#/components/schemas/VectorStorageType'
-        index:
-          $ref: '#/components/schemas/Indexes'
-        quantization_config:
-          description: Vector specific quantization config that overrides collection config
-          anyOf:
-          - $ref: '#/components/schemas/QuantizationConfig'
-          - {}
-        multivector_config:
-          description: Vector specific configuration to enable multiple vectors per point
-          anyOf:
-          - $ref: '#/components/schemas/MultiVectorConfig'
-          - {}
-        datatype:
-          description: Vector specific configuration to set specific storage element type
-          anyOf:
-          - $ref: '#/components/schemas/VectorStorageDatatype'
-          - {}
-    TokenizerType:
-      type: string
-      enum:
-      - prefix
-      - whitespace
-      - word
-      - multilingual
-    Modifier:
-      description: 'If used, include weight modification, which will be applied to sparse vectors at query time: None - no modification (default) Idf - inverse document frequency, based on statistics of the collection'
-      type: string
-      enum:
-      - none
-      - idf
-    PayloadSchemaType:
-      description: All possible names of payload types
-      type: string
-      enum:
-      - keyword
-      - integer
-      - float
-      - geo
-      - text
-      - bool
-      - datetime
-      - uuid
-    BinaryQuantizationEncoding:
-      type: string
-      enum:
-      - one_bit
-      - two_bits
-      - one_and_half_bits
-    SparseIndexParams:
-      description: Configuration for sparse inverted index.
-      type: object
-      properties:
-        full_scan_threshold:
-          description: 'We prefer a full scan search upto (excluding) this number of vectors.
-
-
-            Note: this is number of vectors, not KiloBytes.'
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        on_disk:
-          description: 'Store index on disk. If set to false, the index will be stored in RAM. Default: false'
-          type:
-          - boolean
-          - 'null'
-        datatype:
-          description: 'Defines which datatype should be used for the index. Choosing different datatypes allows to optimize memory usage and performance vs accuracy.
-
-
-            - For `float32` datatype - vectors are stored as single-precision floating point numbers, 4 bytes. - For `float16` datatype - vectors are stored as half-precision floating point numbers, 2 bytes. - For `uint8` datatype - vectors are quantized to unsigned 8-bit integers, 1 byte. Quantization to fit byte range `[0, 255]` happens during indexing automatically, so the actual vector data does not need to conform to this range.'
-          anyOf:
-          - $ref: '#/components/schemas/Datatype'
-          - {}
-    SegmentConfig:
-      type: object
-      required:
-      - payload_storage_type
-      properties:
-        vector_data:
-          default: {}
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/VectorDataConfig'
-        sparse_vector_data:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/SparseVectorDataConfig'
-        payload_storage_type:
-          $ref: '#/components/schemas/PayloadStorageType'
-    ReshardingDirection:
-      description: 'Resharding direction, scale up or down in number of shards
-
-
-        - `up` - Scale up, add a new shard
-
-
-        - `down` - Scale down, remove a shard'
-      type: string
-      enum:
-      - up
-      - down
-    OperationDurationStatistics:
-      type: object
-      required:
-      - count
-      properties:
-        count:
-          type: integer
-          format: uint
-          minimum: 0
-        fail_count:
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        avg_duration_micros:
-          description: The average time taken by 128 latest operations, calculated as a weighted mean.
-          type:
-          - number
-          - 'null'
-          format: float
-        min_duration_micros:
-          description: The minimum duration of the operations across all the measurements.
-          type:
-          - number
-          - 'null'
-          format: float
-        max_duration_micros:
-          description: The maximum duration of the operations across all the measurements.
-          type:
-          - number
-          - 'null'
-          format: float
-        total_duration_micros:
-          description: The total duration of all operations in microseconds.
-          type:
-          - integer
-          - 'null'
-          format: uint64
-          minimum: 0
-        last_responded:
-          type:
-          - string
-          - 'null'
-          format: date-time
-    HardwareUsage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      required:
-      - cpu
-      - payload_index_io_read
-      - payload_index_io_write
-      - payload_io_read
-      - payload_io_write
-      - vector_io_read
-      - vector_io_write
-      properties:
-        cpu:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_index_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_index_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-        vector_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        vector_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-    BinaryQuantizationQueryEncoding:
-      type: string
-      enum:
-      - default
-      - binary
-      - scalar4bits
-      - scalar8bits
     ShardingMethod:
       type: string
       enum:
       - auto
       - custom
-    GrpcTelemetry:
-      type: object
-      required:
-      - responses
-      properties:
-        responses:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/OperationDurationStatistics'
-        per_collection_responses:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              type: object
-              additionalProperties:
-                $ref: '#/components/schemas/OperationDurationStatistics'
-    KeywordIndexType:
+    BoolIndexType:
       type: string
       enum:
-      - keyword
-    ConsensusConfigTelemetry:
+      - bool
+    VersionInfo:
       type: object
       required:
-      - bootstrap_timeout_sec
-      - max_message_queue_size
-      - tick_period_ms
-      properties:
-        max_message_queue_size:
-          type: integer
-          format: uint
-          minimum: 0
-        tick_period_ms:
-          type: integer
-          format: uint64
-          minimum: 0
-        bootstrap_timeout_sec:
-          type: integer
-          format: uint64
-          minimum: 0
-    FloatIndexType:
-      type: string
-      enum:
-      - float
-    SparseVectorParams:
-      description: Params of single sparse vector data storage
-      type: object
-      properties:
-        index:
-          description: Custom params for index. If none - values from collection configuration are used.
-          anyOf:
-          - $ref: '#/components/schemas/SparseIndexParams'
-          - {}
-        modifier:
-          description: 'Configures addition value modifications for sparse vectors. Default: none'
-          anyOf:
-          - $ref: '#/components/schemas/Modifier'
-          - {}
-    CollectionParams:
-      type: object
-      properties:
-        vectors:
-          $ref: '#/components/schemas/VectorsConfig'
-        shard_number:
-          description: Number of shards the collection has
-          default: 1
-          type: integer
-          format: uint32
-          minimum: 1
-        sharding_method:
-          description: Sharding method Default is Auto - points are distributed across all available shards Custom - points are distributed across shards according to shard key
-          anyOf:
-          - $ref: '#/components/schemas/ShardingMethod'
-          - {}
-        replication_factor:
-          description: Number of replicas for each shard
-          default: 1
-          type: integer
-          format: uint32
-          minimum: 1
-        write_consistency_factor:
-          description: Defines how many replicas should apply the operation for us to consider it successful. Increasing this number will make the collection more resilient to inconsistencies, but will also make it fail if not enough replicas are available. Does not have any performance impact.
-          default: 1
-          type: integer
-          format: uint32
-          minimum: 1
-        read_fan_out_factor:
-          description: Defines how many additional replicas should be processing read request at the same time. Default value is Auto, which means that fan-out will be determined automatically based on the busyness of the local replica. Having more than 0 might be useful to smooth latency spikes of individual nodes.
-          type:
-          - integer
-          - 'null'
-          format: uint32
-          minimum: 0
-        read_fan_out_delay_ms:
-          description: Define number of milliseconds to wait before attempting to read from another replica. This setting can help to reduce latency spikes in case of occasional slow replicas. Default is 0, which means delayed fan out request is disabled.
-          type:
-          - integer
-          - 'null'
-          format: uint64
-          minimum: 0
-        on_disk_payload:
-          description: 'If true - point''s payload will not be stored in memory. It will be read from the disk every time it is requested. This setting saves RAM by (slightly) increasing the response time. Note: those payload values that are involved in filtering and are indexed - remain in RAM.
-
-
-            Default: true'
-          default: true
-          type: boolean
-        sparse_vectors:
-          description: Configuration of the sparse vector storage
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            $ref: '#/components/schemas/SparseVectorParams'
-    P2pConfigTelemetry:
-      type: object
-      required:
-      - connection_pool_size
-      properties:
-        connection_pool_size:
-          type: integer
-          format: uint
-          minimum: 0
-    AppBuildTelemetry:
-      type: object
-      required:
-      - name
-      - startup
+      - title
       - version
       properties:
-        name:
+        title:
           type: string
         version:
           type: string
-        features:
-          anyOf:
-          - $ref: '#/components/schemas/AppFeaturesTelemetry'
-          - {}
-        runtime_features:
-          anyOf:
-          - $ref: '#/components/schemas/FeatureFlags'
-          - {}
-        hnsw_global_config:
-          anyOf:
-          - $ref: '#/components/schemas/HnswGlobalConfig'
-          - {}
-        system:
-          anyOf:
-          - $ref: '#/components/schemas/RunningEnvironmentTelemetry'
-          - {}
-        jwt_rbac:
+        commit:
           type:
-          - boolean
+          - string
           - 'null'
-        hide_jwt_dashboard:
-          type:
-          - boolean
-          - 'null'
-        startup:
-          type: string
-          format: date-time
-    CollectionTelemetryEnum:
+    ClusterConfigTelemetry:
+      type: object
+      required:
+      - consensus
+      - grpc_timeout_ms
+      - p2p
+      properties:
+        grpc_timeout_ms:
+          type: integer
+          format: uint64
+          minimum: 0
+        p2p:
+          $ref: '#/components/schemas/P2pConfigTelemetry'
+        consensus:
+          $ref: '#/components/schemas/ConsensusConfigTelemetry'
+    PayloadIndexInfo:
+      description: Display payload field type & index information
+      type: object
+      required:
+      - data_type
+      - points
+      properties:
+        data_type:
+          $ref: '#/components/schemas/PayloadSchemaType'
+        params:
+          anyOf:
+          - $ref: '#/components/schemas/PayloadSchemaParams'
+          - {}
+        points:
+          description: Number of points indexed with this index
+          type: integer
+          format: uint
+          minimum: 0
+    QuantizationConfig:
       anyOf:
-      - $ref: '#/components/schemas/CollectionTelemetry'
-      - $ref: '#/components/schemas/CollectionsAggregatedTelemetry'
-    RequestsTelemetry:
-      type: object
-      required:
-      - grpc
-      - rest
-      properties:
-        rest:
-          $ref: '#/components/schemas/WebApiTelemetry'
-        grpc:
-          $ref: '#/components/schemas/GrpcTelemetry'
-    AppFeaturesTelemetry:
-      type: object
-      required:
-      - debug
-      - gpu
-      - recovery_mode
-      - rocksdb
-      - service_debug_feature
-      - staging
-      properties:
-        debug:
-          type: boolean
-        service_debug_feature:
-          type: boolean
-        recovery_mode:
-          type: boolean
-        gpu:
-          type: boolean
-        rocksdb:
-          type: boolean
-        staging:
-          type: boolean
-    Datatype:
-      type: string
-      enum:
-      - float32
-      - uint8
-      - float16
-    BoolIndexParams:
+      - $ref: '#/components/schemas/ScalarQuantization'
+      - $ref: '#/components/schemas/ProductQuantization'
+      - $ref: '#/components/schemas/BinaryQuantization'
+    ScalarQuantizationConfig:
       type: object
       required:
       - type
       properties:
         type:
-          $ref: '#/components/schemas/BoolIndexType'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false.'
+          $ref: '#/components/schemas/ScalarType'
+        quantile:
+          description: Quantile for quantization. Expected value range in [0.5, 1.0]. If not set - use the whole range of values
           type:
-          - boolean
+          - number
           - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          format: float
+          maximum: 1
+          minimum: 0.5
+        always_ram:
+          description: If true - quantized vectors always will be stored in RAM, ignoring the config of main storage
           type:
           - boolean
           - 'null'
@@ -1132,6 +1137,153 @@ components:
           type:
           - string
           - 'null'
+    StrictModeSparseConfigOutput:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/StrictModeSparseOutput'
+    SegmentConfig:
+      type: object
+      required:
+      - payload_storage_type
+      properties:
+        vector_data:
+          default: {}
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/VectorDataConfig'
+        sparse_vector_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/SparseVectorDataConfig'
+        payload_storage_type:
+          $ref: '#/components/schemas/PayloadStorageType'
+    ShardUpdateQueueInfo:
+      type: object
+      required:
+      - length
+      properties:
+        length:
+          description: Number of elements in the queue
+          type: integer
+          format: uint
+          minimum: 0
+        op_num:
+          description: last operation number processed
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        deferred_points:
+          description: Number of points that are deferred (i.e hidden from search as they're not yet optimized).
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+    TrackerTelemetry:
+      description: Tracker object used in telemetry
+      type: object
+      required:
+      - name
+      - segment_ids
+      - segment_uuids
+      - start_at
+      - status
+      - uuid
+      properties:
+        name:
+          description: Name of the optimizer
+          type: string
+        uuid:
+          description: UUID of the upcoming segment being created by the optimizer
+          type: string
+          format: uuid
+        segment_ids:
+          description: Internal segment IDs being optimized. These are local and in-memory, meaning that they can refer to different segments after a service restart.
+          type: array
+          items:
+            type: integer
+            format: uint
+            minimum: 0
+        segment_uuids:
+          description: Segment UUIDs being optimized. Refers to same segments as in `segment_ids`, but trackable across restarts, and reflect their directory name.
+          type: array
+          items:
+            type: string
+            format: uuid
+        status:
+          $ref: '#/components/schemas/TrackerStatus'
+        start_at:
+          description: Start time of the optimizer
+          type: string
+          format: date-time
+        end_at:
+          description: End time of the optimizer
+          type:
+          - string
+          - 'null'
+          format: date-time
+    GrpcTelemetry:
+      type: object
+      required:
+      - responses
+      properties:
+        responses:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/OperationDurationStatistics'
+        per_collection_responses:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/OperationDurationStatistics'
+    CollectionTelemetry:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+        init_time_ms:
+          type:
+          - integer
+          - 'null'
+          format: uint64
+          minimum: 0
+        config:
+          anyOf:
+          - $ref: '#/components/schemas/CollectionConfigTelemetry'
+          - {}
+        shards:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReplicaSetTelemetry'
+        transfers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShardTransferInfo'
+        resharding:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReshardingInfo'
+        shard_clean_tasks:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            $ref: '#/components/schemas/ShardCleanStatusTelemetry'
     StrictModeConfigOutput:
       type: object
       properties:
@@ -1262,6 +1414,20 @@ components:
           - 'null'
           format: uint
           minimum: 0
+    SparseVectorParams:
+      description: Params of single sparse vector data storage
+      type: object
+      properties:
+        index:
+          description: Custom params for index. If none - values from collection configuration are used.
+          anyOf:
+          - $ref: '#/components/schemas/SparseIndexParams'
+          - {}
+        modifier:
+          description: 'Configures addition value modifications for sparse vectors. Default: none'
+          anyOf:
+          - $ref: '#/components/schemas/Modifier'
+          - {}
     ShardCleanStatusTelemetry:
       oneOf:
       - type: string
@@ -1283,426 +1449,14 @@ components:
           failed:
             $ref: '#/components/schemas/ShardCleanStatusFailedTelemetry'
         additionalProperties: false
-    GeoIndexParams:
+    ShardCleanStatusProgressTelemetry:
       type: object
       required:
-      - type
+      - deleted_points
       properties:
-        type:
-          $ref: '#/components/schemas/GeoIndexType'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false.'
-          type:
-          - boolean
-          - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
-    BoolIndexType:
-      type: string
-      enum:
-      - bool
-    InferenceUsage:
-      type: object
-      required:
-      - models
-      properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
-    MultiVectorComparator:
-      type: string
-      enum:
-      - max_sim
-    CollectionsTelemetry:
-      type: object
-      required:
-      - number_of_collections
-      properties:
-        number_of_collections:
+        deleted_points:
           type: integer
           format: uint
-          minimum: 0
-        max_collections:
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        collections:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CollectionTelemetryEnum'
-        snapshots:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/CollectionSnapshotTelemetry'
-    ScalarType:
-      type: string
-      enum:
-      - int8
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    StateRole:
-      description: Role of the peer in the consensus
-      type: string
-      enum:
-      - Follower
-      - Candidate
-      - Leader
-      - PreCandidate
-    TextIndexParams:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/TextIndexType'
-        tokenizer:
-          $ref: '#/components/schemas/TokenizerType'
-        min_token_len:
-          description: Minimum characters to be tokenized.
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        max_token_len:
-          description: Maximum characters to be tokenized.
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        lowercase:
-          description: 'If true, lowercase all tokens. Default: true.'
-          type:
-          - boolean
-          - 'null'
-        ascii_folding:
-          description: 'If true, normalize tokens by folding accented characters to ASCII (e.g., "ação" -> "acao"). Default: false.'
-          type:
-          - boolean
-          - 'null'
-        phrase_matching:
-          description: 'If true, support phrase matching. Default: false.'
-          type:
-          - boolean
-          - 'null'
-        stopwords:
-          description: Ignore this set of tokens. Can select from predefined languages and/or provide a custom set.
-          anyOf:
-          - $ref: '#/components/schemas/StopwordsInterface'
-          - {}
-        on_disk:
-          description: 'If true, store the index on disk. Default: false.'
-          type:
-          - boolean
-          - 'null'
-        stemmer:
-          description: 'Algorithm for stemming. Default: disabled.'
-          anyOf:
-          - $ref: '#/components/schemas/StemmingAlgorithm'
-          - {}
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
-    CollectionsAggregatedTelemetry:
-      type: object
-      required:
-      - optimizers_status
-      - params
-      - vectors
-      properties:
-        vectors:
-          type: integer
-          format: uint
-          minimum: 0
-        optimizers_status:
-          $ref: '#/components/schemas/OptimizersStatus'
-        params:
-          $ref: '#/components/schemas/CollectionParams'
-    SparseIndexType:
-      description: Sparse index types
-      oneOf:
-      - description: Mutable RAM sparse index
-        type: string
-        enum:
-        - MutableRam
-      - description: Immutable RAM sparse index
-        type: string
-        enum:
-        - ImmutableRam
-      - description: Mmap sparse index
-        type: string
-        enum:
-        - Mmap
-    StopwordsSet:
-      type: object
-      properties:
-        languages:
-          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Language'
-          uniqueItems: true
-        custom:
-          description: Custom stopwords set. Will be merged with the languages set.
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          uniqueItems: true
-    PeerInfo:
-      description: Information of a peer in the cluster
-      type: object
-      required:
-      - uri
-      properties:
-        uri:
-          type: string
-    TrackerTelemetry:
-      description: Tracker object used in telemetry
-      type: object
-      required:
-      - name
-      - segment_ids
-      - segment_uuids
-      - start_at
-      - status
-      - uuid
-      properties:
-        name:
-          description: Name of the optimizer
-          type: string
-        uuid:
-          description: UUID of the upcoming segment being created by the optimizer
-          type: string
-          format: uuid
-        segment_ids:
-          description: Internal segment IDs being optimized. These are local and in-memory, meaning that they can refer to different segments after a service restart.
-          type: array
-          items:
-            type: integer
-            format: uint
-            minimum: 0
-        segment_uuids:
-          description: Segment UUIDs being optimized. Refers to same segments as in `segment_ids`, but trackable across restarts, and reflect their directory name.
-          type: array
-          items:
-            type: string
-            format: uuid
-        status:
-          $ref: '#/components/schemas/TrackerStatus'
-        start_at:
-          description: Start time of the optimizer
-          type: string
-          format: date-time
-        end_at:
-          description: End time of the optimizer
-          type:
-          - string
-          - 'null'
-          format: date-time
-    SegmentType:
-      description: Type of segment
-      type: string
-      enum:
-      - plain
-      - indexed
-      - special
-    VectorStorageDatatype:
-      description: Storage types for vectors
-      type: string
-      enum:
-      - float32
-      - float16
-      - uint8
-    UuidIndexType:
-      type: string
-      enum:
-      - uuid
-    SnowballParams:
-      type: object
-      required:
-      - language
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/Snowball'
-        language:
-          $ref: '#/components/schemas/SnowballLanguage'
-    HardwareTelemetry:
-      type: object
-      required:
-      - collection_data
-      properties:
-        collection_data:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/HardwareUsage'
-    VectorStorageType:
-      description: Storage types for vectors
-      oneOf:
-      - description: 'Storage in memory (RAM)
-
-
-          Will be very fast at the cost of consuming a lot of memory.'
-        type: string
-        enum:
-        - Memory
-      - description: 'Storage in mmap file, not appendable
-
-
-          Search performance is defined by disk speed and the fraction of vectors that fit in memory.'
-        type: string
-        enum:
-        - Mmap
-      - description: 'Storage in chunked mmap files, appendable
-
-
-          Search performance is defined by disk speed and the fraction of vectors that fit in memory.'
-        type: string
-        enum:
-        - ChunkedMmap
-      - description: 'Same as `ChunkedMmap`, but vectors are forced to be locked in RAM In this way we avoid cold requests to disk, but risk to run out of memory
-
-
-          Designed as a replacement for `Memory`, which doesn''t depend on RocksDB'
-        type: string
-        enum:
-        - InRamChunkedMmap
-      - description: Storage in a single mmap file, not appendable Pre-fetched into RAM on load
-        type: string
-        enum:
-        - InRamMmap
-    ScalarQuantization:
-      type: object
-      required:
-      - scalar
-      properties:
-        scalar:
-          $ref: '#/components/schemas/ScalarQuantizationConfig'
-    PayloadStorageType:
-      description: Type of payload storage
-      oneOf:
-      - type: object
-        required:
-        - type
-        properties:
-          type:
-            type: string
-            enum:
-            - in_memory
-      - type: object
-        required:
-        - type
-        properties:
-          type:
-            type: string
-            enum:
-            - on_disk
-      - type: object
-        required:
-        - type
-        properties:
-          type:
-            type: string
-            enum:
-            - mmap
-      - type: object
-        required:
-        - type
-        properties:
-          type:
-            type: string
-            enum:
-            - in_ram_mmap
-    IntegerIndexParams:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/IntegerIndexType'
-        lookup:
-          description: If true - support direct lookups. Default is true.
-          type:
-          - boolean
-          - 'null'
-        range:
-          description: If true - support ranges filters. Default is true.
-          type:
-          - boolean
-          - 'null'
-        is_principal:
-          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests. Default is false.
-          type:
-          - boolean
-          - 'null'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false. Default is false.'
-          type:
-          - boolean
-          - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
-    FloatIndexParams:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/FloatIndexType'
-        is_principal:
-          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
-          type:
-          - boolean
-          - 'null'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false.'
-          type:
-          - boolean
-          - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
-    HnswGlobalConfig:
-      type: object
-      properties:
-        healing_threshold:
-          description: Enable HNSW healing if the ratio of missing points is no more than this value. To disable healing completely, set this value to `0.0`.
-          default: 0.3
-          type: number
-          format: double
-          maximum: 1
           minimum: 0
     MultiVectorConfig:
       type: object
@@ -1711,136 +1465,28 @@ components:
       properties:
         comparator:
           $ref: '#/components/schemas/MultiVectorComparator'
-    CpuEndian:
-      type: string
-      enum:
-      - little
-      - big
-      - other
-    ClusterConfigTelemetry:
+    WalConfig:
       type: object
       required:
-      - consensus
-      - grpc_timeout_ms
-      - p2p
+      - wal_capacity_mb
+      - wal_segments_ahead
       properties:
-        grpc_timeout_ms:
+        wal_capacity_mb:
+          description: Size of a single WAL segment in MB
           type: integer
-          format: uint64
-          minimum: 0
-        p2p:
-          $ref: '#/components/schemas/P2pConfigTelemetry'
-        consensus:
-          $ref: '#/components/schemas/ConsensusConfigTelemetry'
-    MemoryTelemetry:
-      type: object
-      required:
-      - active_bytes
-      - allocated_bytes
-      - metadata_bytes
-      - resident_bytes
-      - retained_bytes
-      properties:
-        active_bytes:
-          description: Total number of bytes in active pages allocated by the application
+          format: uint
+          minimum: 1
+        wal_segments_ahead:
+          description: Number of WAL segments to create ahead of actually used ones
           type: integer
           format: uint
           minimum: 0
-        allocated_bytes:
-          description: Total number of bytes allocated by the application
+        wal_retain_closed:
+          description: Number of closed WAL segments to keep
+          default: 1
           type: integer
           format: uint
-          minimum: 0
-        metadata_bytes:
-          description: Total number of bytes dedicated to metadata
-          type: integer
-          format: uint
-          minimum: 0
-        resident_bytes:
-          description: Maximum number of bytes in physically resident data pages mapped
-          type: integer
-          format: uint
-          minimum: 0
-        retained_bytes:
-          description: Total number of bytes in virtual memory mappings
-          type: integer
-          format: uint
-          minimum: 0
-    WebApiTelemetry:
-      type: object
-      required:
-      - responses
-      properties:
-        responses:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/OperationDurationStatistics'
-        per_collection_responses:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              type: object
-              additionalProperties:
-                $ref: '#/components/schemas/OperationDurationStatistics'
-    QuantizationConfig:
-      anyOf:
-      - $ref: '#/components/schemas/ScalarQuantization'
-      - $ref: '#/components/schemas/ProductQuantization'
-      - $ref: '#/components/schemas/BinaryQuantization'
-    ReplicaState:
-      description: State of the single shard within a replica set.
-      type: string
-      enum:
-      - Active
-      - Dead
-      - Partial
-      - Initializing
-      - Listener
-      - PartialSnapshot
-      - Recovery
-      - Resharding
-      - ReshardingScaleDown
-      - ActiveRead
-      - ManualRecovery
-    CollectionConfigTelemetry:
-      type: object
-      required:
-      - hnsw_config
-      - optimizer_config
-      - params
-      - wal_config
-      properties:
-        params:
-          $ref: '#/components/schemas/CollectionParams'
-        hnsw_config:
-          $ref: '#/components/schemas/HnswConfig'
-        optimizer_config:
-          $ref: '#/components/schemas/OptimizersConfig'
-        wal_config:
-          $ref: '#/components/schemas/WalConfig'
-        quantization_config:
-          default: null
-          anyOf:
-          - $ref: '#/components/schemas/QuantizationConfig'
-          - {}
-        strict_mode_config:
-          anyOf:
-          - $ref: '#/components/schemas/StrictModeConfigOutput'
-          - {}
-        uuid:
-          default: null
-          type:
-          - string
-          - 'null'
-          format: uuid
-        metadata:
-          description: Arbitrary JSON metadata for the collection
-          anyOf:
-          - $ref: '#/components/schemas/Payload'
-          - {}
+          minimum: 1
     HnswConfig:
       description: Config of HNSW index
       type: object
@@ -1887,256 +1533,13 @@ components:
           type:
           - boolean
           - 'null'
-    ShardUpdateQueueInfo:
-      type: object
-      required:
-      - length
-      properties:
-        length:
-          description: Number of elements in the queue
-          type: integer
-          format: uint
-          minimum: 0
-        op_num:
-          description: last operation number processed
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        deferred_points:
-          description: Number of points that are deferred (i.e hidden from search as they're not yet optimized).
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-    GeoIndexType:
+    SegmentType:
+      description: Type of segment
       type: string
       enum:
-      - geo
-    SnowballLanguage:
-      description: Languages supported by snowball stemmer.
-      type: string
-      enum:
-      - arabic
-      - armenian
-      - danish
-      - dutch
-      - english
-      - finnish
-      - french
-      - german
-      - greek
-      - hungarian
-      - italian
-      - norwegian
-      - portuguese
-      - romanian
-      - russian
-      - spanish
-      - swedish
-      - tamil
-      - turkish
-    ShardKey:
-      anyOf:
-      - type: string
-        example: region_1
-      - type: integer
-        format: uint64
-        minimum: 0
-        example: 12
-    SegmentInfo:
-      description: Aggregated information about segment
-      type: object
-      required:
-      - disk_usage_bytes
-      - index_schema
-      - is_appendable
-      - num_deleted_vectors
-      - num_indexed_vectors
-      - num_points
-      - num_vectors
-      - payloads_size_bytes
-      - ram_usage_bytes
-      - segment_type
-      - uuid
-      - vector_data
-      - vectors_size_bytes
-      properties:
-        uuid:
-          type: string
-          format: uuid
-        segment_type:
-          $ref: '#/components/schemas/SegmentType'
-        num_vectors:
-          type: integer
-          format: uint
-          minimum: 0
-        num_points:
-          type: integer
-          format: uint
-          minimum: 0
-        num_deferred_points:
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        num_deleted_deferred_points:
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        num_indexed_vectors:
-          type: integer
-          format: uint
-          minimum: 0
-        num_deleted_vectors:
-          type: integer
-          format: uint
-          minimum: 0
-        vectors_size_bytes:
-          description: An ESTIMATION of effective amount of bytes used for vectors Do NOT rely on this number unless you know what you are doing
-          type: integer
-          format: uint
-          minimum: 0
-        payloads_size_bytes:
-          description: An estimation of the effective amount of bytes used for payloads
-          type: integer
-          format: uint
-          minimum: 0
-        ram_usage_bytes:
-          type: integer
-          format: uint
-          minimum: 0
-        disk_usage_bytes:
-          type: integer
-          format: uint
-          minimum: 0
-        is_appendable:
-          type: boolean
-        index_schema:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/PayloadIndexInfo'
-        vector_data:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/VectorDataInfo'
-        deferred_internal_id:
-          description: Internal ID from which points are deferred (hidden from reads). Only set for appendable segments.
-          type:
-          - integer
-          - 'null'
-          format: uint32
-          minimum: 0
-    PeerMetadata:
-      description: Metadata describing extra properties for each peer
-      type: object
-      required:
-      - version
-      properties:
-        version:
-          description: Peer Qdrant version
-          type: string
-    StemmingAlgorithm:
-      description: Different stemming algorithms with their configs.
-      anyOf:
-      - $ref: '#/components/schemas/SnowballParams'
-    OptimizersConfig:
-      type: object
-      required:
-      - default_segment_number
-      - flush_interval_sec
-      properties:
-        deleted_threshold:
-          description: The minimal fraction of deleted vectors in a segment, required to perform segment optimization
-          default: 0.2
-          type: number
-          format: double
-          maximum: 1
-          minimum: 0
-        vacuum_min_vector_number:
-          description: The minimal number of vectors in a segment, required to perform segment optimization
-          default: 1000
-          type: integer
-          format: uint
-          minimum: 100
-        default_segment_number:
-          description: 'Target amount of segments optimizer will try to keep. Real amount of segments may vary depending on multiple parameters: - Amount of stored points - Current write RPS
-
-
-            It is recommended to select default number of segments as a factor of the number of search threads, so that each segment would be handled evenly by one of the threads. If `default_segment_number = 0`, will be automatically selected by the number of available CPUs.'
-          type: integer
-          format: uint
-          minimum: 0
-        max_segment_size:
-          description: 'Do not create segments larger this size (in kilobytes). Large segments might require disproportionately long indexation times, therefore it makes sense to limit the size of segments.
-
-
-            If indexing speed is more important - make this parameter lower. If search speed is more important - make this parameter higher. Note: 1Kb = 1 vector of size 256 If not set, will be automatically selected considering the number of available CPUs.'
-          default: null
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 1
-        memmap_threshold:
-          description: 'Maximum size (in kilobytes) of vectors to store in-memory per segment. Segments larger than this threshold will be stored as read-only memmapped file.
-
-
-            Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.
-
-
-            To disable memmap storage, set this to `0`. Internally it will use the largest threshold possible.
-
-
-            Note: 1Kb = 1 vector of size 256'
-          default: null
-          deprecated: true
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        indexing_threshold:
-          description: 'Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing
-
-
-            Default value is 10,000, based on experiments and observations.
-
-
-            To disable vector indexing, set to `0`.
-
-
-            Note: 1kB = 1 vector of size 256.'
-          default: null
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        flush_interval_sec:
-          description: Minimum interval between forced flushes.
-          type: integer
-          format: uint64
-          minimum: 0
-        max_optimization_threads:
-          description: 'Max number of threads (jobs) for running optimizations per shard. Note: each optimization job will also use `max_indexing_threads` threads by itself for index building. If null - have no limit and choose dynamically to saturate CPU. If 0 - no optimization threads, optimizations will be disabled.'
-          default: null
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        prevent_unoptimized:
-          description: If this option is set, service will try to prevent creation of large unoptimized segments. When enabled, updates may be blocked at request level if there are unoptimized segments larger than indexing threshold. Updates will be resumed when optimization is completed and segments are optimized below the threshold. Using this option may lead to increased delay between submitting an update and its application. Default is disabled.
-          default: null
-          type:
-          - boolean
-          - 'null'
+      - plain
+      - indexed
+      - special
     KeywordIndexParams:
       type: object
       required:
@@ -2159,170 +1562,252 @@ components:
           type:
           - boolean
           - 'null'
-    FeatureFlags:
-      type: object
-      properties:
-        all:
-          description: 'Magic feature flag that enables all features.
-
-
-            Note that this will only be applied to all flags when passed into [`init_feature_flags`].'
-          default: false
-          type: boolean
-        payload_index_skip_rocksdb:
-          description: 'Skip usage of RocksDB in new immutable payload indices.
-
-
-            First implemented in Qdrant 1.13.5. Enabled by default in Qdrant 1.14.1.'
-          default: true
-          type: boolean
-        payload_index_skip_mutable_rocksdb:
-          description: 'Skip usage of RocksDB in new mutable payload indices.
-
-
-            First implemented in Qdrant 1.15.0. Enabled by default in Qdrant 1.16.0.'
-          default: true
-          type: boolean
-        payload_storage_skip_rocksdb:
-          description: 'Skip usage of RocksDB in new payload storages.
-
-
-            On-disk payload storages never use Gridstore.
-
-
-            First implemented in Qdrant 1.15.0. Enabled by default in Qdrant 1.16.0.'
-          default: true
-          type: boolean
-        incremental_hnsw_building:
-          description: 'Use incremental HNSW building.
-
-
-            Enabled by default in Qdrant 1.14.1.'
-          default: true
-          type: boolean
-        migrate_rocksdb_id_tracker:
-          description: 'Migrate RocksDB based ID trackers into file based ID tracker on start.
-
-
-            Enabled by default in Qdrant 1.15.0.'
-          default: true
-          type: boolean
-        migrate_rocksdb_vector_storage:
-          description: 'Migrate RocksDB based vector storages into new format on start.
-
-
-            Enabled by default in Qdrant 1.16.1.'
-          default: true
-          type: boolean
-        migrate_rocksdb_payload_storage:
-          description: 'Migrate RocksDB based payload storages into new format on start.
-
-
-            Enabled by default in Qdrant 1.16.1.'
-          default: true
-          type: boolean
-        migrate_rocksdb_payload_indices:
-          description: 'Migrate RocksDB based payload indices into new format on start.
-
-
-            Rebuilds a new payload index from scratch.
-
-
-            Enabled by default in Qdrant 1.16.1.'
-          default: true
-          type: boolean
-        appendable_quantization:
-          description: 'Use appendable quantization in appendable plain segments.
-
-
-            Enabled by default in Qdrant 1.16.0.'
-          default: true
-          type: boolean
-        single_file_mmap_vector_storage:
-          description: 'Use single-file mmap in-ram vector storage (InRamMmap)
-
-
-            Enabled by default in Qdrant 1.17.1+'
-          default: false
-          type: boolean
-    BinaryQuantization:
+    VectorDataInfo:
       type: object
       required:
-      - binary
+      - num_deleted_vectors
+      - num_indexed_vectors
+      - num_vectors
       properties:
-        binary:
-          $ref: '#/components/schemas/BinaryQuantizationConfig'
-    OptimizersStatus:
-      description: Current state of the collection
+        num_vectors:
+          type: integer
+          format: uint
+          minimum: 0
+        num_indexed_vectors:
+          type: integer
+          format: uint
+          minimum: 0
+        num_deleted_vectors:
+          type: integer
+          format: uint
+          minimum: 0
+    Distance:
+      description: Type of internal tags, build from payload Distance function types used to compare vectors
+      type: string
+      enum:
+      - Cosine
+      - Euclid
+      - Dot
+      - Manhattan
+    ShardCleanStatusFailedTelemetry:
+      type: object
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+    Datatype:
+      type: string
+      enum:
+      - float32
+      - uint8
+      - float16
+    Indexes:
+      description: Vector index configuration
       oneOf:
-      - description: Optimizers are reporting as expected
-        type: string
-        enum:
-        - ok
-      - description: Something wrong happened with optimizers
+      - description: Do not use any index, scan whole vector collection during search. Guarantee 100% precision, but may be time consuming on large collections.
         type: object
         required:
-        - error
+        - options
+        - type
         properties:
-          error:
+          type:
             type: string
-        additionalProperties: false
-    StrictModeSparseConfigOutput:
-      type: object
-      additionalProperties:
-        $ref: '#/components/schemas/StrictModeSparseOutput'
-    ClusterStatusTelemetry:
+            enum:
+            - plain
+          options:
+            type: object
+      - description: Use filterable HNSW index for approximate search. Is very fast even on a very huge collections, but require additional space to store index and additional time to build it.
+        type: object
+        required:
+        - options
+        - type
+        properties:
+          type:
+            type: string
+            enum:
+            - hnsw
+          options:
+            $ref: '#/components/schemas/HnswConfig'
+    ConsensusThreadStatus:
+      description: Information about current consensus thread status
+      oneOf:
+      - type: object
+        required:
+        - consensus_thread_status
+        - last_update
+        properties:
+          consensus_thread_status:
+            type: string
+            enum:
+            - working
+          last_update:
+            type: string
+            format: date-time
+      - type: object
+        required:
+        - consensus_thread_status
+        properties:
+          consensus_thread_status:
+            type: string
+            enum:
+            - stopped
+      - type: object
+        required:
+        - consensus_thread_status
+        - err
+        properties:
+          consensus_thread_status:
+            type: string
+            enum:
+            - stopped_with_err
+          err:
+            type: string
+    SnowballParams:
       type: object
       required:
-      - commit
-      - consensus_thread_status
-      - is_voter
-      - number_of_peers
-      - pending_operations
-      - term
+      - language
+      - type
       properties:
-        number_of_peers:
+        type:
+          $ref: '#/components/schemas/Snowball'
+        language:
+          $ref: '#/components/schemas/SnowballLanguage'
+    CollectionsTelemetry:
+      type: object
+      required:
+      - number_of_collections
+      properties:
+        number_of_collections:
           type: integer
           format: uint
           minimum: 0
-        term:
-          type: integer
-          format: uint64
-          minimum: 0
-        commit:
-          type: integer
-          format: uint64
-          minimum: 0
-        pending_operations:
-          type: integer
-          format: uint
-          minimum: 0
-        role:
-          anyOf:
-          - $ref: '#/components/schemas/StateRole'
-          - {}
-        is_voter:
-          type: boolean
-        peer_id:
+        max_collections:
           type:
           - integer
           - 'null'
-          format: uint64
+          format: uint
           minimum: 0
-        consensus_thread_status:
-          $ref: '#/components/schemas/ConsensusThreadStatus'
-    DatetimeIndexParams:
+        collections:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CollectionTelemetryEnum'
+        snapshots:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/CollectionSnapshotTelemetry'
+    HardwareTelemetry:
+      type: object
+      required:
+      - collection_data
+      properties:
+        collection_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/HardwareUsage'
+    LocalShardTelemetry:
+      type: object
+      required:
+      - total_optimized_points
+      properties:
+        variant_name:
+          type:
+          - string
+          - 'null'
+        status:
+          anyOf:
+          - $ref: '#/components/schemas/ShardStatus'
+          - {}
+        total_optimized_points:
+          description: Total number of optimized points since the last start.
+          type: integer
+          format: uint
+          minimum: 0
+        vectors_size_bytes:
+          description: An ESTIMATION of effective amount of bytes used for vectors Do NOT rely on this number unless you know what you are doing
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        payloads_size_bytes:
+          description: An estimation of the effective amount of bytes used for payloads Do NOT rely on this number unless you know what you are doing
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        num_points:
+          description: Sum of segment points This is an approximate number Do NOT rely on this number unless you know what you are doing
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        num_vectors:
+          description: Sum of number of vectors in all segments This is an approximate number Do NOT rely on this number unless you know what you are doing
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        num_vectors_by_name:
+          description: Sum of number of vectors across all segments, grouped by their name. This is an approximate number. Do NOT rely on this number unless you know what you are doing
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: integer
+            format: uint
+            minimum: 0
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/SegmentTelemetry'
+        optimizations:
+          anyOf:
+          - $ref: '#/components/schemas/OptimizerTelemetry'
+          - {}
+        async_scorer:
+          type:
+          - boolean
+          - 'null'
+        indexed_only_excluded_vectors:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: integer
+            format: uint
+            minimum: 0
+        update_queue:
+          description: Update queue status
+          anyOf:
+          - $ref: '#/components/schemas/ShardUpdateQueueInfo'
+          - {}
+    StrictModeSparseOutput:
+      type: object
+      properties:
+        max_length:
+          description: Max length of sparse vector
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+    GeoIndexParams:
       type: object
       required:
       - type
       properties:
         type:
-          $ref: '#/components/schemas/DatetimeIndexType'
-        is_principal:
-          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
-          type:
-          - boolean
-          - 'null'
+          $ref: '#/components/schemas/GeoIndexType'
         on_disk:
           description: 'If true, store the index on disk. Default: false.'
           type:
@@ -2333,65 +1818,15 @@ components:
           type:
           - boolean
           - 'null'
-    VectorIndexSearchesTelemetry:
-      type: object
-      required:
-      - filtered_exact
-      - filtered_large_cardinality
-      - filtered_plain
-      - filtered_small_cardinality
-      - filtered_sparse
-      - unfiltered_exact
-      - unfiltered_hnsw
-      - unfiltered_plain
-      - unfiltered_sparse
-      properties:
-        index_name:
-          type:
-          - string
-          - 'null'
-        unfiltered_plain:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        unfiltered_hnsw:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        unfiltered_sparse:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        filtered_plain:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        filtered_small_cardinality:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        filtered_large_cardinality:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        filtered_exact:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        filtered_sparse:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        unfiltered_exact:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-    PayloadSchemaParams:
-      description: Payload type with parameters
-      anyOf:
-      - $ref: '#/components/schemas/KeywordIndexParams'
-      - $ref: '#/components/schemas/IntegerIndexParams'
-      - $ref: '#/components/schemas/FloatIndexParams'
-      - $ref: '#/components/schemas/GeoIndexParams'
-      - $ref: '#/components/schemas/TextIndexParams'
-      - $ref: '#/components/schemas/BoolIndexParams'
-      - $ref: '#/components/schemas/DatetimeIndexParams'
-      - $ref: '#/components/schemas/UuidIndexParams'
-    IntegerIndexType:
-      type: string
-      enum:
-      - integer
-    UuidIndexParams:
+    FloatIndexParams:
       type: object
       required:
       - type
       properties:
         type:
-          $ref: '#/components/schemas/UuidIndexType'
-        is_tenant:
-          description: If true - used for tenant optimization.
+          $ref: '#/components/schemas/FloatIndexType'
+        is_principal:
+          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
           type:
           - boolean
           - 'null'
@@ -2453,48 +1888,211 @@ components:
           type:
           - boolean
           - 'null'
-    PayloadIndexInfo:
-      description: Display payload field type & index information
+    StopwordsInterface:
+      anyOf:
+      - $ref: '#/components/schemas/Language'
+      - $ref: '#/components/schemas/StopwordsSet'
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      properties:
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
+    ReshardingDirection:
+      description: 'Resharding direction, scale up or down in number of shards
+
+
+        - `up` - Scale up, add a new shard
+
+
+        - `down` - Scale down, remove a shard'
+      type: string
+      enum:
+      - up
+      - down
+    VectorDataConfig:
+      description: Config of single vector data storage
       type: object
       required:
-      - data_type
-      - points
+      - distance
+      - index
+      - size
+      - storage_type
       properties:
-        data_type:
-          $ref: '#/components/schemas/PayloadSchemaType'
-        params:
-          anyOf:
-          - $ref: '#/components/schemas/PayloadSchemaParams'
-          - {}
-        points:
-          description: Number of points indexed with this index
+        size:
+          description: Size/dimensionality of the vectors used
           type: integer
           format: uint
           minimum: 0
-    Distance:
-      description: Type of internal tags, build from payload Distance function types used to compare vectors
+        distance:
+          $ref: '#/components/schemas/Distance'
+        storage_type:
+          $ref: '#/components/schemas/VectorStorageType'
+        index:
+          $ref: '#/components/schemas/Indexes'
+        quantization_config:
+          description: Vector specific quantization config that overrides collection config
+          anyOf:
+          - $ref: '#/components/schemas/QuantizationConfig'
+          - {}
+        multivector_config:
+          description: Vector specific configuration to enable multiple vectors per point
+          anyOf:
+          - $ref: '#/components/schemas/MultiVectorConfig'
+          - {}
+        datatype:
+          description: Vector specific configuration to set specific storage element type
+          anyOf:
+          - $ref: '#/components/schemas/VectorStorageDatatype'
+          - {}
+    TextIndexType:
       type: string
       enum:
-      - Cosine
-      - Euclid
-      - Dot
-      - Manhattan
-    OptimizerTelemetry:
+      - text
+    CompressionRatio:
+      type: string
+      enum:
+      - x4
+      - x8
+      - x16
+      - x32
+      - x64
+    StateRole:
+      description: Role of the peer in the consensus
+      type: string
+      enum:
+      - Follower
+      - Candidate
+      - Leader
+      - PreCandidate
+    StopwordsSet:
       type: object
-      required:
-      - optimizations
-      - status
       properties:
-        status:
-          $ref: '#/components/schemas/OptimizersStatus'
-        optimizations:
-          $ref: '#/components/schemas/OperationDurationStatistics'
-        log:
+        languages:
+          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/TrackerTelemetry'
+            $ref: '#/components/schemas/Language'
+          uniqueItems: true
+        custom:
+          description: Custom stopwords set. Will be merged with the languages set.
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          uniqueItems: true
+    AppBuildTelemetry:
+      type: object
+      required:
+      - name
+      - startup
+      - version
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        features:
+          anyOf:
+          - $ref: '#/components/schemas/AppFeaturesTelemetry'
+          - {}
+        runtime_features:
+          anyOf:
+          - $ref: '#/components/schemas/FeatureFlags'
+          - {}
+        hnsw_global_config:
+          anyOf:
+          - $ref: '#/components/schemas/HnswGlobalConfig'
+          - {}
+        system:
+          anyOf:
+          - $ref: '#/components/schemas/RunningEnvironmentTelemetry'
+          - {}
+        jwt_rbac:
+          type:
+          - boolean
+          - 'null'
+        hide_jwt_dashboard:
+          type:
+          - boolean
+          - 'null'
+        startup:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        time:
+          type: number
+          format: float
+          description: Time spent to process this request
+        status:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Description of the occurred error.
+        result:
+          type:
+          - object
+          - 'null'
+    PeerInfo:
+      description: Information of a peer in the cluster
+      type: object
+      required:
+      - uri
+      properties:
+        uri:
+          type: string
+    HnswGlobalConfig:
+      type: object
+      properties:
+        healing_threshold:
+          description: Enable HNSW healing if the ratio of missing points is no more than this value. To disable healing completely, set this value to `0.0`.
+          default: 0.3
+          type: number
+          format: double
+          maximum: 1
+          minimum: 0
+    OptimizersStatus:
+      description: Current state of the collection
+      oneOf:
+      - description: Optimizers are reporting as expected
+        type: string
+        enum:
+        - ok
+      - description: Something wrong happened with optimizers
+        type: object
+        required:
+        - error
+        properties:
+          error:
+            type: string
+        additionalProperties: false
+    SparseIndexType:
+      description: Sparse index types
+      oneOf:
+      - description: Mutable RAM sparse index
+        type: string
+        enum:
+        - MutableRam
+      - description: Immutable RAM sparse index
+        type: string
+        enum:
+        - ImmutableRam
+      - description: Mmap sparse index
+        type: string
+        enum:
+        - Mmap
     TrackerStatus:
       description: Represents the current state of the optimizer being tracked
       oneOf:
@@ -2516,210 +2114,63 @@ components:
           error:
             type: string
         additionalProperties: false
-    SparseVectorStorageType:
-      oneOf:
-      - description: Storage on disk (rocksdb storage)
-        type: string
-        enum:
-        - on_disk
-      - description: Storage in memory maps (gridstore storage)
-        type: string
-        enum:
-        - mmap
-    GpuDeviceTelemetry:
+    DatetimeIndexParams:
       type: object
       required:
-      - name
+      - type
       properties:
-        name:
-          type: string
-    DatetimeIndexType:
-      type: string
-      enum:
-      - datetime
-    TextIndexType:
-      type: string
-      enum:
-      - text
-    ShardTransferMethod:
-      description: 'Methods for transferring a shard from one node to another.
-
-
-        - `stream_records` - Stream all shard records in batches until the whole shard is transferred.
-
-
-        - `snapshot` - Snapshot the shard, transfer and restore it on the receiver.
-
-
-        - `wal_delta` - Attempt to transfer shard difference by WAL delta.
-
-
-        - `resharding_stream_records` - Shard transfer for resharding: stream all records in batches until all points are transferred.'
-      type: string
-      enum:
-      - stream_records
-      - snapshot
-      - wal_delta
-      - resharding_stream_records
-    ErrorResponse:
+        type:
+          $ref: '#/components/schemas/DatetimeIndexType'
+        is_principal:
+          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
+          type:
+          - boolean
+          - 'null'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    InferenceUsage:
       type: object
+      required:
+      - models
       properties:
-        time:
-          type: number
-          format: float
-          description: Time spent to process this request
-        status:
+        models:
           type: object
-          properties:
-            error:
-              type: string
-              description: Description of the occurred error.
-        result:
-          type:
-          - object
-          - 'null'
-    ConsensusThreadStatus:
-      description: Information about current consensus thread status
-      oneOf:
-      - type: object
-        required:
-        - consensus_thread_status
-        - last_update
-        properties:
-          consensus_thread_status:
-            type: string
-            enum:
-            - working
-          last_update:
-            type: string
-            format: date-time
-      - type: object
-        required:
-        - consensus_thread_status
-        properties:
-          consensus_thread_status:
-            type: string
-            enum:
-            - stopped
-      - type: object
-        required:
-        - consensus_thread_status
-        - err
-        properties:
-          consensus_thread_status:
-            type: string
-            enum:
-            - stopped_with_err
-          err:
-            type: string
-    StrictModeMultivectorConfigOutput:
-      type: object
-      additionalProperties:
-        $ref: '#/components/schemas/StrictModeMultivectorOutput'
-    VectorsConfig:
-      description: 'Vector params separator for single and multiple vector modes Single mode:
-
-
-        { "size": 128, "distance": "Cosine" }
-
-
-        or multiple mode:
-
-
-        { "default": { "size": 128, "distance": "Cosine" } }'
-      anyOf:
-      - $ref: '#/components/schemas/VectorParams'
-      - type: object
-        additionalProperties:
-          $ref: '#/components/schemas/VectorParams'
-    ShardCleanStatusFailedTelemetry:
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
+    FloatIndexType:
+      type: string
+      enum:
+      - float
+    RemoteShardTelemetry:
       type: object
       required:
-      - reason
+      - peer_id
+      - shard_id
       properties:
-        reason:
-          type: string
-    CollectionSnapshotTelemetry:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-        running_snapshots:
-          type:
-          - integer
-          - 'null'
-          format: uint
+        shard_id:
+          type: integer
+          format: uint32
           minimum: 0
-        running_snapshot_recovery:
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        total_snapshot_creations:
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-    SparseVectorDataConfig:
-      description: Config of single sparse vector data storage
-      type: object
-      required:
-      - index
-      properties:
-        index:
-          $ref: '#/components/schemas/SparseIndexConfig'
-        storage_type:
-          $ref: '#/components/schemas/SparseVectorStorageType'
-        modifier:
-          description: 'Configures addition value modifications for sparse vectors. Default: none'
-          anyOf:
-          - $ref: '#/components/schemas/Modifier'
-          - {}
-    CollectionTelemetry:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-        init_time_ms:
-          type:
-          - integer
-          - 'null'
+        peer_id:
+          type: integer
           format: uint64
           minimum: 0
-        config:
+        searches:
           anyOf:
-          - $ref: '#/components/schemas/CollectionConfigTelemetry'
+          - $ref: '#/components/schemas/OperationDurationStatistics'
           - {}
-        shards:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReplicaSetTelemetry'
-        transfers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ShardTransferInfo'
-        resharding:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReshardingInfo'
-        shard_clean_tasks:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            $ref: '#/components/schemas/ShardCleanStatusTelemetry'
+        updates:
+          anyOf:
+          - $ref: '#/components/schemas/OperationDurationStatistics'
+          - {}
     SparseIndexConfig:
       description: Configuration for sparse inverted index.
       type: object
@@ -2743,6 +2194,610 @@ components:
           anyOf:
           - $ref: '#/components/schemas/VectorStorageDatatype'
           - {}
+    PayloadSchemaType:
+      description: All possible names of payload types
+      type: string
+      enum:
+      - keyword
+      - integer
+      - float
+      - geo
+      - text
+      - bool
+      - datetime
+      - uuid
+    CpuEndian:
+      type: string
+      enum:
+      - little
+      - big
+      - other
+    PayloadIndexTelemetry:
+      type: object
+      required:
+      - index_type
+      - points_count
+      - points_values_count
+      properties:
+        field_name:
+          type:
+          - string
+          - 'null'
+        index_type:
+          type: string
+        points_values_count:
+          description: The amount of values indexed for all points.
+          type: integer
+          format: uint
+          minimum: 0
+        points_count:
+          description: The amount of points that have at least one value indexed.
+          type: integer
+          format: uint
+          minimum: 0
+        histogram_bucket_size:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+    WebApiTelemetry:
+      type: object
+      required:
+      - responses
+      properties:
+        responses:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/OperationDurationStatistics'
+        per_collection_responses:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/OperationDurationStatistics'
+    VectorStorageDatatype:
+      description: Storage types for vectors
+      type: string
+      enum:
+      - float32
+      - float16
+      - uint8
+    BinaryQuantizationConfig:
+      type: object
+      properties:
+        always_ram:
+          type:
+          - boolean
+          - 'null'
+        encoding:
+          anyOf:
+          - $ref: '#/components/schemas/BinaryQuantizationEncoding'
+          - {}
+        query_encoding:
+          description: Asymmetric quantization configuration allows a query to have different quantization than stored vectors. It can increase the accuracy of search at the cost of performance.
+          anyOf:
+          - $ref: '#/components/schemas/BinaryQuantizationQueryEncoding'
+          - {}
+    ClusterStatusTelemetry:
+      type: object
+      required:
+      - commit
+      - consensus_thread_status
+      - is_voter
+      - number_of_peers
+      - pending_operations
+      - term
+      properties:
+        number_of_peers:
+          type: integer
+          format: uint
+          minimum: 0
+        term:
+          type: integer
+          format: uint64
+          minimum: 0
+        commit:
+          type: integer
+          format: uint64
+          minimum: 0
+        pending_operations:
+          type: integer
+          format: uint
+          minimum: 0
+        role:
+          anyOf:
+          - $ref: '#/components/schemas/StateRole'
+          - {}
+        is_voter:
+          type: boolean
+        peer_id:
+          type:
+          - integer
+          - 'null'
+          format: uint64
+          minimum: 0
+        consensus_thread_status:
+          $ref: '#/components/schemas/ConsensusThreadStatus'
+    ReshardingInfo:
+      type: object
+      required:
+      - direction
+      - peer_id
+      - shard_id
+      properties:
+        direction:
+          $ref: '#/components/schemas/ReshardingDirection'
+        shard_id:
+          type: integer
+          format: uint32
+          minimum: 0
+        peer_id:
+          type: integer
+          format: uint64
+          minimum: 0
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
+    CollectionsAggregatedTelemetry:
+      type: object
+      required:
+      - optimizers_status
+      - params
+      - vectors
+      properties:
+        vectors:
+          type: integer
+          format: uint
+          minimum: 0
+        optimizers_status:
+          $ref: '#/components/schemas/OptimizersStatus'
+        params:
+          $ref: '#/components/schemas/CollectionParams'
+    SparseIndexParams:
+      description: Configuration for sparse inverted index.
+      type: object
+      properties:
+        full_scan_threshold:
+          description: 'We prefer a full scan search upto (excluding) this number of vectors.
+
+
+            Note: this is number of vectors, not KiloBytes.'
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        on_disk:
+          description: 'Store index on disk. If set to false, the index will be stored in RAM. Default: false'
+          type:
+          - boolean
+          - 'null'
+        datatype:
+          description: 'Defines which datatype should be used for the index. Choosing different datatypes allows to optimize memory usage and performance vs accuracy.
+
+
+            - For `float32` datatype - vectors are stored as single-precision floating point numbers, 4 bytes. - For `float16` datatype - vectors are stored as half-precision floating point numbers, 2 bytes. - For `uint8` datatype - vectors are quantized to unsigned 8-bit integers, 1 byte. Quantization to fit byte range `[0, 255]` happens during indexing automatically, so the actual vector data does not need to conform to this range.'
+          anyOf:
+          - $ref: '#/components/schemas/Datatype'
+          - {}
+    Payload:
+      type: object
+      additionalProperties: true
+      example:
+        city: London
+        color: green
+    SegmentTelemetry:
+      type: object
+      required:
+      - config
+      - info
+      - payload_field_indices
+      - vector_index_searches
+      properties:
+        info:
+          $ref: '#/components/schemas/SegmentInfo'
+        config:
+          $ref: '#/components/schemas/SegmentConfig'
+        vector_index_searches:
+          type: array
+          items:
+            $ref: '#/components/schemas/VectorIndexSearchesTelemetry'
+        payload_field_indices:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayloadIndexTelemetry'
+    RunningEnvironmentTelemetry:
+      type: object
+      required:
+      - cpu_flags
+      - is_docker
+      properties:
+        distribution:
+          type:
+          - string
+          - 'null'
+        distribution_version:
+          type:
+          - string
+          - 'null'
+        is_docker:
+          type: boolean
+        cores:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        ram_size:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        disk_size:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        cpu_flags:
+          type: string
+        cpu_endian:
+          anyOf:
+          - $ref: '#/components/schemas/CpuEndian'
+          - {}
+        gpu_devices:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GpuDeviceTelemetry'
+    MultiVectorComparator:
+      type: string
+      enum:
+      - max_sim
+    MemoryTelemetry:
+      type: object
+      required:
+      - active_bytes
+      - allocated_bytes
+      - metadata_bytes
+      - resident_bytes
+      - retained_bytes
+      properties:
+        active_bytes:
+          description: Total number of bytes in active pages allocated by the application
+          type: integer
+          format: uint
+          minimum: 0
+        allocated_bytes:
+          description: Total number of bytes allocated by the application
+          type: integer
+          format: uint
+          minimum: 0
+        metadata_bytes:
+          description: Total number of bytes dedicated to metadata
+          type: integer
+          format: uint
+          minimum: 0
+        resident_bytes:
+          description: Maximum number of bytes in physically resident data pages mapped
+          type: integer
+          format: uint
+          minimum: 0
+        retained_bytes:
+          description: Total number of bytes in virtual memory mappings
+          type: integer
+          format: uint
+          minimum: 0
+    StrictModeMultivectorOutput:
+      type: object
+      properties:
+        max_vectors:
+          description: Max number of vectors in a multivector
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+    BinaryQuantizationQueryEncoding:
+      type: string
+      enum:
+      - default
+      - binary
+      - scalar4bits
+      - scalar8bits
+    VectorStorageType:
+      description: Storage types for vectors
+      oneOf:
+      - description: 'Storage in memory (RAM)
+
+
+          Will be very fast at the cost of consuming a lot of memory.'
+        type: string
+        enum:
+        - Memory
+      - description: 'Storage in mmap file, not appendable
+
+
+          Search performance is defined by disk speed and the fraction of vectors that fit in memory.'
+        type: string
+        enum:
+        - Mmap
+      - description: 'Storage in chunked mmap files, appendable
+
+
+          Search performance is defined by disk speed and the fraction of vectors that fit in memory.'
+        type: string
+        enum:
+        - ChunkedMmap
+      - description: 'Same as `ChunkedMmap`, but vectors are forced to be locked in RAM In this way we avoid cold requests to disk, but risk to run out of memory
+
+
+          Designed as a replacement for `Memory`, which doesn''t depend on RocksDB'
+        type: string
+        enum:
+        - InRamChunkedMmap
+      - description: Storage in a single mmap file, not appendable Pre-fetched into RAM on load
+        type: string
+        enum:
+        - InRamMmap
+    PayloadStorageType:
+      description: Type of payload storage
+      oneOf:
+      - type: object
+        required:
+        - type
+        properties:
+          type:
+            type: string
+            enum:
+            - in_memory
+      - type: object
+        required:
+        - type
+        properties:
+          type:
+            type: string
+            enum:
+            - on_disk
+      - type: object
+        required:
+        - type
+        properties:
+          type:
+            type: string
+            enum:
+            - mmap
+      - type: object
+        required:
+        - type
+        properties:
+          type:
+            type: string
+            enum:
+            - in_ram_mmap
+    VectorIndexSearchesTelemetry:
+      type: object
+      required:
+      - filtered_exact
+      - filtered_large_cardinality
+      - filtered_plain
+      - filtered_small_cardinality
+      - filtered_sparse
+      - unfiltered_exact
+      - unfiltered_hnsw
+      - unfiltered_plain
+      - unfiltered_sparse
+      properties:
+        index_name:
+          type:
+          - string
+          - 'null'
+        unfiltered_plain:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        unfiltered_hnsw:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        unfiltered_sparse:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        filtered_plain:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        filtered_small_cardinality:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        filtered_large_cardinality:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        filtered_exact:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        filtered_sparse:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+        unfiltered_exact:
+          $ref: '#/components/schemas/OperationDurationStatistics'
+    BoolIndexParams:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/BoolIndexType'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    RequestsTelemetry:
+      type: object
+      required:
+      - grpc
+      - rest
+      properties:
+        rest:
+          $ref: '#/components/schemas/WebApiTelemetry'
+        grpc:
+          $ref: '#/components/schemas/GrpcTelemetry'
+    ShardStatus:
+      description: 'Current state of the shard (supports same states as the collection)
+
+
+        `Green` - all good. `Yellow` - optimization is running, ''Grey'' - optimizations are possible but not triggered, `Red` - some operations failed and was not recovered'
+      type: string
+      enum:
+      - green
+      - yellow
+      - grey
+      - red
+    StemmingAlgorithm:
+      description: Different stemming algorithms with their configs.
+      anyOf:
+      - $ref: '#/components/schemas/SnowballParams'
+    CollectionTelemetryEnum:
+      anyOf:
+      - $ref: '#/components/schemas/CollectionTelemetry'
+      - $ref: '#/components/schemas/CollectionsAggregatedTelemetry'
+    ReplicaState:
+      description: State of the single shard within a replica set.
+      type: string
+      enum:
+      - Active
+      - Dead
+      - Partial
+      - Initializing
+      - Listener
+      - PartialSnapshot
+      - Recovery
+      - Resharding
+      - ReshardingScaleDown
+      - ActiveRead
+      - ManualRecovery
+    CollectionParams:
+      type: object
+      properties:
+        vectors:
+          $ref: '#/components/schemas/VectorsConfig'
+        shard_number:
+          description: Number of shards the collection has
+          default: 1
+          type: integer
+          format: uint32
+          minimum: 1
+        sharding_method:
+          description: Sharding method Default is Auto - points are distributed across all available shards Custom - points are distributed across shards according to shard key
+          anyOf:
+          - $ref: '#/components/schemas/ShardingMethod'
+          - {}
+        replication_factor:
+          description: Number of replicas for each shard
+          default: 1
+          type: integer
+          format: uint32
+          minimum: 1
+        write_consistency_factor:
+          description: Defines how many replicas should apply the operation for us to consider it successful. Increasing this number will make the collection more resilient to inconsistencies, but will also make it fail if not enough replicas are available. Does not have any performance impact.
+          default: 1
+          type: integer
+          format: uint32
+          minimum: 1
+        read_fan_out_factor:
+          description: Defines how many additional replicas should be processing read request at the same time. Default value is Auto, which means that fan-out will be determined automatically based on the busyness of the local replica. Having more than 0 might be useful to smooth latency spikes of individual nodes.
+          type:
+          - integer
+          - 'null'
+          format: uint32
+          minimum: 0
+        read_fan_out_delay_ms:
+          description: Define number of milliseconds to wait before attempting to read from another replica. This setting can help to reduce latency spikes in case of occasional slow replicas. Default is 0, which means delayed fan out request is disabled.
+          type:
+          - integer
+          - 'null'
+          format: uint64
+          minimum: 0
+        on_disk_payload:
+          description: 'If true - point''s payload will not be stored in memory. It will be read from the disk every time it is requested. This setting saves RAM by (slightly) increasing the response time. Note: those payload values that are involved in filtering and are indexed - remain in RAM.
+
+
+            Default: true'
+          default: true
+          type: boolean
+        sparse_vectors:
+          description: Configuration of the sparse vector storage
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            $ref: '#/components/schemas/SparseVectorParams'
+    GpuDeviceTelemetry:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+    UuidIndexType:
+      type: string
+      enum:
+      - uuid
+    ProductQuantization:
+      type: object
+      required:
+      - product
+      properties:
+        product:
+          $ref: '#/components/schemas/ProductQuantizationConfig'
+    OperationDurationStatistics:
+      type: object
+      required:
+      - count
+      properties:
+        count:
+          type: integer
+          format: uint
+          minimum: 0
+        fail_count:
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        avg_duration_micros:
+          description: The average time taken by 128 latest operations, calculated as a weighted mean.
+          type:
+          - number
+          - 'null'
+          format: float
+        min_duration_micros:
+          description: The minimum duration of the operations across all the measurements.
+          type:
+          - number
+          - 'null'
+          format: float
+        max_duration_micros:
+          description: The maximum duration of the operations across all the measurements.
+          type:
+          - number
+          - 'null'
+          format: float
+        total_duration_micros:
+          description: The total duration of all operations in microseconds.
+          type:
+          - integer
+          - 'null'
+          format: uint64
+          minimum: 0
+        last_responded:
+          type:
+          - string
+          - 'null'
+          format: date-time
     Language:
       type: string
       enum:
@@ -2776,163 +2831,108 @@ components:
       - swedish
       - tajik
       - turkish
-    Indexes:
-      description: Vector index configuration
-      oneOf:
-      - description: Do not use any index, scan whole vector collection during search. Guarantee 100% precision, but may be time consuming on large collections.
-        type: object
-        required:
-        - options
-        - type
-        properties:
-          type:
-            type: string
-            enum:
-            - plain
-          options:
-            type: object
-      - description: Use filterable HNSW index for approximate search. Is very fast even on a very huge collections, but require additional space to store index and additional time to build it.
-        type: object
-        required:
-        - options
-        - type
-        properties:
-          type:
-            type: string
-            enum:
-            - hnsw
-          options:
-            $ref: '#/components/schemas/HnswConfig'
-    Payload:
-      type: object
-      additionalProperties: true
-      example:
-        city: London
-        color: green
-    ScalarQuantizationConfig:
+    IntegerIndexParams:
       type: object
       required:
       - type
       properties:
         type:
-          $ref: '#/components/schemas/ScalarType'
-        quantile:
-          description: Quantile for quantization. Expected value range in [0.5, 1.0]. If not set - use the whole range of values
-          type:
-          - number
-          - 'null'
-          format: float
-          maximum: 1
-          minimum: 0.5
-        always_ram:
-          description: If true - quantized vectors always will be stored in RAM, ignoring the config of main storage
+          $ref: '#/components/schemas/IntegerIndexType'
+        lookup:
+          description: If true - support direct lookups. Default is true.
           type:
           - boolean
           - 'null'
-    PayloadIndexTelemetry:
-      type: object
-      required:
-      - index_type
-      - points_count
-      - points_values_count
-      properties:
-        field_name:
-          type:
-          - string
-          - 'null'
-        index_type:
-          type: string
-        points_values_count:
-          description: The amount of values indexed for all points.
-          type: integer
-          format: uint
-          minimum: 0
-        points_count:
-          description: The amount of points that have at least one value indexed.
-          type: integer
-          format: uint
-          minimum: 0
-        histogram_bucket_size:
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-    VersionInfo:
-      type: object
-      required:
-      - title
-      - version
-      properties:
-        title:
-          type: string
-        version:
-          type: string
-        commit:
-          type:
-          - string
-          - 'null'
-    VectorDataInfo:
-      type: object
-      required:
-      - num_deleted_vectors
-      - num_indexed_vectors
-      - num_vectors
-      properties:
-        num_vectors:
-          type: integer
-          format: uint
-          minimum: 0
-        num_indexed_vectors:
-          type: integer
-          format: uint
-          minimum: 0
-        num_deleted_vectors:
-          type: integer
-          format: uint
-          minimum: 0
-    RemoteShardTelemetry:
-      type: object
-      required:
-      - peer_id
-      - shard_id
-      properties:
-        shard_id:
-          type: integer
-          format: uint32
-          minimum: 0
-        peer_id:
-          type: integer
-          format: uint64
-          minimum: 0
-        searches:
-          anyOf:
-          - $ref: '#/components/schemas/OperationDurationStatistics'
-          - {}
-        updates:
-          anyOf:
-          - $ref: '#/components/schemas/OperationDurationStatistics'
-          - {}
-    ProductQuantizationConfig:
-      type: object
-      required:
-      - compression
-      properties:
-        compression:
-          $ref: '#/components/schemas/CompressionRatio'
-        always_ram:
+        range:
+          description: If true - support ranges filters. Default is true.
           type:
           - boolean
           - 'null'
-    ModelUsage:
+        is_principal:
+          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests. Default is false.
+          type:
+          - boolean
+          - 'null'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false. Default is false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    BinaryQuantization:
       type: object
       required:
-      - tokens
+      - binary
       properties:
-        tokens:
+        binary:
+          $ref: '#/components/schemas/BinaryQuantizationConfig'
+    HardwareUsage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      required:
+      - cpu
+      - payload_index_io_read
+      - payload_index_io_write
+      - payload_io_read
+      - payload_io_write
+      - vector_io_read
+      - vector_io_write
+      properties:
+        cpu:
           type: integer
-          format: uint64
+          format: uint
           minimum: 0
+        payload_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_index_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_index_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+        vector_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        vector_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+    TokenizerType:
+      type: string
+      enum:
+      - prefix
+      - whitespace
+      - word
+      - multilingual
+    GeoIndexType:
+      type: string
+      enum:
+      - geo
+    Modifier:
+      description: 'If used, include weight modification, which will be applied to sparse vectors at query time: None - no modification (default) Idf - inverse document frequency, based on statistics of the collection'
+      type: string
+      enum:
+      - none
+      - idf
+    BinaryQuantizationEncoding:
+      type: string
+      enum:
+      - one_bit
+      - two_bits
+      - one_and_half_bits
   securitySchemes:
     api-key:
       type: apiKey

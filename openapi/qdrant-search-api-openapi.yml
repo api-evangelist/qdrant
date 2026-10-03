@@ -948,11 +948,212 @@ paths:
                     $ref: '#/components/schemas/SearchMatrixOffsetsResponse'
 components:
   schemas:
-    Prefetch:
+    SparseVector:
+      description: Sparse vector structure
+      type: object
+      required:
+      - indices
+      - values
+      properties:
+        indices:
+          description: Indices must be unique
+          type: array
+          items:
+            type: integer
+            format: uint32
+            minimum: 0
+        values:
+          description: Values and indices must be the same length
+          type: array
+          items:
+            type: number
+            format: float
+    IsNullCondition:
+      description: Select points with null payload for a specified field
+      type: object
+      required:
+      - is_null
+      properties:
+        is_null:
+          $ref: '#/components/schemas/PayloadField'
+    SampleQuery:
+      type: object
+      required:
+      - sample
+      properties:
+        sample:
+          $ref: '#/components/schemas/Sample'
+    PayloadSelector:
+      description: Specifies how to treat payload selector
+      anyOf:
+      - $ref: '#/components/schemas/PayloadSelectorInclude'
+      - $ref: '#/components/schemas/PayloadSelectorExclude'
+    GeoDistanceParams:
+      type: object
+      required:
+      - origin
+      - to
+      properties:
+        origin:
+          $ref: '#/components/schemas/GeoPoint'
+        to:
+          description: Payload field with the destination geo point
+          type: string
+    DivParams:
+      type: object
+      required:
+      - left
+      - right
+      properties:
+        left:
+          $ref: '#/components/schemas/Expression'
+        right:
+          $ref: '#/components/schemas/Expression'
+        by_zero_default:
+          type:
+          - number
+          - 'null'
+          format: float
+    ModelUsage:
+      type: object
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
+    Record:
+      description: Point data
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          $ref: '#/components/schemas/ExtendedPointId'
+        payload:
+          description: Payload - values assigned to the point
+          anyOf:
+          - $ref: '#/components/schemas/Payload'
+          - {}
+        vector:
+          description: Vector of the point
+          anyOf:
+          - $ref: '#/components/schemas/VectorStructOutput'
+          - {}
+        shard_key:
+          description: Shard Key
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
+        order_value:
+          anyOf:
+          - $ref: '#/components/schemas/OrderValue'
+          - {}
+    NamedSparseVector:
+      description: Sparse vector data with name
+      type: object
+      required:
+      - name
+      - vector
+      properties:
+        name:
+          description: Name of vector data
+          type: string
+        vector:
+          $ref: '#/components/schemas/SparseVector'
+    Expression:
+      anyOf:
+      - type: number
+        format: float
+      - type: string
+      - $ref: '#/components/schemas/Condition'
+      - $ref: '#/components/schemas/GeoDistance'
+      - $ref: '#/components/schemas/DatetimeExpression'
+      - $ref: '#/components/schemas/DatetimeKeyExpression'
+      - $ref: '#/components/schemas/MultExpression'
+      - $ref: '#/components/schemas/SumExpression'
+      - $ref: '#/components/schemas/NegExpression'
+      - $ref: '#/components/schemas/AbsExpression'
+      - $ref: '#/components/schemas/DivExpression'
+      - $ref: '#/components/schemas/SqrtExpression'
+      - $ref: '#/components/schemas/PowExpression'
+      - $ref: '#/components/schemas/ExpExpression'
+      - $ref: '#/components/schemas/Log10Expression'
+      - $ref: '#/components/schemas/LnExpression'
+      - $ref: '#/components/schemas/LinDecayExpression'
+      - $ref: '#/components/schemas/ExpDecayExpression'
+      - $ref: '#/components/schemas/GaussDecayExpression'
+    OrderValue:
+      anyOf:
+      - type: integer
+        format: int64
+        example: 42
+      - type: number
+        format: double
+        example: 42.5
+    Fusion:
+      description: 'Fusion algorithm allows to combine results of multiple prefetches.
+
+
+        Available fusion algorithms:
+
+
+        * `rrf` - Reciprocal Rank Fusion (with default parameters) * `dbsf` - Distribution-Based Score Fusion'
+      type: string
+      enum:
+      - rrf
+      - dbsf
+    IsEmptyCondition:
+      description: Select points with empty payload for a specified field
+      type: object
+      required:
+      - is_empty
+      properties:
+        is_empty:
+          $ref: '#/components/schemas/PayloadField'
+    Filter:
       type: object
       properties:
+        should:
+          description: At least one of those conditions should match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+        min_should:
+          description: At least minimum amount of given conditions should match
+          anyOf:
+          - $ref: '#/components/schemas/MinShould'
+          - {}
+        must:
+          description: All conditions must match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+        must_not:
+          description: All conditions must NOT match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+      additionalProperties: false
+    QueryRequest:
+      type: object
+      properties:
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
         prefetch:
-          description: Sub-requests to perform first. If present, the query will be performed on the results of the prefetches.
+          description: Sub-requests to perform first. If present, the query will be performed on the results of the prefetch(es).
           default: null
           anyOf:
           - $ref: '#/components/schemas/Prefetch'
@@ -993,45 +1194,240 @@ components:
           - 'null'
           format: uint
           minimum: 1
+        offset:
+          description: Offset of the result. Skip this many points. Default is 0
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        with_vector:
+          description: Options for specifying which vectors to include into the response. Default is false.
+          anyOf:
+          - $ref: '#/components/schemas/WithVector'
+          - {}
+        with_payload:
+          description: Options for specifying which payload to include or not. Default is false.
+          anyOf:
+          - $ref: '#/components/schemas/WithPayloadInterface'
+          - {}
         lookup_from:
           description: 'The location to use for IDs lookup, if not specified - use the current collection and the ''using'' vector Note: the other collection vectors should have the same vector size as the ''using'' vector in the current collection'
           default: null
           anyOf:
           - $ref: '#/components/schemas/LookupLocation'
           - {}
-    StopwordsInterface:
-      anyOf:
-      - $ref: '#/components/schemas/Language'
-      - $ref: '#/components/schemas/StopwordsSet'
-    Record:
-      description: Point data
+    DivExpression:
       type: object
       required:
-      - id
+      - div
       properties:
-        id:
-          $ref: '#/components/schemas/ExtendedPointId'
-        payload:
-          description: Payload - values assigned to the point
+        div:
+          $ref: '#/components/schemas/DivParams'
+    OrderBy:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          description: Payload key to order by
+          type: string
+        direction:
+          description: 'Direction of ordering: `asc` or `desc`. Default is ascending.'
           anyOf:
-          - $ref: '#/components/schemas/Payload'
+          - $ref: '#/components/schemas/Direction'
           - {}
+        start_from:
+          description: Which payload value to start scrolling from. Default is the lowest value for `asc` and the highest for `desc`
+          anyOf:
+          - $ref: '#/components/schemas/StartFrom'
+          - {}
+    GeoLineString:
+      description: Ordered sequence of GeoPoints representing the line
+      type: object
+      required:
+      - points
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoPoint'
+    HasVectorCondition:
+      description: Filter points which have specific vector assigned
+      type: object
+      required:
+      - has_vector
+      properties:
+        has_vector:
+          type: string
+    RangeInterface:
+      anyOf:
+      - $ref: '#/components/schemas/Range'
+      - $ref: '#/components/schemas/DatetimeRange'
+    GroupId:
+      description: Value of the group_by key, shared across all the hits in the group
+      anyOf:
+      - type: string
+      - type: integer
+        format: uint64
+        minimum: 0
+      - type: integer
+        format: int64
+    Snowball:
+      type: string
+      enum:
+      - snowball
+    LookupLocation:
+      description: Defines a location to use for looking up the vector. Specifies collection and vector field name.
+      type: object
+      required:
+      - collection
+      properties:
+        collection:
+          description: Name of the collection used for lookup
+          type: string
         vector:
-          description: Vector of the point
-          anyOf:
-          - $ref: '#/components/schemas/VectorStructOutput'
-          - {}
+          description: Optional name of the vector field within the collection. If not provided, the default vector field will be used.
+          default: null
+          type:
+          - string
+          - 'null'
         shard_key:
-          description: Shard Key
+          description: Specify in which shards to look for the points, if not specified - look in all shards
           anyOf:
-          - $ref: '#/components/schemas/ShardKey'
+          - $ref: '#/components/schemas/ShardKeySelector'
           - {}
-        order_value:
+    NestedCondition:
+      type: object
+      required:
+      - nested
+      properties:
+        nested:
+          $ref: '#/components/schemas/Nested'
+    QuantizationSearchParams:
+      description: Additional parameters of the search
+      type: object
+      properties:
+        ignore:
+          description: If true, quantized vectors are ignored. Default is false.
+          default: false
+          type: boolean
+        rescore:
+          description: If true, use original vectors to re-score top-k results. Might require more time in case if original vectors are stored on disk. If not set, qdrant decides automatically apply rescoring or not.
+          type:
+          - boolean
+          - 'null'
+        oversampling:
+          description: 'Oversampling factor for quantization. Default is 1.0.
+
+
+            Defines how many extra vectors should be preselected using quantized index, and then re-scored using original vectors.
+
+
+            For example, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be preselected using quantized index, and then top-100 will be returned after re-scoring.'
+          type:
+          - number
+          - 'null'
+          format: double
+          minimum: 1
+    SearchRequestBatch:
+      type: object
+      required:
+      - searches
+      properties:
+        searches:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchRequest'
+    DiscoverInput:
+      type: object
+      required:
+      - context
+      - target
+      properties:
+        target:
+          $ref: '#/components/schemas/VectorInput'
+        context:
+          description: Search space will be constrained by these pairs of vectors
           anyOf:
-          - $ref: '#/components/schemas/OrderValue'
+          - $ref: '#/components/schemas/ContextPair'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ContextPair'
           - {}
-    DiscoverRequest:
-      description: Use context and a target to find the most similar points, constrained by the context.
+    GaussDecayExpression:
+      type: object
+      required:
+      - gauss_decay
+      properties:
+        gauss_decay:
+          $ref: '#/components/schemas/DecayParamsExpression'
+    WithVector:
+      description: Options for specifying which vector to include
+      anyOf:
+      - description: If `true` - return all vector, If `false` - do not return vector
+        type: boolean
+      - description: Specify which vector to return
+        type: array
+        items:
+          type: string
+    SearchParams:
+      description: Additional parameters of the search
+      type: object
+      properties:
+        hnsw_ef:
+          description: Params relevant to HNSW index Size of the beam in a beam-search. Larger the value - more accurate the result, more time required for search.
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        exact:
+          description: Search without approximation. If set to true, search may run long but with exact results.
+          default: false
+          type: boolean
+        quantization:
+          description: Quantization params
+          anyOf:
+          - $ref: '#/components/schemas/QuantizationSearchParams'
+          - {}
+        indexed_only:
+          description: If enabled, the engine will only perform search among indexed or small segments. Using this option prevents slow searches in case of delayed index, but does not guarantee that all uploaded vectors will be included in search results
+          default: false
+          type: boolean
+        acorn:
+          description: ACORN search params
+          anyOf:
+          - $ref: '#/components/schemas/AcornSearchParams'
+          - {}
+    SnowballLanguage:
+      description: Languages supported by snowball stemmer.
+      type: string
+      enum:
+      - arabic
+      - armenian
+      - danish
+      - dutch
+      - english
+      - finnish
+      - french
+      - german
+      - greek
+      - hungarian
+      - italian
+      - norwegian
+      - portuguese
+      - romanian
+      - russian
+      - spanish
+      - swedish
+      - tamil
+      - turkish
+    RecommendRequest:
+      description: 'Recommendation request. Provides positive and negative examples of the vectors, which can be ids of points that are already stored in the collection, raw vectors, or even ids and vectors combined.
+
+
+        Service should look for the points which are closer to positive examples and at the same time further to negative examples. The concrete way of how to compare negative and positive distances is up to the `strategy` chosen.'
       type: object
       required:
       - limit
@@ -1041,30 +1437,23 @@ components:
           anyOf:
           - $ref: '#/components/schemas/ShardKeySelector'
           - {}
-        target:
-          description: 'Look for vectors closest to this.
-
-
-            When using the target (with or without context), the integer part of the score represents the rank with respect to the context, while the decimal part of the score relates to the distance to the target.'
-          anyOf:
-          - $ref: '#/components/schemas/RecommendExample'
-          - {}
-        context:
-          description: 'Pairs of { positive, negative } examples to constrain the search.
-
-
-            When using only the context (without a target), a special search - called context search - is performed where pairs of points are used to generate a loss that guides the search towards the zone where most positive examples overlap. This means that the score minimizes the scenario of finding a point closer to a negative than to a positive part of a pair.
-
-
-            Since the score of a context relates to loss, the maximum score a point can get is 0.0, and it becomes normal that many points can have a score of 0.0.
-
-
-            For discovery search (when including a target), the context part of the score for each pair is calculated +1 if the point is closer to a positive than to a negative part of a pair, and -1 otherwise.'
-          type:
-          - array
-          - 'null'
+        positive:
+          description: Look for vectors closest to those
+          default: []
+          type: array
           items:
-            $ref: '#/components/schemas/ContextExamplePair'
+            $ref: '#/components/schemas/RecommendExample'
+        negative:
+          description: Try to avoid vectors like this
+          default: []
+          type: array
+          items:
+            $ref: '#/components/schemas/RecommendExample'
+        strategy:
+          description: How to use positive and negative examples to find the results
+          anyOf:
+          - $ref: '#/components/schemas/RecommendStrategy'
+          - {}
         filter:
           description: Look only for points which satisfies this conditions
           anyOf:
@@ -1094,9 +1483,16 @@ components:
           - {}
         with_vector:
           description: Options for specifying which vectors to include into response. Default is false.
+          default: null
           anyOf:
           - $ref: '#/components/schemas/WithVector'
           - {}
+        score_threshold:
+          description: Define a minimal score threshold for the result. If defined, less similar results will not be returned. Score of the returned result might be higher or smaller than the threshold depending on the Distance function used. E.g. for cosine similarity only higher scores will be returned.
+          type:
+          - number
+          - 'null'
+          format: float
         using:
           description: Define which vector to use for recommendation, if not specified - try to use default vector
           default: null
@@ -1109,58 +1505,256 @@ components:
           anyOf:
           - $ref: '#/components/schemas/LookupLocation'
           - {}
-    ExtendedPointId:
-      description: Type, used for specifying point ID in user interface
+    RecommendStrategy:
+      description: 'How to use positive and negative examples to find the results, default is `average_vector`:
+
+
+        * `average_vector` - Average positive and negative vectors and create a single query with the formula `query = avg_pos + avg_pos - avg_neg`. Then performs normal search.
+
+
+        * `best_score` - Uses custom search objective. Each candidate is compared against all examples, its score is then chosen from the `max(max_pos_score, max_neg_score)`. If the `max_neg_score` is chosen then it is squared and negated, otherwise it is just the `max_pos_score`.
+
+
+        * `sum_scores` - Uses custom search objective. Compares against all inputs, sums all the scores. Scores against positive vectors are added, against negatives are subtracted.'
+      type: string
+      enum:
+      - average_vector
+      - best_score
+      - sum_scores
+    WithPayloadInterface:
+      description: Options for specifying which payload to include or not
       anyOf:
+      - description: If `true` - return all payload, If `false` - do not return payload
+        type: boolean
+      - description: Specify which fields to return
+        type: array
+        items:
+          type: string
+      - $ref: '#/components/schemas/PayloadSelector'
+    PowParams:
+      type: object
+      required:
+      - base
+      - exponent
+      properties:
+        base:
+          $ref: '#/components/schemas/Expression'
+        exponent:
+          $ref: '#/components/schemas/Expression'
+    ShardKey:
+      anyOf:
+      - type: string
+        example: region_1
       - type: integer
         format: uint64
         minimum: 0
-        example: 42
-      - type: string
-        format: uuid
-        example: 550e8400-e29b-41d4-a716-446655440000
-    GeoLineString:
-      description: Ordered sequence of GeoPoints representing the line
+        example: 12
+    DiscoverQuery:
       type: object
       required:
-      - points
+      - discover
       properties:
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/GeoPoint'
-    SearchRequestBatch:
+        discover:
+          $ref: '#/components/schemas/DiscoverInput'
+    NegExpression:
       type: object
       required:
-      - searches
+      - neg
       properties:
-        searches:
-          type: array
-          items:
-            $ref: '#/components/schemas/SearchRequest'
-    HasIdCondition:
-      description: ID-based filtering condition
+        neg:
+          $ref: '#/components/schemas/Expression'
+    RecommendExample:
+      anyOf:
+      - $ref: '#/components/schemas/ExtendedPointId'
+      - type: array
+        items:
+          type: number
+          format: float
+      - $ref: '#/components/schemas/SparseVector'
+    ScoredPoint:
+      description: Search result
       type: object
       required:
-      - has_id
+      - id
+      - score
+      - version
       properties:
-        has_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-          uniqueItems: true
-    NamedSparseVector:
-      description: Sparse vector data with name
-      type: object
-      required:
-      - name
-      - vector
-      properties:
-        name:
-          description: Name of vector data
-          type: string
+        id:
+          $ref: '#/components/schemas/ExtendedPointId'
+        version:
+          description: Point version
+          type: integer
+          format: uint64
+          minimum: 0
+          example: 3
+        score:
+          description: Points vector distance to the query vector
+          type: number
+          format: float
+          example: 0.75
+        payload:
+          description: Payload - values assigned to the point
+          anyOf:
+          - $ref: '#/components/schemas/Payload'
+          - {}
         vector:
-          $ref: '#/components/schemas/SparseVector'
+          description: Vector of the point
+          anyOf:
+          - $ref: '#/components/schemas/VectorStructOutput'
+          - {}
+        shard_key:
+          description: Shard Key
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
+        order_value:
+          description: Order-by value
+          anyOf:
+          - $ref: '#/components/schemas/OrderValue'
+          - {}
+    Mmr:
+      description: Maximal Marginal Relevance (MMR) algorithm for re-ranking the points.
+      type: object
+      properties:
+        diversity:
+          description: 'Tunable parameter for the MMR algorithm. Determines the balance between diversity and relevance.
+
+
+            A higher value favors diversity (dissimilarity to selected results), while a lower value favors relevance (similarity to the query vector).
+
+
+            Must be in the range [0, 1]. Default value is 0.5.'
+          type:
+          - number
+          - 'null'
+          format: float
+          maximum: 1
+          minimum: 0
+        candidates_limit:
+          description: 'The maximum number of candidates to consider for re-ranking.
+
+
+            If not specified, the `limit` value is used.'
+          type:
+          - integer
+          - 'null'
+          format: uint
+          maximum: 16384
+          minimum: 0
+    MinShould:
+      type: object
+      required:
+      - conditions
+      - min_count
+      properties:
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+        min_count:
+          type: integer
+          format: uint
+          minimum: 0
+    Image:
+      description: 'WARN: Work-in-progress, unimplemented
+
+
+        Image object for embedding. Requires inference infrastructure, unimplemented.'
+      type: object
+      required:
+      - image
+      - model
+      properties:
+        image:
+          description: 'Image data: base64 encoded image or an URL'
+          example: https://example.com/image.jpg
+        model:
+          description: Name of the model used to generate the vector. List of available models depends on a provider.
+          type: string
+          minLength: 1
+          example: Qdrant/clip-ViT-B-32-vision
+        options:
+          description: Parameters for the model Values of the parameters are model-specific
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+    AnyVariants:
+      anyOf:
+      - type: array
+        items:
+          type: string
+        uniqueItems: true
+      - type: array
+        items:
+          type: integer
+          format: int64
+        uniqueItems: true
+    UsingVector:
+      anyOf:
+      - type: string
+    WithLookup:
+      type: object
+      required:
+      - collection
+      properties:
+        collection:
+          description: Name of the collection to use for points lookup
+          type: string
+        with_payload:
+          description: Options for specifying which payload to include (or not)
+          default: true
+          anyOf:
+          - $ref: '#/components/schemas/WithPayloadInterface'
+          - {}
+        with_vectors:
+          description: Options for specifying which vectors to include (or not)
+          default: null
+          anyOf:
+          - $ref: '#/components/schemas/WithVector'
+          - {}
+    ShardKeyWithFallback:
+      type: object
+      required:
+      - fallback
+      - target
+      properties:
+        target:
+          $ref: '#/components/schemas/ShardKey'
+        fallback:
+          $ref: '#/components/schemas/ShardKey'
+    SearchMatrixRequest:
+      type: object
+      properties:
+        shard_key:
+          description: Specify in which shards to look for the points, if not specified - look in all shards
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+        filter:
+          description: Look only for points which satisfies this conditions
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        sample:
+          description: How many points to select and search within. Default is 10.
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 2
+        limit:
+          description: How many neighbours per sample to find. Default is 3.
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 1
+        using:
+          description: Define which vector name to use for querying. If missing, the default vector is used.
+          type:
+          - string
+          - 'null'
     RecommendGroupsRequest:
       type: object
       required:
@@ -1249,24 +1843,107 @@ components:
           anyOf:
           - $ref: '#/components/schemas/WithLookupInterface'
           - {}
-    ReadConsistencyType:
-      description: '* `majority` - send N/2+1 random request and return points, which present on all of them
-
-
-        * `quorum` - send requests to all nodes and return points which present on majority of nodes
-
-
-        * `all` - send requests to all nodes and return points which present on all nodes'
-      type: string
-      enum:
-      - majority
-      - quorum
-      - all
-    RecommendRequest:
-      description: 'Recommendation request. Provides positive and negative examples of the vectors, which can be ids of points that are already stored in the collection, raw vectors, or even ids and vectors combined.
-
-
-        Service should look for the points which are closer to positive examples and at the same time further to negative examples. The concrete way of how to compare negative and positive distances is up to the `strategy` chosen.'
+    ValuesCount:
+      description: Values count filter request
+      type: object
+      properties:
+        lt:
+          description: point.key.length() < values_count.lt
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        gt:
+          description: point.key.length() > values_count.gt
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        gte:
+          description: point.key.length() >= values_count.gte
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        lte:
+          description: point.key.length() <= values_count.lte
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+    GeoPoint:
+      description: Geo point payload schema
+      type: object
+      required:
+      - lat
+      - lon
+      properties:
+        lon:
+          type: number
+          format: double
+        lat:
+          type: number
+          format: double
+    MatchExcept:
+      description: Should have at least one value not matching the any given values
+      type: object
+      required:
+      - except
+      properties:
+        except:
+          $ref: '#/components/schemas/AnyVariants'
+    RelevanceFeedbackInput:
+      type: object
+      required:
+      - feedback
+      - strategy
+      - target
+      properties:
+        target:
+          $ref: '#/components/schemas/VectorInput'
+        feedback:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackItem'
+        strategy:
+          $ref: '#/components/schemas/FeedbackStrategy'
+    Condition:
+      anyOf:
+      - $ref: '#/components/schemas/FieldCondition'
+      - $ref: '#/components/schemas/IsEmptyCondition'
+      - $ref: '#/components/schemas/IsNullCondition'
+      - $ref: '#/components/schemas/HasIdCondition'
+      - $ref: '#/components/schemas/HasVectorCondition'
+      - $ref: '#/components/schemas/NestedCondition'
+      - $ref: '#/components/schemas/Filter'
+    RecommendInput:
+      type: object
+      properties:
+        positive:
+          description: Look for vectors closest to the vectors from these points
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/VectorInput'
+        negative:
+          description: Try to avoid vectors like the vector from these points
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/VectorInput'
+        strategy:
+          description: How to use the provided vectors to find the results
+          anyOf:
+          - $ref: '#/components/schemas/RecommendStrategy'
+          - {}
+    DiscoverRequest:
+      description: Use context and a target to find the most similar points, constrained by the context.
       type: object
       required:
       - limit
@@ -1276,23 +1953,30 @@ components:
           anyOf:
           - $ref: '#/components/schemas/ShardKeySelector'
           - {}
-        positive:
-          description: Look for vectors closest to those
-          default: []
-          type: array
-          items:
-            $ref: '#/components/schemas/RecommendExample'
-        negative:
-          description: Try to avoid vectors like this
-          default: []
-          type: array
-          items:
-            $ref: '#/components/schemas/RecommendExample'
-        strategy:
-          description: How to use positive and negative examples to find the results
+        target:
+          description: 'Look for vectors closest to this.
+
+
+            When using the target (with or without context), the integer part of the score represents the rank with respect to the context, while the decimal part of the score relates to the distance to the target.'
           anyOf:
-          - $ref: '#/components/schemas/RecommendStrategy'
+          - $ref: '#/components/schemas/RecommendExample'
           - {}
+        context:
+          description: 'Pairs of { positive, negative } examples to constrain the search.
+
+
+            When using only the context (without a target), a special search - called context search - is performed where pairs of points are used to generate a loss that guides the search towards the zone where most positive examples overlap. This means that the score minimizes the scenario of finding a point closer to a negative than to a positive part of a pair.
+
+
+            Since the score of a context relates to loss, the maximum score a point can get is 0.0, and it becomes normal that many points can have a score of 0.0.
+
+
+            For discovery search (when including a target), the context part of the score for each pair is calculated +1 if the point is closer to a positive than to a negative part of a pair, and -1 otherwise.'
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ContextExamplePair'
         filter:
           description: Look only for points which satisfies this conditions
           anyOf:
@@ -1322,16 +2006,9 @@ components:
           - {}
         with_vector:
           description: Options for specifying which vectors to include into response. Default is false.
-          default: null
           anyOf:
           - $ref: '#/components/schemas/WithVector'
           - {}
-        score_threshold:
-          description: Define a minimal score threshold for the result. If defined, less similar results will not be returned. Score of the returned result might be higher or smaller than the threshold depending on the Distance function used. E.g. for cosine similarity only higher scores will be returned.
-          type:
-          - number
-          - 'null'
-          format: float
         using:
           description: Define which vector to use for recommendation, if not specified - try to use default vector
           default: null
@@ -1344,112 +2021,25 @@ components:
           anyOf:
           - $ref: '#/components/schemas/LookupLocation'
           - {}
-    Snowball:
-      type: string
-      enum:
-      - snowball
-    WithPayloadInterface:
-      description: Options for specifying which payload to include or not
-      anyOf:
-      - description: If `true` - return all payload, If `false` - do not return payload
-        type: boolean
-      - description: Specify which fields to return
-        type: array
-        items:
-          type: string
-      - $ref: '#/components/schemas/PayloadSelector'
-    TokenizerType:
-      type: string
-      enum:
-      - prefix
-      - whitespace
-      - word
-      - multilingual
-    QuantizationSearchParams:
-      description: Additional parameters of the search
-      type: object
-      properties:
-        ignore:
-          description: If true, quantized vectors are ignored. Default is false.
-          default: false
-          type: boolean
-        rescore:
-          description: If true, use original vectors to re-score top-k results. Might require more time in case if original vectors are stored on disk. If not set, qdrant decides automatically apply rescoring or not.
-          type:
-          - boolean
-          - 'null'
-        oversampling:
-          description: 'Oversampling factor for quantization. Default is 1.0.
-
-
-            Defines how many extra vectors should be preselected using quantized index, and then re-scored using original vectors.
-
-
-            For example, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be preselected using quantized index, and then top-100 will be returned after re-scoring.'
-          type:
-          - number
-          - 'null'
-          format: double
-          minimum: 1
-    InferenceObject:
-      description: 'WARN: Work-in-progress, unimplemented
-
-
-        Custom object for embedding. Requires inference infrastructure, unimplemented.'
+    GroupsResult:
       type: object
       required:
-      - model
-      - object
+      - groups
       properties:
-        object:
-          description: Arbitrary data, used as input for the embedding model. Used if the model requires more than one input or a custom input.
-        model:
-          description: Name of the model used to generate the vector. List of available models depends on a provider.
-          type: string
-          minLength: 1
-          example: jinaai/jina-embeddings-v2-base-en
-        options:
-          description: Parameters for the model Values of the parameters are model-specific
-          type:
-          - object
-          - 'null'
-          additionalProperties: true
-    Nested:
-      description: Select points with payload for a specified nested field
-      type: object
-      required:
-      - filter
-      - key
-      properties:
-        key:
-          type: string
-        filter:
-          $ref: '#/components/schemas/Filter'
-    RelevanceFeedbackInput:
-      type: object
-      required:
-      - feedback
-      - strategy
-      - target
-      properties:
-        target:
-          $ref: '#/components/schemas/VectorInput'
-        feedback:
+        groups:
           type: array
           items:
-            $ref: '#/components/schemas/FeedbackItem'
-        strategy:
-          $ref: '#/components/schemas/FeedbackStrategy'
-    ShardKeyWithFallback:
+            $ref: '#/components/schemas/PointGroup'
+    SnowballParams:
       type: object
       required:
-      - fallback
-      - target
+      - language
+      - type
       properties:
-        target:
-          $ref: '#/components/schemas/ShardKey'
-        fallback:
-          $ref: '#/components/schemas/ShardKey'
+        type:
+          $ref: '#/components/schemas/Snowball'
+        language:
+          $ref: '#/components/schemas/SnowballLanguage'
     GeoBoundingBox:
       description: 'Geo filter request
 
@@ -1464,282 +2054,6 @@ components:
           $ref: '#/components/schemas/GeoPoint'
         bottom_right:
           $ref: '#/components/schemas/GeoPoint'
-    LnExpression:
-      type: object
-      required:
-      - ln
-      properties:
-        ln:
-          $ref: '#/components/schemas/Expression'
-    HardwareUsage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      required:
-      - cpu
-      - payload_index_io_read
-      - payload_index_io_write
-      - payload_io_read
-      - payload_io_write
-      - vector_io_read
-      - vector_io_write
-      properties:
-        cpu:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_index_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_index_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-        vector_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        vector_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-    DiscoverRequestBatch:
-      type: object
-      required:
-      - searches
-      properties:
-        searches:
-          type: array
-          items:
-            $ref: '#/components/schemas/DiscoverRequest'
-    QueryRequest:
-      type: object
-      properties:
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-        prefetch:
-          description: Sub-requests to perform first. If present, the query will be performed on the results of the prefetch(es).
-          default: null
-          anyOf:
-          - $ref: '#/components/schemas/Prefetch'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Prefetch'
-          - {}
-        query:
-          description: Query to perform. If missing without prefetches, returns points ordered by their IDs.
-          anyOf:
-          - $ref: '#/components/schemas/QueryInterface'
-          - {}
-        using:
-          description: Define which vector name to use for querying. If missing, the default vector is used.
-          type:
-          - string
-          - 'null'
-        filter:
-          description: Filter conditions - return only those points that satisfy the specified conditions.
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        params:
-          description: Search params for when there is no prefetch
-          anyOf:
-          - $ref: '#/components/schemas/SearchParams'
-          - {}
-        score_threshold:
-          description: Return points with scores better than this threshold.
-          type:
-          - number
-          - 'null'
-          format: float
-        limit:
-          description: Max number of points to return. Default is 10.
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 1
-        offset:
-          description: Offset of the result. Skip this many points. Default is 0
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        with_vector:
-          description: Options for specifying which vectors to include into the response. Default is false.
-          anyOf:
-          - $ref: '#/components/schemas/WithVector'
-          - {}
-        with_payload:
-          description: Options for specifying which payload to include or not. Default is false.
-          anyOf:
-          - $ref: '#/components/schemas/WithPayloadInterface'
-          - {}
-        lookup_from:
-          description: 'The location to use for IDs lookup, if not specified - use the current collection and the ''using'' vector Note: the other collection vectors should have the same vector size as the ''using'' vector in the current collection'
-          default: null
-          anyOf:
-          - $ref: '#/components/schemas/LookupLocation'
-          - {}
-    MatchTextAny:
-      description: Full-text match of at least one token of the string.
-      type: object
-      required:
-      - text_any
-      properties:
-        text_any:
-          type: string
-    RelevanceFeedbackQuery:
-      type: object
-      required:
-      - relevance_feedback
-      properties:
-        relevance_feedback:
-          $ref: '#/components/schemas/RelevanceFeedbackInput'
-    ReadConsistency:
-      description: 'Read consistency parameter
-
-
-        Defines how many replicas should be queried to get the result
-
-
-        * `N` - send N random request and return points, which present on all of them
-
-
-        * `majority` - send N/2+1 random request and return points, which present on all of them
-
-
-        * `quorum` - send requests to all nodes and return points which present on majority of them
-
-
-        * `all` - send requests to all nodes and return points which present on all of them
-
-
-        Default value is `Factor(1)`'
-      anyOf:
-      - type: integer
-        format: uint
-        minimum: 0
-      - $ref: '#/components/schemas/ReadConsistencyType'
-    Document:
-      description: 'WARN: Work-in-progress, unimplemented
-
-
-        Text document for embedding. Requires inference infrastructure, unimplemented.'
-      type: object
-      required:
-      - model
-      - text
-      properties:
-        text:
-          description: Text of the document. This field will be used as input for the embedding model.
-          type: string
-          example: This is a document text
-        model:
-          description: Name of the model used to generate the vector. List of available models depends on a provider.
-          type: string
-          minLength: 1
-          example: jinaai/jina-embeddings-v2-base-en
-        options:
-          description: Additional options for the model, will be passed to the inference service as-is. See model cards for available options.
-          anyOf:
-          - $ref: '#/components/schemas/DocumentOptions'
-          - {}
-    ContextQuery:
-      type: object
-      required:
-      - context
-      properties:
-        context:
-          $ref: '#/components/schemas/ContextInput'
-    FormulaQuery:
-      type: object
-      required:
-      - formula
-      properties:
-        formula:
-          $ref: '#/components/schemas/Expression'
-        defaults:
-          default: {}
-          type: object
-          additionalProperties: true
-    RecommendExample:
-      anyOf:
-      - $ref: '#/components/schemas/ExtendedPointId'
-      - type: array
-        items:
-          type: number
-          format: float
-      - $ref: '#/components/schemas/SparseVector'
-    MatchText:
-      description: Full-text match of the strings.
-      type: object
-      required:
-      - text
-      properties:
-        text:
-          type: string
-    PowExpression:
-      type: object
-      required:
-      - pow
-      properties:
-        pow:
-          $ref: '#/components/schemas/PowParams'
-    DivExpression:
-      type: object
-      required:
-      - div
-      properties:
-        div:
-          $ref: '#/components/schemas/DivParams'
-    OrderValue:
-      anyOf:
-      - type: integer
-        format: int64
-        example: 42
-      - type: number
-        format: double
-        example: 42.5
-    DocumentOptions:
-      description: Option variants for text documents. Ether general-purpose options or BM25-specific options. BM25-specific will only take effect if the `qdrant/bm25` is specified as a model.
-      anyOf:
-      - type: object
-        additionalProperties: true
-      - $ref: '#/components/schemas/Bm25Config'
-    Expression:
-      anyOf:
-      - type: number
-        format: float
-      - type: string
-      - $ref: '#/components/schemas/Condition'
-      - $ref: '#/components/schemas/GeoDistance'
-      - $ref: '#/components/schemas/DatetimeExpression'
-      - $ref: '#/components/schemas/DatetimeKeyExpression'
-      - $ref: '#/components/schemas/MultExpression'
-      - $ref: '#/components/schemas/SumExpression'
-      - $ref: '#/components/schemas/NegExpression'
-      - $ref: '#/components/schemas/AbsExpression'
-      - $ref: '#/components/schemas/DivExpression'
-      - $ref: '#/components/schemas/SqrtExpression'
-      - $ref: '#/components/schemas/PowExpression'
-      - $ref: '#/components/schemas/ExpExpression'
-      - $ref: '#/components/schemas/Log10Expression'
-      - $ref: '#/components/schemas/LnExpression'
-      - $ref: '#/components/schemas/LinDecayExpression'
-      - $ref: '#/components/schemas/ExpDecayExpression'
-      - $ref: '#/components/schemas/GaussDecayExpression'
     PayloadSelectorExclude:
       type: object
       required:
@@ -1751,846 +2065,6 @@ components:
           items:
             type: string
       additionalProperties: false
-    ContextPair:
-      type: object
-      required:
-      - negative
-      - positive
-      properties:
-        positive:
-          $ref: '#/components/schemas/VectorInput'
-        negative:
-          $ref: '#/components/schemas/VectorInput'
-    GroupId:
-      description: Value of the group_by key, shared across all the hits in the group
-      anyOf:
-      - type: string
-      - type: integer
-        format: uint64
-        minimum: 0
-      - type: integer
-        format: int64
-    Range:
-      description: Range filter request
-      type: object
-      properties:
-        lt:
-          description: point.key < range.lt
-          type:
-          - number
-          - 'null'
-          format: double
-        gt:
-          description: point.key > range.gt
-          type:
-          - number
-          - 'null'
-          format: double
-        gte:
-          description: point.key >= range.gte
-          type:
-          - number
-          - 'null'
-          format: double
-        lte:
-          description: point.key <= range.lte
-          type:
-          - number
-          - 'null'
-          format: double
-    GroupsResult:
-      type: object
-      required:
-      - groups
-      properties:
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/PointGroup'
-    Filter:
-      type: object
-      properties:
-        should:
-          description: At least one of those conditions should match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-        min_should:
-          description: At least minimum amount of given conditions should match
-          anyOf:
-          - $ref: '#/components/schemas/MinShould'
-          - {}
-        must:
-          description: All conditions must match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-        must_not:
-          description: All conditions must NOT match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-      additionalProperties: false
-    RecommendRequestBatch:
-      type: object
-      required:
-      - searches
-      properties:
-        searches:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecommendRequest'
-    QueryRequestBatch:
-      type: object
-      required:
-      - searches
-      properties:
-        searches:
-          type: array
-          items:
-            $ref: '#/components/schemas/QueryRequest'
-    VectorStructOutput:
-      description: Vector data stored in Point
-      anyOf:
-      - type: array
-        items:
-          type: number
-          format: float
-        example:
-        - 0.875
-        - 0.140625
-        - 0.897599995136261
-      - type: array
-        items:
-          type: array
-          items:
-            type: number
-            format: float
-        example:
-        - - 0.875
-          - 0.140625
-          - 0.11020000278949738
-        - - 0.7580000162124634
-          - 0.28126001358032227
-          - 0.9687100052833557
-        - - 0.6209999918937683
-          - 0.42187801003456116
-          - 0.9375
-      - type: object
-        additionalProperties:
-          $ref: '#/components/schemas/VectorOutput'
-        example:
-          image-embeddings:
-          - 0.8730000257492065
-          - 0.140625
-          - 0.897599995136261
-    ContextInput:
-      anyOf:
-      - $ref: '#/components/schemas/ContextPair'
-      - type: array
-        items:
-          $ref: '#/components/schemas/ContextPair'
-      - {}
-    Fusion:
-      description: 'Fusion algorithm allows to combine results of multiple prefetches.
-
-
-        Available fusion algorithms:
-
-
-        * `rrf` - Reciprocal Rank Fusion (with default parameters) * `dbsf` - Distribution-Based Score Fusion'
-      type: string
-      enum:
-      - rrf
-      - dbsf
-    MinShould:
-      type: object
-      required:
-      - conditions
-      - min_count
-      properties:
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Condition'
-        min_count:
-          type: integer
-          format: uint
-          minimum: 0
-    GeoDistanceParams:
-      type: object
-      required:
-      - origin
-      - to
-      properties:
-        origin:
-          $ref: '#/components/schemas/GeoPoint'
-        to:
-          description: Payload field with the destination geo point
-          type: string
-    NamedVectorStruct:
-      description: 'Vector data separator for named and unnamed modes Unnamed mode:
-
-
-        { "vector": [1.0, 2.0, 3.0] }
-
-
-        or named mode:
-
-
-        { "vector": { "vector": [1.0, 2.0, 3.0], "name": "image-embeddings" } }'
-      anyOf:
-      - type: array
-        items:
-          type: number
-          format: float
-      - $ref: '#/components/schemas/NamedVector'
-      - $ref: '#/components/schemas/NamedSparseVector'
-    PayloadSelectorInclude:
-      type: object
-      required:
-      - include
-      properties:
-        include:
-          description: Only include this payload keys
-          type: array
-          items:
-            type: string
-      additionalProperties: false
-    WithVector:
-      description: Options for specifying which vector to include
-      anyOf:
-      - description: If `true` - return all vector, If `false` - do not return vector
-        type: boolean
-      - description: Specify which vector to return
-        type: array
-        items:
-          type: string
-    InferenceUsage:
-      type: object
-      required:
-      - models
-      properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
-    Sample:
-      type: string
-      enum:
-      - random
-    ExpDecayExpression:
-      type: object
-      required:
-      - exp_decay
-      properties:
-        exp_decay:
-          $ref: '#/components/schemas/DecayParamsExpression'
-    NaiveFeedbackStrategyParams:
-      type: object
-      required:
-      - a
-      - b
-      - c
-      properties:
-        a:
-          type: number
-          format: float
-        b:
-          type: number
-          format: float
-          minimum: 0
-        c:
-          type: number
-          format: float
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    SparseVector:
-      description: Sparse vector structure
-      type: object
-      required:
-      - indices
-      - values
-      properties:
-        indices:
-          description: Indices must be unique
-          type: array
-          items:
-            type: integer
-            format: uint32
-            minimum: 0
-        values:
-          description: Values and indices must be the same length
-          type: array
-          items:
-            type: number
-            format: float
-    MatchValue:
-      description: Exact match of the given value
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          $ref: '#/components/schemas/ValueVariants'
-    HasVectorCondition:
-      description: Filter points which have specific vector assigned
-      type: object
-      required:
-      - has_vector
-      properties:
-        has_vector:
-          type: string
-    SearchMatrixRequest:
-      type: object
-      properties:
-        shard_key:
-          description: Specify in which shards to look for the points, if not specified - look in all shards
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-        filter:
-          description: Look only for points which satisfies this conditions
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        sample:
-          description: How many points to select and search within. Default is 10.
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 2
-        limit:
-          description: How many neighbours per sample to find. Default is 3.
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 1
-        using:
-          description: Define which vector name to use for querying. If missing, the default vector is used.
-          type:
-          - string
-          - 'null'
-    GeoRadius:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the circle of `radius` and center with coordinates `center`'
-      type: object
-      required:
-      - center
-      - radius
-      properties:
-        center:
-          $ref: '#/components/schemas/GeoPoint'
-        radius:
-          description: Radius of the area in meters
-          type: number
-          format: double
-    DiscoverInput:
-      type: object
-      required:
-      - context
-      - target
-      properties:
-        target:
-          $ref: '#/components/schemas/VectorInput'
-        context:
-          description: Search space will be constrained by these pairs of vectors
-          anyOf:
-          - $ref: '#/components/schemas/ContextPair'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ContextPair'
-          - {}
-    SearchMatrixOffsetsResponse:
-      type: object
-      required:
-      - ids
-      - offsets_col
-      - offsets_row
-      - scores
-      properties:
-        offsets_row:
-          description: Row indices of the matrix
-          type: array
-          items:
-            type: integer
-            format: uint64
-            minimum: 0
-        offsets_col:
-          description: Column indices of the matrix
-          type: array
-          items:
-            type: integer
-            format: uint64
-            minimum: 0
-        scores:
-          description: Scores associated with matrix coordinates
-          type: array
-          items:
-            type: number
-            format: float
-        ids:
-          description: Ids of the points in order
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-    QueryInterface:
-      anyOf:
-      - $ref: '#/components/schemas/VectorInput'
-      - $ref: '#/components/schemas/Query'
-    Direction:
-      type: string
-      enum:
-      - asc
-      - desc
-    StopwordsSet:
-      type: object
-      properties:
-        languages:
-          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Language'
-          uniqueItems: true
-        custom:
-          description: Custom stopwords set. Will be merged with the languages set.
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          uniqueItems: true
-    Query:
-      anyOf:
-      - $ref: '#/components/schemas/NearestQuery'
-      - $ref: '#/components/schemas/RecommendQuery'
-      - $ref: '#/components/schemas/DiscoverQuery'
-      - $ref: '#/components/schemas/ContextQuery'
-      - $ref: '#/components/schemas/OrderByQuery'
-      - $ref: '#/components/schemas/FusionQuery'
-      - $ref: '#/components/schemas/RrfQuery'
-      - $ref: '#/components/schemas/FormulaQuery'
-      - $ref: '#/components/schemas/SampleQuery'
-      - $ref: '#/components/schemas/RelevanceFeedbackQuery'
-    MatchAny:
-      description: Exact match on any of the given values
-      type: object
-      required:
-      - any
-      properties:
-        any:
-          $ref: '#/components/schemas/AnyVariants'
-    GeoPoint:
-      description: Geo point payload schema
-      type: object
-      required:
-      - lat
-      - lon
-      properties:
-        lon:
-          type: number
-          format: double
-        lat:
-          type: number
-          format: double
-    NearestQuery:
-      type: object
-      required:
-      - nearest
-      properties:
-        nearest:
-          $ref: '#/components/schemas/VectorInput'
-        mmr:
-          description: Perform MMR (Maximal Marginal Relevance) reranking after search, using the same vector in this query to calculate relevance.
-          anyOf:
-          - $ref: '#/components/schemas/Mmr'
-          - {}
-    DatetimeExpression:
-      type: object
-      required:
-      - datetime
-      properties:
-        datetime:
-          type: string
-    IsEmptyCondition:
-      description: Select points with empty payload for a specified field
-      type: object
-      required:
-      - is_empty
-      properties:
-        is_empty:
-          $ref: '#/components/schemas/PayloadField'
-    DivParams:
-      type: object
-      required:
-      - left
-      - right
-      properties:
-        left:
-          $ref: '#/components/schemas/Expression'
-        right:
-          $ref: '#/components/schemas/Expression'
-        by_zero_default:
-          type:
-          - number
-          - 'null'
-          format: float
-    MultExpression:
-      type: object
-      required:
-      - mult
-      properties:
-        mult:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expression'
-    SnowballParams:
-      type: object
-      required:
-      - language
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/Snowball'
-        language:
-          $ref: '#/components/schemas/SnowballLanguage'
-    Match:
-      description: Match filter request
-      anyOf:
-      - $ref: '#/components/schemas/MatchValue'
-      - $ref: '#/components/schemas/MatchText'
-      - $ref: '#/components/schemas/MatchTextAny'
-      - $ref: '#/components/schemas/MatchPhrase'
-      - $ref: '#/components/schemas/MatchAny'
-      - $ref: '#/components/schemas/MatchExcept'
-    NaiveFeedbackStrategy:
-      type: object
-      required:
-      - naive
-      properties:
-        naive:
-          $ref: '#/components/schemas/NaiveFeedbackStrategyParams'
-    SearchGroupsRequest:
-      type: object
-      required:
-      - group_by
-      - group_size
-      - limit
-      - vector
-      properties:
-        shard_key:
-          description: Specify in which shards to look for the points, if not specified - look in all shards
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-        vector:
-          $ref: '#/components/schemas/NamedVectorStruct'
-        filter:
-          description: Look only for points which satisfies this conditions
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        params:
-          description: Additional search params
-          anyOf:
-          - $ref: '#/components/schemas/SearchParams'
-          - {}
-        with_payload:
-          description: Select which payload to return with the response. Default is false.
-          anyOf:
-          - $ref: '#/components/schemas/WithPayloadInterface'
-          - {}
-        with_vector:
-          description: Options for specifying which vectors to include into response. Default is false.
-          default: null
-          anyOf:
-          - $ref: '#/components/schemas/WithVector'
-          - {}
-        score_threshold:
-          description: Define a minimal score threshold for the result. If defined, less similar results will not be returned. Score of the returned result might be higher or smaller than the threshold depending on the Distance function used. E.g. for cosine similarity only higher scores will be returned.
-          type:
-          - number
-          - 'null'
-          format: float
-        group_by:
-          description: Payload field to group by, must be a string or number field. If the field contains more than 1 value, all values will be used for grouping. One point can be in multiple groups.
-          type: string
-          minLength: 1
-        group_size:
-          description: Maximum amount of points to return per group
-          type: integer
-          format: uint32
-          minimum: 1
-        limit:
-          description: Maximum amount of groups to return
-          type: integer
-          format: uint32
-          minimum: 1
-        with_lookup:
-          description: Look for points in another collection using the group ids
-          anyOf:
-          - $ref: '#/components/schemas/WithLookupInterface'
-          - {}
-    QueryResponse:
-      type: object
-      required:
-      - points
-      properties:
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScoredPoint'
-    DiscoverQuery:
-      type: object
-      required:
-      - discover
-      properties:
-        discover:
-          $ref: '#/components/schemas/DiscoverInput'
-    GeoDistance:
-      type: object
-      required:
-      - geo_distance
-      properties:
-        geo_distance:
-          $ref: '#/components/schemas/GeoDistanceParams'
-    VectorOutput:
-      description: Vector Data stored in Point
-      anyOf:
-      - type: array
-        items:
-          type: number
-          format: float
-      - $ref: '#/components/schemas/SparseVector'
-      - type: array
-        items:
-          type: array
-          items:
-            type: number
-            format: float
-    OrderBy:
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          description: Payload key to order by
-          type: string
-        direction:
-          description: 'Direction of ordering: `asc` or `desc`. Default is ascending.'
-          anyOf:
-          - $ref: '#/components/schemas/Direction'
-          - {}
-        start_from:
-          description: Which payload value to start scrolling from. Default is the lowest value for `asc` and the highest for `desc`
-          anyOf:
-          - $ref: '#/components/schemas/StartFrom'
-          - {}
-    WithLookup:
-      type: object
-      required:
-      - collection
-      properties:
-        collection:
-          description: Name of the collection to use for points lookup
-          type: string
-        with_payload:
-          description: Options for specifying which payload to include (or not)
-          default: true
-          anyOf:
-          - $ref: '#/components/schemas/WithPayloadInterface'
-          - {}
-        with_vectors:
-          description: Options for specifying which vectors to include (or not)
-          default: null
-          anyOf:
-          - $ref: '#/components/schemas/WithVector'
-          - {}
-    UsingVector:
-      anyOf:
-      - type: string
-    DecayParamsExpression:
-      type: object
-      required:
-      - x
-      properties:
-        x:
-          $ref: '#/components/schemas/Expression'
-        target:
-          description: The target value to start decaying from. Defaults to 0.
-          anyOf:
-          - $ref: '#/components/schemas/Expression'
-          - {}
-        scale:
-          description: The scale factor of the decay, in terms of `x`. Defaults to 1.0. Must be a non-zero positive number.
-          type:
-          - number
-          - 'null'
-          format: float
-        midpoint:
-          description: The midpoint of the decay. Should be between 0 and 1.Defaults to 0.5. Output will be this value when `|x - target| == scale`.
-          type:
-          - number
-          - 'null'
-          format: float
-    Log10Expression:
-      type: object
-      required:
-      - log10
-      properties:
-        log10:
-          $ref: '#/components/schemas/Expression'
-    PointGroup:
-      type: object
-      required:
-      - hits
-      - id
-      properties:
-        hits:
-          description: Scored points that have the same value of the group_by key
-          type: array
-          items:
-            $ref: '#/components/schemas/ScoredPoint'
-        id:
-          $ref: '#/components/schemas/GroupId'
-        lookup:
-          description: Record that has been looked up using the group id
-          anyOf:
-          - $ref: '#/components/schemas/Record'
-          - {}
-    ContextExamplePair:
-      type: object
-      required:
-      - negative
-      - positive
-      properties:
-        positive:
-          $ref: '#/components/schemas/RecommendExample'
-        negative:
-          $ref: '#/components/schemas/RecommendExample'
-    ValueVariants:
-      anyOf:
-      - type: string
-      - type: integer
-        format: int64
-      - type: boolean
-    Condition:
-      anyOf:
-      - $ref: '#/components/schemas/FieldCondition'
-      - $ref: '#/components/schemas/IsEmptyCondition'
-      - $ref: '#/components/schemas/IsNullCondition'
-      - $ref: '#/components/schemas/HasIdCondition'
-      - $ref: '#/components/schemas/HasVectorCondition'
-      - $ref: '#/components/schemas/NestedCondition'
-      - $ref: '#/components/schemas/Filter'
-    FeedbackItem:
-      type: object
-      required:
-      - example
-      - score
-      properties:
-        example:
-          $ref: '#/components/schemas/VectorInput'
-        score:
-          type: number
-          format: float
-    StartFrom:
-      anyOf:
-      - type: integer
-        format: int64
-      - type: number
-        format: double
-      - type: string
-        format: date-time
-    FusionQuery:
-      type: object
-      required:
-      - fusion
-      properties:
-        fusion:
-          $ref: '#/components/schemas/Fusion'
-    SampleQuery:
-      type: object
-      required:
-      - sample
-      properties:
-        sample:
-          $ref: '#/components/schemas/Sample'
-    AbsExpression:
-      type: object
-      required:
-      - abs
-      properties:
-        abs:
-          $ref: '#/components/schemas/Expression'
-    ShardKeySelector:
-      anyOf:
-      - $ref: '#/components/schemas/ShardKey'
-      - type: array
-        items:
-          $ref: '#/components/schemas/ShardKey'
-      - $ref: '#/components/schemas/ShardKeyWithFallback'
-    LookupLocation:
-      description: Defines a location to use for looking up the vector. Specifies collection and vector field name.
-      type: object
-      required:
-      - collection
-      properties:
-        collection:
-          description: Name of the collection used for lookup
-          type: string
-        vector:
-          description: Optional name of the vector field within the collection. If not provided, the default vector field will be used.
-          default: null
-          type:
-          - string
-          - 'null'
-        shard_key:
-          description: Specify in which shards to look for the points, if not specified - look in all shards
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-    RecommendStrategy:
-      description: 'How to use positive and negative examples to find the results, default is `average_vector`:
-
-
-        * `average_vector` - Average positive and negative vectors and create a single query with the formula `query = avg_pos + avg_pos - avg_neg`. Then performs normal search.
-
-
-        * `best_score` - Uses custom search objective. Each candidate is compared against all examples, its score is then chosen from the `max(max_pos_score, max_neg_score)`. If the `max_neg_score` is chosen then it is squared and negated, otherwise it is just the `max_pos_score`.
-
-
-        * `sum_scores` - Uses custom search objective. Compares against all inputs, sums all the scores. Scores against positive vectors are added, against negatives are subtracted.'
-      type: string
-      enum:
-      - average_vector
-      - best_score
-      - sum_scores
     MatchPhrase:
       description: Full-text phrase match of the string.
       type: object
@@ -2599,23 +2073,28 @@ components:
       properties:
         phrase:
           type: string
-    VectorInput:
-      anyOf:
-      - type: array
-        items:
-          type: number
-          format: float
-      - $ref: '#/components/schemas/SparseVector'
-      - type: array
-        items:
-          type: array
+    GeoPolygon:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the polygon, defined by `exterior` and `interiors`'
+      type: object
+      required:
+      - exterior
+      properties:
+        exterior:
+          $ref: '#/components/schemas/GeoLineString'
+        interiors:
+          description: Interior lines (if present) bound holes within the surface each GeoLineString must consist of a minimum of 4 points, and the first and last points must be the same.
+          type:
+          - array
+          - 'null'
           items:
-            type: number
-            format: float
-      - $ref: '#/components/schemas/ExtendedPointId'
-      - $ref: '#/components/schemas/Document'
-      - $ref: '#/components/schemas/Image'
-      - $ref: '#/components/schemas/InferenceObject'
+            $ref: '#/components/schemas/GeoLineString'
+    StopwordsInterface:
+      anyOf:
+      - $ref: '#/components/schemas/Language'
+      - $ref: '#/components/schemas/StopwordsSet'
     SearchRequest:
       description: Search request. Holds all conditions and parameters for the search of most similar points by vector similarity given the filtering restrictions.
       type: object
@@ -2669,54 +2148,43 @@ components:
           - number
           - 'null'
           format: float
-    MatchExcept:
-      description: Should have at least one value not matching the any given values
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      properties:
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
+    NaiveFeedbackStrategy:
       type: object
       required:
-      - except
+      - naive
       properties:
-        except:
-          $ref: '#/components/schemas/AnyVariants'
-    SnowballLanguage:
-      description: Languages supported by snowball stemmer.
-      type: string
-      enum:
-      - arabic
-      - armenian
-      - danish
-      - dutch
-      - english
-      - finnish
-      - french
-      - german
-      - greek
-      - hungarian
-      - italian
-      - norwegian
-      - portuguese
-      - romanian
-      - russian
-      - spanish
-      - swedish
-      - tamil
-      - turkish
-    ShardKey:
-      anyOf:
-      - type: string
-        example: region_1
-      - type: integer
-        format: uint64
-        minimum: 0
-        example: 12
-    PayloadSelector:
-      description: Specifies how to treat payload selector
-      anyOf:
-      - $ref: '#/components/schemas/PayloadSelectorInclude'
-      - $ref: '#/components/schemas/PayloadSelectorExclude'
-    StemmingAlgorithm:
-      description: Different stemming algorithms with their configs.
-      anyOf:
-      - $ref: '#/components/schemas/SnowballParams'
+        naive:
+          $ref: '#/components/schemas/NaiveFeedbackStrategyParams'
+    FeedbackItem:
+      type: object
+      required:
+      - example
+      - score
+      properties:
+        example:
+          $ref: '#/components/schemas/VectorInput'
+        score:
+          type: number
+          format: float
+    ExpDecayExpression:
+      type: object
+      required:
+      - exp_decay
+      properties:
+        exp_decay:
+          $ref: '#/components/schemas/DecayParamsExpression'
     QueryGroupsRequest:
       type: object
       required:
@@ -2800,6 +2268,649 @@ components:
           anyOf:
           - $ref: '#/components/schemas/WithLookupInterface'
           - {}
+    SumExpression:
+      type: object
+      required:
+      - sum
+      properties:
+        sum:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expression'
+    StopwordsSet:
+      type: object
+      properties:
+        languages:
+          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Language'
+          uniqueItems: true
+        custom:
+          description: Custom stopwords set. Will be merged with the languages set.
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          uniqueItems: true
+    SearchMatrixOffsetsResponse:
+      type: object
+      required:
+      - ids
+      - offsets_col
+      - offsets_row
+      - scores
+      properties:
+        offsets_row:
+          description: Row indices of the matrix
+          type: array
+          items:
+            type: integer
+            format: uint64
+            minimum: 0
+        offsets_col:
+          description: Column indices of the matrix
+          type: array
+          items:
+            type: integer
+            format: uint64
+            minimum: 0
+        scores:
+          description: Scores associated with matrix coordinates
+          type: array
+          items:
+            type: number
+            format: float
+        ids:
+          description: Ids of the points in order
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+    PayloadField:
+      description: Payload field
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          description: Payload field name
+          type: string
+    ExtendedPointId:
+      description: Type, used for specifying point ID in user interface
+      anyOf:
+      - type: integer
+        format: uint64
+        minimum: 0
+        example: 42
+      - type: string
+        format: uuid
+        example: 550e8400-e29b-41d4-a716-446655440000
+    NearestQuery:
+      type: object
+      required:
+      - nearest
+      properties:
+        nearest:
+          $ref: '#/components/schemas/VectorInput'
+        mmr:
+          description: Perform MMR (Maximal Marginal Relevance) reranking after search, using the same vector in this query to calculate relevance.
+          anyOf:
+          - $ref: '#/components/schemas/Mmr'
+          - {}
+    AcornSearchParams:
+      description: ACORN-related search parameters
+      type: object
+      properties:
+        enable:
+          description: If true, then ACORN may be used for the HNSW search based on filters selectivity. Improves search recall for searches with multiple low-selectivity payload filters, at cost of performance.
+          default: false
+          type: boolean
+        max_selectivity:
+          description: 'Maximum selectivity of filters to enable ACORN.
+
+
+            If estimated filters selectivity is higher than this value, ACORN will not be used. Selectivity is estimated as: `estimated number of points satisfying the filters / total number of points`.
+
+
+            0.0 for never, 1.0 for always. Default is 0.4.'
+          type:
+          - number
+          - 'null'
+          format: double
+          maximum: 1
+          minimum: 0
+    ErrorResponse:
+      type: object
+      properties:
+        time:
+          type: number
+          format: float
+          description: Time spent to process this request
+        status:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Description of the occurred error.
+        result:
+          type:
+          - object
+          - 'null'
+    Nested:
+      description: Select points with payload for a specified nested field
+      type: object
+      required:
+      - filter
+      - key
+      properties:
+        key:
+          type: string
+        filter:
+          $ref: '#/components/schemas/Filter'
+    DocumentOptions:
+      description: Option variants for text documents. Ether general-purpose options or BM25-specific options. BM25-specific will only take effect if the `qdrant/bm25` is specified as a model.
+      anyOf:
+      - type: object
+        additionalProperties: true
+      - $ref: '#/components/schemas/Bm25Config'
+    Match:
+      description: Match filter request
+      anyOf:
+      - $ref: '#/components/schemas/MatchValue'
+      - $ref: '#/components/schemas/MatchText'
+      - $ref: '#/components/schemas/MatchTextAny'
+      - $ref: '#/components/schemas/MatchPhrase'
+      - $ref: '#/components/schemas/MatchAny'
+      - $ref: '#/components/schemas/MatchExcept'
+    ExpExpression:
+      type: object
+      required:
+      - exp
+      properties:
+        exp:
+          $ref: '#/components/schemas/Expression'
+    NamedVectorStruct:
+      description: 'Vector data separator for named and unnamed modes Unnamed mode:
+
+
+        { "vector": [1.0, 2.0, 3.0] }
+
+
+        or named mode:
+
+
+        { "vector": { "vector": [1.0, 2.0, 3.0], "name": "image-embeddings" } }'
+      anyOf:
+      - type: array
+        items:
+          type: number
+          format: float
+      - $ref: '#/components/schemas/NamedVector'
+      - $ref: '#/components/schemas/NamedSparseVector'
+    RecommendQuery:
+      type: object
+      required:
+      - recommend
+      properties:
+        recommend:
+          $ref: '#/components/schemas/RecommendInput'
+    SearchGroupsRequest:
+      type: object
+      required:
+      - group_by
+      - group_size
+      - limit
+      - vector
+      properties:
+        shard_key:
+          description: Specify in which shards to look for the points, if not specified - look in all shards
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+        vector:
+          $ref: '#/components/schemas/NamedVectorStruct'
+        filter:
+          description: Look only for points which satisfies this conditions
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        params:
+          description: Additional search params
+          anyOf:
+          - $ref: '#/components/schemas/SearchParams'
+          - {}
+        with_payload:
+          description: Select which payload to return with the response. Default is false.
+          anyOf:
+          - $ref: '#/components/schemas/WithPayloadInterface'
+          - {}
+        with_vector:
+          description: Options for specifying which vectors to include into response. Default is false.
+          default: null
+          anyOf:
+          - $ref: '#/components/schemas/WithVector'
+          - {}
+        score_threshold:
+          description: Define a minimal score threshold for the result. If defined, less similar results will not be returned. Score of the returned result might be higher or smaller than the threshold depending on the Distance function used. E.g. for cosine similarity only higher scores will be returned.
+          type:
+          - number
+          - 'null'
+          format: float
+        group_by:
+          description: Payload field to group by, must be a string or number field. If the field contains more than 1 value, all values will be used for grouping. One point can be in multiple groups.
+          type: string
+          minLength: 1
+        group_size:
+          description: Maximum amount of points to return per group
+          type: integer
+          format: uint32
+          minimum: 1
+        limit:
+          description: Maximum amount of groups to return
+          type: integer
+          format: uint32
+          minimum: 1
+        with_lookup:
+          description: Look for points in another collection using the group ids
+          anyOf:
+          - $ref: '#/components/schemas/WithLookupInterface'
+          - {}
+    QueryRequestBatch:
+      type: object
+      required:
+      - searches
+      properties:
+        searches:
+          type: array
+          items:
+            $ref: '#/components/schemas/QueryRequest'
+    MatchTextAny:
+      description: Full-text match of at least one token of the string.
+      type: object
+      required:
+      - text_any
+      properties:
+        text_any:
+          type: string
+    ContextExamplePair:
+      type: object
+      required:
+      - negative
+      - positive
+      properties:
+        positive:
+          $ref: '#/components/schemas/RecommendExample'
+        negative:
+          $ref: '#/components/schemas/RecommendExample'
+    NamedVector:
+      description: Dense vector data with name
+      type: object
+      required:
+      - name
+      - vector
+      properties:
+        name:
+          description: Name of vector data
+          type: string
+        vector:
+          description: Vector data
+          type: array
+          items:
+            type: number
+            format: float
+    MultExpression:
+      type: object
+      required:
+      - mult
+      properties:
+        mult:
+          type: array
+          items:
+            $ref: '#/components/schemas/Expression'
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
+    ReadConsistencyType:
+      description: '* `majority` - send N/2+1 random request and return points, which present on all of them
+
+
+        * `quorum` - send requests to all nodes and return points which present on majority of nodes
+
+
+        * `all` - send requests to all nodes and return points which present on all nodes'
+      type: string
+      enum:
+      - majority
+      - quorum
+      - all
+    AbsExpression:
+      type: object
+      required:
+      - abs
+      properties:
+        abs:
+          $ref: '#/components/schemas/Expression'
+    ContextInput:
+      anyOf:
+      - $ref: '#/components/schemas/ContextPair'
+      - type: array
+        items:
+          $ref: '#/components/schemas/ContextPair'
+      - {}
+    FieldCondition:
+      description: All possible payload filtering conditions
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          description: Payload key
+          type: string
+        match:
+          description: Check if point has field with a given value
+          anyOf:
+          - $ref: '#/components/schemas/Match'
+          - {}
+        range:
+          description: Check if points value lies in a given range
+          anyOf:
+          - $ref: '#/components/schemas/RangeInterface'
+          - {}
+        geo_bounding_box:
+          description: Check if points geolocation lies in a given area
+          anyOf:
+          - $ref: '#/components/schemas/GeoBoundingBox'
+          - {}
+        geo_radius:
+          description: Check if geo point is within a given radius
+          anyOf:
+          - $ref: '#/components/schemas/GeoRadius'
+          - {}
+        geo_polygon:
+          description: Check if geo point is within a given polygon
+          anyOf:
+          - $ref: '#/components/schemas/GeoPolygon'
+          - {}
+        values_count:
+          description: Check number of values of the field
+          anyOf:
+          - $ref: '#/components/schemas/ValuesCount'
+          - {}
+        is_empty:
+          description: 'Check that the field is empty, alternative syntax for `is_empty: "field_name"`'
+          type:
+          - boolean
+          - 'null'
+        is_null:
+          description: 'Check that the field is null, alternative syntax for `is_null: "field_name"`'
+          type:
+          - boolean
+          - 'null'
+    MatchValue:
+      description: Exact match of the given value
+      type: object
+      required:
+      - value
+      properties:
+        value:
+          $ref: '#/components/schemas/ValueVariants'
+    ContextQuery:
+      type: object
+      required:
+      - context
+      properties:
+        context:
+          $ref: '#/components/schemas/ContextInput'
+    HasIdCondition:
+      description: ID-based filtering condition
+      type: object
+      required:
+      - has_id
+      properties:
+        has_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+          uniqueItems: true
+    FeedbackStrategy:
+      anyOf:
+      - $ref: '#/components/schemas/NaiveFeedbackStrategy'
+    ReadConsistency:
+      description: 'Read consistency parameter
+
+
+        Defines how many replicas should be queried to get the result
+
+
+        * `N` - send N random request and return points, which present on all of them
+
+
+        * `majority` - send N/2+1 random request and return points, which present on all of them
+
+
+        * `quorum` - send requests to all nodes and return points which present on majority of them
+
+
+        * `all` - send requests to all nodes and return points which present on all of them
+
+
+        Default value is `Factor(1)`'
+      anyOf:
+      - type: integer
+        format: uint
+        minimum: 0
+      - $ref: '#/components/schemas/ReadConsistencyType'
+    Payload:
+      type: object
+      additionalProperties: true
+      example:
+        city: London
+        color: green
+    Query:
+      anyOf:
+      - $ref: '#/components/schemas/NearestQuery'
+      - $ref: '#/components/schemas/RecommendQuery'
+      - $ref: '#/components/schemas/DiscoverQuery'
+      - $ref: '#/components/schemas/ContextQuery'
+      - $ref: '#/components/schemas/OrderByQuery'
+      - $ref: '#/components/schemas/FusionQuery'
+      - $ref: '#/components/schemas/RrfQuery'
+      - $ref: '#/components/schemas/FormulaQuery'
+      - $ref: '#/components/schemas/SampleQuery'
+      - $ref: '#/components/schemas/RelevanceFeedbackQuery'
+    OrderByQuery:
+      type: object
+      required:
+      - order_by
+      properties:
+        order_by:
+          $ref: '#/components/schemas/OrderByInterface'
+    FusionQuery:
+      type: object
+      required:
+      - fusion
+      properties:
+        fusion:
+          $ref: '#/components/schemas/Fusion'
+    Sample:
+      type: string
+      enum:
+      - random
+    VectorOutput:
+      description: Vector Data stored in Point
+      anyOf:
+      - type: array
+        items:
+          type: number
+          format: float
+      - $ref: '#/components/schemas/SparseVector'
+      - type: array
+        items:
+          type: array
+          items:
+            type: number
+            format: float
+    WithLookupInterface:
+      anyOf:
+      - type: string
+      - $ref: '#/components/schemas/WithLookup'
+    InferenceObject:
+      description: 'WARN: Work-in-progress, unimplemented
+
+
+        Custom object for embedding. Requires inference infrastructure, unimplemented.'
+      type: object
+      required:
+      - model
+      - object
+      properties:
+        object:
+          description: Arbitrary data, used as input for the embedding model. Used if the model requires more than one input or a custom input.
+        model:
+          description: Name of the model used to generate the vector. List of available models depends on a provider.
+          type: string
+          minLength: 1
+          example: jinaai/jina-embeddings-v2-base-en
+        options:
+          description: Parameters for the model Values of the parameters are model-specific
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+    GeoRadius:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the circle of `radius` and center with coordinates `center`'
+      type: object
+      required:
+      - center
+      - radius
+      properties:
+        center:
+          $ref: '#/components/schemas/GeoPoint'
+        radius:
+          description: Radius of the area in meters
+          type: number
+          format: double
+    OrderByInterface:
+      anyOf:
+      - type: string
+      - $ref: '#/components/schemas/OrderBy'
+    LinDecayExpression:
+      type: object
+      required:
+      - lin_decay
+      properties:
+        lin_decay:
+          $ref: '#/components/schemas/DecayParamsExpression'
+    NaiveFeedbackStrategyParams:
+      type: object
+      required:
+      - a
+      - b
+      - c
+      properties:
+        a:
+          type: number
+          format: float
+        b:
+          type: number
+          format: float
+          minimum: 0
+        c:
+          type: number
+          format: float
+    RecommendRequestBatch:
+      type: object
+      required:
+      - searches
+      properties:
+        searches:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecommendRequest'
+    ShardKeySelector:
+      anyOf:
+      - $ref: '#/components/schemas/ShardKey'
+      - type: array
+        items:
+          $ref: '#/components/schemas/ShardKey'
+      - $ref: '#/components/schemas/ShardKeyWithFallback'
+    Range:
+      description: Range filter request
+      type: object
+      properties:
+        lt:
+          description: point.key < range.lt
+          type:
+          - number
+          - 'null'
+          format: double
+        gt:
+          description: point.key > range.gt
+          type:
+          - number
+          - 'null'
+          format: double
+        gte:
+          description: point.key >= range.gte
+          type:
+          - number
+          - 'null'
+          format: double
+        lte:
+          description: point.key <= range.lte
+          type:
+          - number
+          - 'null'
+          format: double
+    ValueVariants:
+      anyOf:
+      - type: string
+      - type: integer
+        format: int64
+      - type: boolean
+    Log10Expression:
+      type: object
+      required:
+      - log10
+      properties:
+        log10:
+          $ref: '#/components/schemas/Expression'
+    Document:
+      description: 'WARN: Work-in-progress, unimplemented
+
+
+        Text document for embedding. Requires inference infrastructure, unimplemented.'
+      type: object
+      required:
+      - model
+      - text
+      properties:
+        text:
+          description: Text of the document. This field will be used as input for the embedding model.
+          type: string
+          example: This is a document text
+        model:
+          description: Name of the model used to generate the vector. List of available models depends on a provider.
+          type: string
+          minLength: 1
+          example: jinaai/jina-embeddings-v2-base-en
+        options:
+          description: Additional options for the model, will be passed to the inference service as-is. See model cards for available options.
+          anyOf:
+          - $ref: '#/components/schemas/DocumentOptions'
+          - {}
     Bm25Config:
       description: Configuration of the local bm25 models.
       type: object
@@ -2860,50 +2971,63 @@ components:
           - 'null'
           format: uint
           minimum: 0
-    NamedVector:
-      description: Dense vector data with name
-      type: object
-      required:
-      - name
-      - vector
-      properties:
-        name:
-          description: Name of vector data
-          type: string
-        vector:
-          description: Vector data
+    VectorInput:
+      anyOf:
+      - type: array
+        items:
+          type: number
+          format: float
+      - $ref: '#/components/schemas/SparseVector'
+      - type: array
+        items:
           type: array
           items:
             type: number
             format: float
-    RrfQuery:
+      - $ref: '#/components/schemas/ExtendedPointId'
+      - $ref: '#/components/schemas/Document'
+      - $ref: '#/components/schemas/Image'
+      - $ref: '#/components/schemas/InferenceObject'
+    SqrtExpression:
       type: object
       required:
-      - rrf
+      - sqrt
       properties:
-        rrf:
-          $ref: '#/components/schemas/Rrf'
-    ExpExpression:
-      type: object
-      required:
-      - exp
-      properties:
-        exp:
+        sqrt:
           $ref: '#/components/schemas/Expression'
-    NegExpression:
+    SearchMatrixPair:
+      description: Pair of points (a, b) with score
       type: object
       required:
-      - neg
+      - a
+      - b
+      - score
       properties:
-        neg:
+        a:
+          $ref: '#/components/schemas/ExtendedPointId'
+        b:
+          $ref: '#/components/schemas/ExtendedPointId'
+        score:
+          type: number
+          format: float
+    LnExpression:
+      type: object
+      required:
+      - ln
+      properties:
+        ln:
           $ref: '#/components/schemas/Expression'
-    GaussDecayExpression:
+    PowExpression:
       type: object
       required:
-      - gauss_decay
+      - pow
       properties:
-        gauss_decay:
-          $ref: '#/components/schemas/DecayParamsExpression'
+        pow:
+          $ref: '#/components/schemas/PowParams'
+    StemmingAlgorithm:
+      description: Different stemming algorithms with their configs.
+      anyOf:
+      - $ref: '#/components/schemas/SnowballParams'
     Rrf:
       description: Parameters for Reciprocal Rank Fusion
       type: object
@@ -2924,319 +3048,6 @@ components:
           items:
             type: number
             format: float
-    SqrtExpression:
-      type: object
-      required:
-      - sqrt
-      properties:
-        sqrt:
-          $ref: '#/components/schemas/Expression'
-    ScoredPoint:
-      description: Search result
-      type: object
-      required:
-      - id
-      - score
-      - version
-      properties:
-        id:
-          $ref: '#/components/schemas/ExtendedPointId'
-        version:
-          description: Point version
-          type: integer
-          format: uint64
-          minimum: 0
-          example: 3
-        score:
-          description: Points vector distance to the query vector
-          type: number
-          format: float
-          example: 0.75
-        payload:
-          description: Payload - values assigned to the point
-          anyOf:
-          - $ref: '#/components/schemas/Payload'
-          - {}
-        vector:
-          description: Vector of the point
-          anyOf:
-          - $ref: '#/components/schemas/VectorStructOutput'
-          - {}
-        shard_key:
-          description: Shard Key
-          anyOf:
-          - $ref: '#/components/schemas/ShardKey'
-          - {}
-        order_value:
-          description: Order-by value
-          anyOf:
-          - $ref: '#/components/schemas/OrderValue'
-          - {}
-    OrderByInterface:
-      anyOf:
-      - type: string
-      - $ref: '#/components/schemas/OrderBy'
-    PayloadField:
-      description: Payload field
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          description: Payload field name
-          type: string
-    AnyVariants:
-      anyOf:
-      - type: array
-        items:
-          type: string
-        uniqueItems: true
-      - type: array
-        items:
-          type: integer
-          format: int64
-        uniqueItems: true
-    Image:
-      description: 'WARN: Work-in-progress, unimplemented
-
-
-        Image object for embedding. Requires inference infrastructure, unimplemented.'
-      type: object
-      required:
-      - image
-      - model
-      properties:
-        image:
-          description: 'Image data: base64 encoded image or an URL'
-          example: https://example.com/image.jpg
-        model:
-          description: Name of the model used to generate the vector. List of available models depends on a provider.
-          type: string
-          minLength: 1
-          example: Qdrant/clip-ViT-B-32-vision
-        options:
-          description: Parameters for the model Values of the parameters are model-specific
-          type:
-          - object
-          - 'null'
-          additionalProperties: true
-    OrderByQuery:
-      type: object
-      required:
-      - order_by
-      properties:
-        order_by:
-          $ref: '#/components/schemas/OrderByInterface'
-    SearchParams:
-      description: Additional parameters of the search
-      type: object
-      properties:
-        hnsw_ef:
-          description: Params relevant to HNSW index Size of the beam in a beam-search. Larger the value - more accurate the result, more time required for search.
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        exact:
-          description: Search without approximation. If set to true, search may run long but with exact results.
-          default: false
-          type: boolean
-        quantization:
-          description: Quantization params
-          anyOf:
-          - $ref: '#/components/schemas/QuantizationSearchParams'
-          - {}
-        indexed_only:
-          description: If enabled, the engine will only perform search among indexed or small segments. Using this option prevents slow searches in case of delayed index, but does not guarantee that all uploaded vectors will be included in search results
-          default: false
-          type: boolean
-        acorn:
-          description: ACORN search params
-          anyOf:
-          - $ref: '#/components/schemas/AcornSearchParams'
-          - {}
-    IsNullCondition:
-      description: Select points with null payload for a specified field
-      type: object
-      required:
-      - is_null
-      properties:
-        is_null:
-          $ref: '#/components/schemas/PayloadField'
-    RecommendInput:
-      type: object
-      properties:
-        positive:
-          description: Look for vectors closest to the vectors from these points
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/VectorInput'
-        negative:
-          description: Try to avoid vectors like the vector from these points
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/VectorInput'
-        strategy:
-          description: How to use the provided vectors to find the results
-          anyOf:
-          - $ref: '#/components/schemas/RecommendStrategy'
-          - {}
-    RangeInterface:
-      anyOf:
-      - $ref: '#/components/schemas/Range'
-      - $ref: '#/components/schemas/DatetimeRange'
-    WithLookupInterface:
-      anyOf:
-      - type: string
-      - $ref: '#/components/schemas/WithLookup'
-    SearchMatrixPair:
-      description: Pair of points (a, b) with score
-      type: object
-      required:
-      - a
-      - b
-      - score
-      properties:
-        a:
-          $ref: '#/components/schemas/ExtendedPointId'
-        b:
-          $ref: '#/components/schemas/ExtendedPointId'
-        score:
-          type: number
-          format: float
-    Mmr:
-      description: Maximal Marginal Relevance (MMR) algorithm for re-ranking the points.
-      type: object
-      properties:
-        diversity:
-          description: 'Tunable parameter for the MMR algorithm. Determines the balance between diversity and relevance.
-
-
-            A higher value favors diversity (dissimilarity to selected results), while a lower value favors relevance (similarity to the query vector).
-
-
-            Must be in the range [0, 1]. Default value is 0.5.'
-          type:
-          - number
-          - 'null'
-          format: float
-          maximum: 1
-          minimum: 0
-        candidates_limit:
-          description: 'The maximum number of candidates to consider for re-ranking.
-
-
-            If not specified, the `limit` value is used.'
-          type:
-          - integer
-          - 'null'
-          format: uint
-          maximum: 16384
-          minimum: 0
-    GeoPolygon:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the polygon, defined by `exterior` and `interiors`'
-      type: object
-      required:
-      - exterior
-      properties:
-        exterior:
-          $ref: '#/components/schemas/GeoLineString'
-        interiors:
-          description: Interior lines (if present) bound holes within the surface each GeoLineString must consist of a minimum of 4 points, and the first and last points must be the same.
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/GeoLineString'
-    ErrorResponse:
-      type: object
-      properties:
-        time:
-          type: number
-          format: float
-          description: Time spent to process this request
-        status:
-          type: object
-          properties:
-            error:
-              type: string
-              description: Description of the occurred error.
-        result:
-          type:
-          - object
-          - 'null'
-    DatetimeRange:
-      description: Range filter request
-      type: object
-      properties:
-        lt:
-          description: point.key < range.lt
-          type:
-          - string
-          - 'null'
-          format: date-time
-        gt:
-          description: point.key > range.gt
-          type:
-          - string
-          - 'null'
-          format: date-time
-        gte:
-          description: point.key >= range.gte
-          type:
-          - string
-          - 'null'
-          format: date-time
-        lte:
-          description: point.key <= range.lte
-          type:
-          - string
-          - 'null'
-          format: date-time
-    LinDecayExpression:
-      type: object
-      required:
-      - lin_decay
-      properties:
-        lin_decay:
-          $ref: '#/components/schemas/DecayParamsExpression'
-    AcornSearchParams:
-      description: ACORN-related search parameters
-      type: object
-      properties:
-        enable:
-          description: If true, then ACORN may be used for the HNSW search based on filters selectivity. Improves search recall for searches with multiple low-selectivity payload filters, at cost of performance.
-          default: false
-          type: boolean
-        max_selectivity:
-          description: 'Maximum selectivity of filters to enable ACORN.
-
-
-            If estimated filters selectivity is higher than this value, ACORN will not be used. Selectivity is estimated as: `estimated number of points satisfying the filters / total number of points`.
-
-
-            0.0 for never, 1.0 for always. Default is 0.4.'
-          type:
-          - number
-          - 'null'
-          format: double
-          maximum: 1
-          minimum: 0
-    NestedCondition:
-      type: object
-      required:
-      - nested
-      properties:
-        nested:
-          $ref: '#/components/schemas/Nested'
     DatetimeKeyExpression:
       type: object
       required:
@@ -3244,119 +3055,14 @@ components:
       properties:
         datetime_key:
           type: string
-    ValuesCount:
-      description: Values count filter request
-      type: object
-      properties:
-        lt:
-          description: point.key.length() < values_count.lt
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        gt:
-          description: point.key.length() > values_count.gt
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        gte:
-          description: point.key.length() >= values_count.gte
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        lte:
-          description: point.key.length() <= values_count.lte
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-    FieldCondition:
-      description: All possible payload filtering conditions
+    MatchAny:
+      description: Exact match on any of the given values
       type: object
       required:
-      - key
+      - any
       properties:
-        key:
-          description: Payload key
-          type: string
-        match:
-          description: Check if point has field with a given value
-          anyOf:
-          - $ref: '#/components/schemas/Match'
-          - {}
-        range:
-          description: Check if points value lies in a given range
-          anyOf:
-          - $ref: '#/components/schemas/RangeInterface'
-          - {}
-        geo_bounding_box:
-          description: Check if points geolocation lies in a given area
-          anyOf:
-          - $ref: '#/components/schemas/GeoBoundingBox'
-          - {}
-        geo_radius:
-          description: Check if geo point is within a given radius
-          anyOf:
-          - $ref: '#/components/schemas/GeoRadius'
-          - {}
-        geo_polygon:
-          description: Check if geo point is within a given polygon
-          anyOf:
-          - $ref: '#/components/schemas/GeoPolygon'
-          - {}
-        values_count:
-          description: Check number of values of the field
-          anyOf:
-          - $ref: '#/components/schemas/ValuesCount'
-          - {}
-        is_empty:
-          description: 'Check that the field is empty, alternative syntax for `is_empty: "field_name"`'
-          type:
-          - boolean
-          - 'null'
-        is_null:
-          description: 'Check that the field is null, alternative syntax for `is_null: "field_name"`'
-          type:
-          - boolean
-          - 'null'
-    Payload:
-      type: object
-      additionalProperties: true
-      example:
-        city: London
-        color: green
-    PowParams:
-      type: object
-      required:
-      - base
-      - exponent
-      properties:
-        base:
-          $ref: '#/components/schemas/Expression'
-        exponent:
-          $ref: '#/components/schemas/Expression'
-    RecommendQuery:
-      type: object
-      required:
-      - recommend
-      properties:
-        recommend:
-          $ref: '#/components/schemas/RecommendInput'
-    SumExpression:
-      type: object
-      required:
-      - sum
-      properties:
-        sum:
-          type: array
-          items:
-            $ref: '#/components/schemas/Expression'
+        any:
+          $ref: '#/components/schemas/AnyVariants'
     SearchMatrixPairsResponse:
       type: object
       required:
@@ -3367,6 +3073,34 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SearchMatrixPair'
+    MatchText:
+      description: Full-text match of the strings.
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+    QueryInterface:
+      anyOf:
+      - $ref: '#/components/schemas/VectorInput'
+      - $ref: '#/components/schemas/Query'
+    DatetimeExpression:
+      type: object
+      required:
+      - datetime
+      properties:
+        datetime:
+          type: string
+    QueryResponse:
+      type: object
+      required:
+      - points
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoredPoint'
     Language:
       type: string
       enum:
@@ -3400,18 +3134,284 @@ components:
       - swedish
       - tajik
       - turkish
-    ModelUsage:
+    RelevanceFeedbackQuery:
       type: object
       required:
-      - tokens
+      - relevance_feedback
       properties:
-        tokens:
+        relevance_feedback:
+          $ref: '#/components/schemas/RelevanceFeedbackInput'
+    FormulaQuery:
+      type: object
+      required:
+      - formula
+      properties:
+        formula:
+          $ref: '#/components/schemas/Expression'
+        defaults:
+          default: {}
+          type: object
+          additionalProperties: true
+    PointGroup:
+      type: object
+      required:
+      - hits
+      - id
+      properties:
+        hits:
+          description: Scored points that have the same value of the group_by key
+          type: array
+          items:
+            $ref: '#/components/schemas/ScoredPoint'
+        id:
+          $ref: '#/components/schemas/GroupId'
+        lookup:
+          description: Record that has been looked up using the group id
+          anyOf:
+          - $ref: '#/components/schemas/Record'
+          - {}
+    DatetimeRange:
+      description: Range filter request
+      type: object
+      properties:
+        lt:
+          description: point.key < range.lt
+          type:
+          - string
+          - 'null'
+          format: date-time
+        gt:
+          description: point.key > range.gt
+          type:
+          - string
+          - 'null'
+          format: date-time
+        gte:
+          description: point.key >= range.gte
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lte:
+          description: point.key <= range.lte
+          type:
+          - string
+          - 'null'
+          format: date-time
+    GeoDistance:
+      type: object
+      required:
+      - geo_distance
+      properties:
+        geo_distance:
+          $ref: '#/components/schemas/GeoDistanceParams'
+    HardwareUsage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      required:
+      - cpu
+      - payload_index_io_read
+      - payload_index_io_write
+      - payload_io_read
+      - payload_io_write
+      - vector_io_read
+      - vector_io_write
+      properties:
+        cpu:
           type: integer
-          format: uint64
+          format: uint
           minimum: 0
-    FeedbackStrategy:
+        payload_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_index_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_index_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+        vector_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        vector_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+    VectorStructOutput:
+      description: Vector data stored in Point
       anyOf:
-      - $ref: '#/components/schemas/NaiveFeedbackStrategy'
+      - type: array
+        items:
+          type: number
+          format: float
+        example:
+        - 0.875
+        - 0.140625
+        - 0.897599995136261
+      - type: array
+        items:
+          type: array
+          items:
+            type: number
+            format: float
+        example:
+        - - 0.875
+          - 0.140625
+          - 0.11020000278949738
+        - - 0.7580000162124634
+          - 0.28126001358032227
+          - 0.9687100052833557
+        - - 0.6209999918937683
+          - 0.42187801003456116
+          - 0.9375
+      - type: object
+        additionalProperties:
+          $ref: '#/components/schemas/VectorOutput'
+        example:
+          image-embeddings:
+          - 0.8730000257492065
+          - 0.140625
+          - 0.897599995136261
+    StartFrom:
+      anyOf:
+      - type: integer
+        format: int64
+      - type: number
+        format: double
+      - type: string
+        format: date-time
+    ContextPair:
+      type: object
+      required:
+      - negative
+      - positive
+      properties:
+        positive:
+          $ref: '#/components/schemas/VectorInput'
+        negative:
+          $ref: '#/components/schemas/VectorInput'
+    Direction:
+      type: string
+      enum:
+      - asc
+      - desc
+    TokenizerType:
+      type: string
+      enum:
+      - prefix
+      - whitespace
+      - word
+      - multilingual
+    DecayParamsExpression:
+      type: object
+      required:
+      - x
+      properties:
+        x:
+          $ref: '#/components/schemas/Expression'
+        target:
+          description: The target value to start decaying from. Defaults to 0.
+          anyOf:
+          - $ref: '#/components/schemas/Expression'
+          - {}
+        scale:
+          description: The scale factor of the decay, in terms of `x`. Defaults to 1.0. Must be a non-zero positive number.
+          type:
+          - number
+          - 'null'
+          format: float
+        midpoint:
+          description: The midpoint of the decay. Should be between 0 and 1.Defaults to 0.5. Output will be this value when `|x - target| == scale`.
+          type:
+          - number
+          - 'null'
+          format: float
+    PayloadSelectorInclude:
+      type: object
+      required:
+      - include
+      properties:
+        include:
+          description: Only include this payload keys
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    DiscoverRequestBatch:
+      type: object
+      required:
+      - searches
+      properties:
+        searches:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoverRequest'
+    RrfQuery:
+      type: object
+      required:
+      - rrf
+      properties:
+        rrf:
+          $ref: '#/components/schemas/Rrf'
+    Prefetch:
+      type: object
+      properties:
+        prefetch:
+          description: Sub-requests to perform first. If present, the query will be performed on the results of the prefetches.
+          default: null
+          anyOf:
+          - $ref: '#/components/schemas/Prefetch'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Prefetch'
+          - {}
+        query:
+          description: Query to perform. If missing without prefetches, returns points ordered by their IDs.
+          anyOf:
+          - $ref: '#/components/schemas/QueryInterface'
+          - {}
+        using:
+          description: Define which vector name to use for querying. If missing, the default vector is used.
+          type:
+          - string
+          - 'null'
+        filter:
+          description: Filter conditions - return only those points that satisfy the specified conditions.
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        params:
+          description: Search params for when there is no prefetch
+          anyOf:
+          - $ref: '#/components/schemas/SearchParams'
+          - {}
+        score_threshold:
+          description: Return points with scores better than this threshold.
+          type:
+          - number
+          - 'null'
+          format: float
+        limit:
+          description: Max number of points to return. Default is 10.
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 1
+        lookup_from:
+          description: 'The location to use for IDs lookup, if not specified - use the current collection and the ''using'' vector Note: the other collection vectors should have the same vector size as the ''using'' vector in the current collection'
+          default: null
+          anyOf:
+          - $ref: '#/components/schemas/LookupLocation'
+          - {}
   securitySchemes:
     api-key:
       type: apiKey

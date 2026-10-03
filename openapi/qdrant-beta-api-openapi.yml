@@ -87,6 +87,27 @@ paths:
                     type: boolean
 components:
   schemas:
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      properties:
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -127,27 +148,6 @@ components:
           type: integer
           format: uint
           minimum: 0
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    InferenceUsage:
-      type: object
-      required:
-      - models
-      properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
     ErrorResponse:
       type: object
       properties:

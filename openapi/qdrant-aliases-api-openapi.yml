@@ -178,6 +178,24 @@ paths:
                     $ref: '#/components/schemas/CollectionsAliasesResponse'
 components:
   schemas:
+    DeleteAlias:
+      description: Delete alias if exists
+      type: object
+      required:
+      - alias_name
+      properties:
+        alias_name:
+          type: string
+    ChangeAliasesOperation:
+      description: Operation for performing changes of collection aliases. Alias changes are atomic, meaning that no collection modifications can happen between alias operations.
+      type: object
+      required:
+      - actions
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AliasOperations'
     Usage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -190,6 +208,15 @@ components:
           anyOf:
           - $ref: '#/components/schemas/InferenceUsage'
           - {}
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -230,14 +257,6 @@ components:
           type: integer
           format: uint
           minimum: 0
-    DeleteAliasOperation:
-      description: Delete alias if exists
-      type: object
-      required:
-      - delete_alias
-      properties:
-        delete_alias:
-          $ref: '#/components/schemas/DeleteAlias'
     RenameAliasOperation:
       description: Change alias to a new one
       type: object
@@ -246,53 +265,6 @@ components:
       properties:
         rename_alias:
           $ref: '#/components/schemas/RenameAlias'
-    CreateAliasOperation:
-      type: object
-      required:
-      - create_alias
-      properties:
-        create_alias:
-          $ref: '#/components/schemas/CreateAlias'
-    ChangeAliasesOperation:
-      description: Operation for performing changes of collection aliases. Alias changes are atomic, meaning that no collection modifications can happen between alias operations.
-      type: object
-      required:
-      - actions
-      properties:
-        actions:
-          type: array
-          items:
-            $ref: '#/components/schemas/AliasOperations'
-    DeleteAlias:
-      description: Delete alias if exists
-      type: object
-      required:
-      - alias_name
-      properties:
-        alias_name:
-          type: string
-    CollectionsAliasesResponse:
-      type: object
-      required:
-      - aliases
-      properties:
-        aliases:
-          type: array
-          items:
-            $ref: '#/components/schemas/AliasDescription'
-    AliasDescription:
-      type: object
-      required:
-      - alias_name
-      - collection_name
-      properties:
-        alias_name:
-          type: string
-        collection_name:
-          type: string
-      example:
-        alias_name: blogs-title
-        collection_name: arivx-title
     CreateAlias:
       description: Create alternative name for a collection. Collection will be available under both names for search, retrieve,
       type: object
@@ -304,23 +276,14 @@ components:
           type: string
         alias_name:
           type: string
-    AliasOperations:
-      description: Group of all the possible operations related to collection aliases
-      anyOf:
-      - $ref: '#/components/schemas/CreateAliasOperation'
-      - $ref: '#/components/schemas/DeleteAliasOperation'
-      - $ref: '#/components/schemas/RenameAliasOperation'
-    RenameAlias:
-      description: Change alias to a new one
+    DeleteAliasOperation:
+      description: Delete alias if exists
       type: object
       required:
-      - new_alias_name
-      - old_alias_name
+      - delete_alias
       properties:
-        old_alias_name:
-          type: string
-        new_alias_name:
-          type: string
+        delete_alias:
+          $ref: '#/components/schemas/DeleteAlias'
     ErrorResponse:
       type: object
       properties:
@@ -338,6 +301,28 @@ components:
           type:
           - object
           - 'null'
+    CreateAliasOperation:
+      type: object
+      required:
+      - create_alias
+      properties:
+        create_alias:
+          $ref: '#/components/schemas/CreateAlias'
+    AliasOperations:
+      description: Group of all the possible operations related to collection aliases
+      anyOf:
+      - $ref: '#/components/schemas/CreateAliasOperation'
+      - $ref: '#/components/schemas/DeleteAliasOperation'
+      - $ref: '#/components/schemas/RenameAliasOperation'
+    CollectionsAliasesResponse:
+      type: object
+      required:
+      - aliases
+      properties:
+        aliases:
+          type: array
+          items:
+            $ref: '#/components/schemas/AliasDescription'
     ModelUsage:
       type: object
       required:
@@ -347,15 +332,30 @@ components:
           type: integer
           format: uint64
           minimum: 0
-    InferenceUsage:
+    AliasDescription:
       type: object
       required:
-      - models
+      - alias_name
+      - collection_name
       properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
+        alias_name:
+          type: string
+        collection_name:
+          type: string
+      example:
+        alias_name: blogs-title
+        collection_name: arivx-title
+    RenameAlias:
+      description: Change alias to a new one
+      type: object
+      required:
+      - new_alias_name
+      - old_alias_name
+      properties:
+        old_alias_name:
+          type: string
+        new_alias_name:
+          type: string
   securitySchemes:
     api-key:
       type: apiKey
