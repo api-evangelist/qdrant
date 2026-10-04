@@ -37,11 +37,13 @@ tags:
 - Artificial Intelligence
 - Vector Database
 - Database
+- Vector Search
 tags_raw:
 - AI
 - Artificial Intelligence
 - Vector Databases
 - Database
+- Vector Search
 url: https://raw.githubusercontent.com/api-evangelist/qdrant/refs/heads/main/apis.yml
 created: '2024-06-18'
 modified: '2026-05-19'
