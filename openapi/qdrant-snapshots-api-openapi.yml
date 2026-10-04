@@ -1052,16 +1052,6 @@ paths:
                 format: binary
 components:
   schemas:
-    SnapshotPriority:
-      description: 'Defines source of truth for snapshot recovery:
-
-
-        `NoSync` means - restore snapshot without *any* additional synchronization. `Snapshot` means - prefer snapshot data over the current state. `Replica` means - prefer existing data over the snapshot.'
-      type: string
-      enum:
-      - no_sync
-      - snapshot
-      - replica
     Usage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -1074,15 +1064,11 @@ components:
           anyOf:
           - $ref: '#/components/schemas/InferenceUsage'
           - {}
-    InferenceUsage:
-      type: object
-      required:
-      - models
-      properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
+    ShardSnapshotLocation:
+      anyOf:
+      - type: string
+        format: uri
+      - type: string
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -1123,6 +1109,15 @@ components:
           type: integer
           format: uint
           minimum: 0
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
     SnapshotDescription:
       type: object
       required:
@@ -1149,6 +1144,49 @@ components:
         creation_time: '2022-08-04T10:49:10'
         size: 1000000
         checksum: a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0
+    ShardSnapshotRecover:
+      type: object
+      required:
+      - location
+      properties:
+        location:
+          $ref: '#/components/schemas/ShardSnapshotLocation'
+        priority:
+          default: null
+          anyOf:
+          - $ref: '#/components/schemas/SnapshotPriority'
+          - {}
+        checksum:
+          description: Optional SHA256 checksum to verify snapshot integrity before recovery.
+          default: null
+          type:
+          - string
+          - 'null'
+        api_key:
+          description: Optional API key used when fetching the snapshot from a remote URL.
+          default: null
+          type:
+          - string
+          - 'null'
+    ModelUsage:
+      type: object
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
+    SnapshotPriority:
+      description: 'Defines source of truth for snapshot recovery:
+
+
+        `NoSync` means - restore snapshot without *any* additional synchronization. `Snapshot` means - prefer snapshot data over the current state. `Replica` means - prefer existing data over the snapshot.'
+      type: string
+      enum:
+      - no_sync
+      - snapshot
+      - replica
     SnapshotRecover:
       type: object
       required:
@@ -1176,11 +1214,6 @@ components:
           type:
           - string
           - 'null'
-    ShardSnapshotLocation:
-      anyOf:
-      - type: string
-        format: uri
-      - type: string
     ErrorResponse:
       type: object
       properties:
@@ -1197,39 +1230,6 @@ components:
         result:
           type:
           - object
-          - 'null'
-    ModelUsage:
-      type: object
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: integer
-          format: uint64
-          minimum: 0
-    ShardSnapshotRecover:
-      type: object
-      required:
-      - location
-      properties:
-        location:
-          $ref: '#/components/schemas/ShardSnapshotLocation'
-        priority:
-          default: null
-          anyOf:
-          - $ref: '#/components/schemas/SnapshotPriority'
-          - {}
-        checksum:
-          description: Optional SHA256 checksum to verify snapshot integrity before recovery.
-          default: null
-          type:
-          - string
-          - 'null'
-        api_key:
-          description: Optional API key used when fetching the snapshot from a remote URL.
-          default: null
-          type:
-          - string
           - 'null'
   securitySchemes:
     api-key:

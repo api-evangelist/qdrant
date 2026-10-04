@@ -518,172 +518,6 @@ paths:
                     type: boolean
 components:
   schemas:
-    IsNullCondition:
-      description: Select points with null payload for a specified field
-      type: object
-      required:
-      - is_null
-      properties:
-        is_null:
-          $ref: '#/components/schemas/PayloadField'
-    AbortResharding:
-      type: object
-    ModelUsage:
-      type: object
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: integer
-          format: uint64
-          minimum: 0
-    IsEmptyCondition:
-      description: Select points with empty payload for a specified field
-      type: object
-      required:
-      - is_empty
-      properties:
-        is_empty:
-          $ref: '#/components/schemas/PayloadField'
-    Filter:
-      type: object
-      properties:
-        should:
-          description: At least one of those conditions should match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-        min_should:
-          description: At least minimum amount of given conditions should match
-          anyOf:
-          - $ref: '#/components/schemas/MinShould'
-          - {}
-        must:
-          description: All conditions must match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-        must_not:
-          description: All conditions must NOT match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-      additionalProperties: false
-    RestartTransferOperation:
-      type: object
-      required:
-      - restart_transfer
-      properties:
-        restart_transfer:
-          $ref: '#/components/schemas/RestartTransfer'
-    CreateShardingKeyOperation:
-      type: object
-      required:
-      - create_sharding_key
-      properties:
-        create_sharding_key:
-          $ref: '#/components/schemas/CreateShardingKey'
-    GeoLineString:
-      description: Ordered sequence of GeoPoints representing the line
-      type: object
-      required:
-      - points
-      properties:
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/GeoPoint'
-    PartialSnapshotTelemetry:
-      type: object
-      required:
-      - is_recovering
-      - ongoing_create_snapshot_requests
-      - recovery_timestamp
-      properties:
-        ongoing_create_snapshot_requests:
-          type: integer
-          format: uint
-          minimum: 0
-        is_recovering:
-          type: boolean
-        recovery_timestamp:
-          type: integer
-          format: uint64
-          minimum: 0
-    HasVectorCondition:
-      description: Filter points which have specific vector assigned
-      type: object
-      required:
-      - has_vector
-      properties:
-        has_vector:
-          type: string
-    RangeInterface:
-      anyOf:
-      - $ref: '#/components/schemas/Range'
-      - $ref: '#/components/schemas/DatetimeRange'
-    NestedCondition:
-      type: object
-      required:
-      - nested
-      properties:
-        nested:
-          $ref: '#/components/schemas/Nested'
-    ShardTransferMethod:
-      description: 'Methods for transferring a shard from one node to another.
-
-
-        - `stream_records` - Stream all shard records in batches until the whole shard is transferred.
-
-
-        - `snapshot` - Snapshot the shard, transfer and restore it on the receiver.
-
-
-        - `wal_delta` - Attempt to transfer shard difference by WAL delta.
-
-
-        - `resharding_stream_records` - Shard transfer for resharding: stream all records in batches until all points are transferred.'
-      type: string
-      enum:
-      - stream_records
-      - snapshot
-      - wal_delta
-      - resharding_stream_records
-    MoveShardOperation:
-      type: object
-      required:
-      - move_shard
-      properties:
-        move_shard:
-          $ref: '#/components/schemas/MoveShard'
-    AbortShardTransfer:
-      type: object
-      required:
-      - from_peer_id
-      - shard_id
-      - to_peer_id
-      properties:
-        shard_id:
-          type: integer
-          format: uint32
-          minimum: 0
-        to_peer_id:
-          type: integer
-          format: uint64
-          minimum: 0
-        from_peer_id:
-          type: integer
-          format: uint64
-          minimum: 0
     ShardKey:
       anyOf:
       - type: string
@@ -692,57 +526,126 @@ components:
         format: uint64
         minimum: 0
         example: 12
-    AbortTransferOperation:
+    AbortReshardingOperation:
       type: object
       required:
-      - abort_transfer
+      - abort_resharding
       properties:
-        abort_transfer:
-          $ref: '#/components/schemas/AbortShardTransfer'
-    StartResharding:
+        abort_resharding:
+          $ref: '#/components/schemas/AbortResharding'
+    ClusterOperations:
+      anyOf:
+      - $ref: '#/components/schemas/MoveShardOperation'
+      - $ref: '#/components/schemas/ReplicateShardOperation'
+      - $ref: '#/components/schemas/AbortTransferOperation'
+      - $ref: '#/components/schemas/DropReplicaOperation'
+      - $ref: '#/components/schemas/CreateShardingKeyOperation'
+      - $ref: '#/components/schemas/DropShardingKeyOperation'
+      - $ref: '#/components/schemas/RestartTransferOperation'
+      - $ref: '#/components/schemas/StartReshardingOperation'
+      - $ref: '#/components/schemas/AbortReshardingOperation'
+      - $ref: '#/components/schemas/ReplicatePointsOperation'
+    LocalShardInfo:
       type: object
       required:
-      - direction
+      - points_count
+      - shard_id
+      - state
       properties:
-        direction:
-          $ref: '#/components/schemas/ReshardingDirection'
-        peer_id:
+        shard_id:
+          description: Local shard id
+          type: integer
+          format: uint32
+          minimum: 0
+        shard_key:
+          description: User-defined sharding key
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
+        points_count:
+          description: Number of points in the shard
+          type: integer
+          format: uint
+          minimum: 0
+        state:
+          $ref: '#/components/schemas/ReplicaState'
+    HasVectorCondition:
+      description: Filter points which have specific vector assigned
+      type: object
+      required:
+      - has_vector
+      properties:
+        has_vector:
+          type: string
+    NestedCondition:
+      type: object
+      required:
+      - nested
+      properties:
+        nested:
+          $ref: '#/components/schemas/Nested'
+    StateRole:
+      description: Role of the peer in the consensus
+      type: string
+      enum:
+      - Follower
+      - Candidate
+      - Leader
+      - PreCandidate
+    ReplicaState:
+      description: State of the single shard within a replica set.
+      type: string
+      enum:
+      - Active
+      - Dead
+      - Partial
+      - Initializing
+      - Listener
+      - PartialSnapshot
+      - Recovery
+      - Resharding
+      - ReshardingScaleDown
+      - ActiveRead
+      - ManualRecovery
+    RaftInfo:
+      description: Summary information about the current raft state
+      type: object
+      required:
+      - commit
+      - is_voter
+      - pending_operations
+      - term
+      properties:
+        term:
+          description: Raft divides time into terms of arbitrary length, each beginning with an election. If a candidate wins the election, it remains the leader for the rest of the term. The term number increases monotonically. Each server stores the current term number which is also exchanged in every communication.
+          type: integer
+          format: uint64
+          minimum: 0
+        commit:
+          description: The index of the latest committed (finalized) operation that this peer is aware of.
+          type: integer
+          format: uint64
+          minimum: 0
+        pending_operations:
+          description: Number of consensus operations pending to be applied on this peer
+          type: integer
+          format: uint
+          minimum: 0
+        leader:
+          description: Leader of the current term
           type:
           - integer
           - 'null'
           format: uint64
           minimum: 0
-        shard_key:
+        role:
+          description: Role of this peer in the current term
           anyOf:
-          - $ref: '#/components/schemas/ShardKey'
+          - $ref: '#/components/schemas/StateRole'
           - {}
-    DistributedTelemetryData:
-      type: object
-      required:
-      - collections
-      properties:
-        collections:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/DistributedCollectionTelemetry'
-        cluster:
-          anyOf:
-          - $ref: '#/components/schemas/DistributedClusterTelemetry'
-          - {}
-    ReplicatePointsOperation:
-      type: object
-      required:
-      - replicate_points
-      properties:
-        replicate_points:
-          $ref: '#/components/schemas/ReplicatePoints'
-    DropShardingKeyOperation:
-      type: object
-      required:
-      - drop_sharding_key
-      properties:
-        drop_sharding_key:
-          $ref: '#/components/schemas/DropShardingKey'
+        is_voter:
+          description: Is this peer a voter or a learner
+          type: boolean
     ShardTransferInfo:
       type: object
       required:
@@ -787,13 +690,197 @@ components:
           type:
           - string
           - 'null'
-    StartReshardingOperation:
+    GeoPoint:
+      description: Geo point payload schema
       type: object
       required:
-      - start_resharding
+      - lat
+      - lon
       properties:
-        start_resharding:
-          $ref: '#/components/schemas/StartResharding'
+        lon:
+          type: number
+          format: double
+        lat:
+          type: number
+          format: double
+    MoveShardOperation:
+      type: object
+      required:
+      - move_shard
+      properties:
+        move_shard:
+          $ref: '#/components/schemas/MoveShard'
+    Filter:
+      type: object
+      properties:
+        should:
+          description: At least one of those conditions should match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+        min_should:
+          description: At least minimum amount of given conditions should match
+          anyOf:
+          - $ref: '#/components/schemas/MinShould'
+          - {}
+        must:
+          description: All conditions must match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+        must_not:
+          description: All conditions must NOT match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+      additionalProperties: false
+    RangeInterface:
+      anyOf:
+      - $ref: '#/components/schemas/Range'
+      - $ref: '#/components/schemas/DatetimeRange'
+    ModelUsage:
+      type: object
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
+    MatchText:
+      description: Full-text match of the strings.
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+    DistributedTelemetryData:
+      type: object
+      required:
+      - collections
+      properties:
+        collections:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DistributedCollectionTelemetry'
+        cluster:
+          anyOf:
+          - $ref: '#/components/schemas/DistributedClusterTelemetry'
+          - {}
+    CreateShardingKey:
+      type: object
+      required:
+      - shard_key
+      properties:
+        shard_key:
+          $ref: '#/components/schemas/ShardKey'
+        shards_number:
+          description: How many shards to create for this key If not specified, will use the default value from config
+          type:
+          - integer
+          - 'null'
+          format: uint32
+          minimum: 1
+        replication_factor:
+          description: How many replicas to create for each shard If not specified, will use the default value from config
+          type:
+          - integer
+          - 'null'
+          format: uint32
+          minimum: 1
+        placement:
+          description: Placement of shards for this key List of peer ids, that can be used to place shards for this key If not specified, will be randomly placed among all peers
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+            format: uint64
+            minimum: 0
+        initial_state:
+          description: 'Initial state of the shards for this key If not specified, will be `Initializing` first and then `Active` Warning: do not change this unless you know what you are doing'
+          anyOf:
+          - $ref: '#/components/schemas/ReplicaState'
+          - {}
+    ReplicateShardOperation:
+      type: object
+      required:
+      - replicate_shard
+      properties:
+        replicate_shard:
+          $ref: '#/components/schemas/ReplicateShard'
+    ShardKeysResponse:
+      type: object
+      properties:
+        shard_keys:
+          description: The existing shard keys. Only available when sharding method is `custom`
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShardKeyDescription'
+    GeoRadius:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the circle of `radius` and center with coordinates `center`'
+      type: object
+      required:
+      - center
+      - radius
+      properties:
+        center:
+          $ref: '#/components/schemas/GeoPoint'
+        radius:
+          description: Radius of the area in meters
+          type: number
+          format: double
+    DatetimeRange:
+      description: Range filter request
+      type: object
+      properties:
+        lt:
+          description: point.key < range.lt
+          type:
+          - string
+          - 'null'
+          format: date-time
+        gt:
+          description: point.key > range.gt
+          type:
+          - string
+          - 'null'
+          format: date-time
+        gte:
+          description: point.key >= range.gte
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lte:
+          description: point.key <= range.lte
+          type:
+          - string
+          - 'null'
+          format: date-time
+    IsNullCondition:
+      description: Select points with null payload for a specified field
+      type: object
+      required:
+      - is_null
+      properties:
+        is_null:
+          $ref: '#/components/schemas/PayloadField'
     MinShould:
       type: object
       required:
@@ -808,38 +895,52 @@ components:
           type: integer
           format: uint
           minimum: 0
-    AnyVariants:
-      anyOf:
-      - type: array
-        items:
-          type: string
-        uniqueItems: true
-      - type: array
-        items:
-          type: integer
-          format: int64
-        uniqueItems: true
-    ShardCleanStatusTelemetry:
-      oneOf:
-      - type: string
-        enum:
-        - started
-        - done
-        - cancelled
-      - type: object
-        required:
-        - progress
-        properties:
-          progress:
-            $ref: '#/components/schemas/ShardCleanStatusProgressTelemetry'
-        additionalProperties: false
-      - type: object
-        required:
-        - failed
-        properties:
-          failed:
-            $ref: '#/components/schemas/ShardCleanStatusFailedTelemetry'
-        additionalProperties: false
+    StartReshardingOperation:
+      type: object
+      required:
+      - start_resharding
+      properties:
+        start_resharding:
+          $ref: '#/components/schemas/StartResharding'
+    HasIdCondition:
+      description: ID-based filtering condition
+      type: object
+      required:
+      - has_id
+      properties:
+        has_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+          uniqueItems: true
+    MatchExcept:
+      description: Should have at least one value not matching the any given values
+      type: object
+      required:
+      - except
+      properties:
+        except:
+          $ref: '#/components/schemas/AnyVariants'
+    ShardTransferMethod:
+      description: 'Methods for transferring a shard from one node to another.
+
+
+        - `stream_records` - Stream all shard records in batches until the whole shard is transferred.
+
+
+        - `snapshot` - Snapshot the shard, transfer and restore it on the receiver.
+
+
+        - `wal_delta` - Attempt to transfer shard difference by WAL delta.
+
+
+        - `resharding_stream_records` - Shard transfer for resharding: stream all records in batches until all points are transferred.'
+      type: string
+      enum:
+      - stream_records
+      - snapshot
+      - wal_delta
+      - resharding_stream_records
     ShardCleanStatusProgressTelemetry:
       type: object
       required:
@@ -849,75 +950,21 @@ components:
           type: integer
           format: uint
           minimum: 0
-    ValuesCount:
-      description: Values count filter request
-      type: object
-      properties:
-        lt:
-          description: point.key.length() < values_count.lt
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        gt:
-          description: point.key.length() > values_count.gt
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        gte:
-          description: point.key.length() >= values_count.gte
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        lte:
-          description: point.key.length() <= values_count.lte
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-    GeoPoint:
-      description: Geo point payload schema
+    IsEmptyCondition:
+      description: Select points with empty payload for a specified field
       type: object
       required:
-      - lat
-      - lon
+      - is_empty
       properties:
-        lon:
-          type: number
-          format: double
-        lat:
-          type: number
-          format: double
-    MatchExcept:
-      description: Should have at least one value not matching the any given values
+        is_empty:
+          $ref: '#/components/schemas/PayloadField'
+    ShardKeyDescription:
       type: object
       required:
-      - except
+      - key
       properties:
-        except:
-          $ref: '#/components/schemas/AnyVariants'
-    Condition:
-      anyOf:
-      - $ref: '#/components/schemas/FieldCondition'
-      - $ref: '#/components/schemas/IsEmptyCondition'
-      - $ref: '#/components/schemas/IsNullCondition'
-      - $ref: '#/components/schemas/HasIdCondition'
-      - $ref: '#/components/schemas/HasVectorCondition'
-      - $ref: '#/components/schemas/NestedCondition'
-      - $ref: '#/components/schemas/Filter'
-    AbortReshardingOperation:
-      type: object
-      required:
-      - abort_resharding
-      properties:
-        abort_resharding:
-          $ref: '#/components/schemas/AbortResharding'
+        key:
+          $ref: '#/components/schemas/ShardKey'
     DistributedClusterTelemetry:
       type: object
       required:
@@ -936,13 +983,63 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/DistributedPeerInfo'
-    ShardCleanStatusFailedTelemetry:
+    MatchTextAny:
+      description: Full-text match of at least one token of the string.
       type: object
       required:
-      - reason
+      - text_any
       properties:
-        reason:
+        text_any:
           type: string
+    GeoBoundingBox:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the rectangle, described by coordinates of lop-left and bottom-right edges'
+      type: object
+      required:
+      - bottom_right
+      - top_left
+      properties:
+        top_left:
+          $ref: '#/components/schemas/GeoPoint'
+        bottom_right:
+          $ref: '#/components/schemas/GeoPoint'
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      properties:
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
+    ValueVariants:
+      anyOf:
+      - type: string
+      - type: integer
+        format: int64
+      - type: boolean
+    MatchValue:
+      description: Exact match of the given value
+      type: object
+      required:
+      - value
+      properties:
+        value:
+          $ref: '#/components/schemas/ValueVariants'
+    Match:
+      description: Match filter request
+      anyOf:
+      - $ref: '#/components/schemas/MatchValue'
+      - $ref: '#/components/schemas/MatchText'
+      - $ref: '#/components/schemas/MatchTextAny'
+      - $ref: '#/components/schemas/MatchPhrase'
+      - $ref: '#/components/schemas/MatchAny'
+      - $ref: '#/components/schemas/MatchExcept'
     ConsensusThreadStatus:
       description: Information about current consensus thread status
       oneOf:
@@ -977,20 +1074,120 @@ components:
             - stopped_with_err
           err:
             type: string
-    GeoBoundingBox:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the rectangle, described by coordinates of lop-left and bottom-right edges'
+    ExtendedPointId:
+      description: Type, used for specifying point ID in user interface
+      anyOf:
+      - type: integer
+        format: uint64
+        minimum: 0
+        example: 42
+      - type: string
+        format: uuid
+        example: 550e8400-e29b-41d4-a716-446655440000
+    MoveShard:
       type: object
       required:
-      - bottom_right
-      - top_left
+      - from_peer_id
+      - shard_id
+      - to_peer_id
       properties:
-        top_left:
-          $ref: '#/components/schemas/GeoPoint'
-        bottom_right:
-          $ref: '#/components/schemas/GeoPoint'
+        shard_id:
+          type: integer
+          format: uint32
+          minimum: 0
+        to_peer_id:
+          type: integer
+          format: uint64
+          minimum: 0
+        from_peer_id:
+          type: integer
+          format: uint64
+          minimum: 0
+        method:
+          description: Method for transferring the shard from one node to another
+          anyOf:
+          - $ref: '#/components/schemas/ShardTransferMethod'
+          - {}
+    ShardCleanStatusFailedTelemetry:
+      type: object
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+    DropShardingKeyOperation:
+      type: object
+      required:
+      - drop_sharding_key
+      properties:
+        drop_sharding_key:
+          $ref: '#/components/schemas/DropShardingKey'
+    ReplicatePoints:
+      type: object
+      required:
+      - from_shard_key
+      - to_shard_key
+      properties:
+        filter:
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        from_shard_key:
+          $ref: '#/components/schemas/ShardKey'
+        to_shard_key:
+          $ref: '#/components/schemas/ShardKey'
+    AnyVariants:
+      anyOf:
+      - type: array
+        items:
+          type: string
+        uniqueItems: true
+      - type: array
+        items:
+          type: integer
+          format: int64
+        uniqueItems: true
+    Condition:
+      anyOf:
+      - $ref: '#/components/schemas/FieldCondition'
+      - $ref: '#/components/schemas/IsEmptyCondition'
+      - $ref: '#/components/schemas/IsNullCondition'
+      - $ref: '#/components/schemas/HasIdCondition'
+      - $ref: '#/components/schemas/HasVectorCondition'
+      - $ref: '#/components/schemas/NestedCondition'
+      - $ref: '#/components/schemas/Filter'
+    ValuesCount:
+      description: Values count filter request
+      type: object
+      properties:
+        lt:
+          description: point.key.length() < values_count.lt
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        gt:
+          description: point.key.length() > values_count.gt
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        gte:
+          description: point.key.length() >= values_count.gte
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        lte:
+          description: point.key.length() <= values_count.lte
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
     DistributedReplicaTelemetry:
       type: object
       required:
@@ -1063,632 +1260,8 @@ components:
           anyOf:
           - $ref: '#/components/schemas/PartialSnapshotTelemetry'
           - {}
-    MessageSendErrors:
-      description: Message send failures for a particular peer
+    AbortResharding:
       type: object
-      required:
-      - count
-      properties:
-        count:
-          type: integer
-          format: uint
-          minimum: 0
-        latest_error:
-          type:
-          - string
-          - 'null'
-        latest_error_timestamp:
-          description: Timestamp of the latest error
-          type:
-          - string
-          - 'null'
-          format: date-time
-    DropShardingKey:
-      type: object
-      required:
-      - shard_key
-      properties:
-        shard_key:
-          $ref: '#/components/schemas/ShardKey'
-    ReplicatePoints:
-      type: object
-      required:
-      - from_shard_key
-      - to_shard_key
-      properties:
-        filter:
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        from_shard_key:
-          $ref: '#/components/schemas/ShardKey'
-        to_shard_key:
-          $ref: '#/components/schemas/ShardKey'
-    MatchPhrase:
-      description: Full-text phrase match of the string.
-      type: object
-      required:
-      - phrase
-      properties:
-        phrase:
-          type: string
-    GeoPolygon:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the polygon, defined by `exterior` and `interiors`'
-      type: object
-      required:
-      - exterior
-      properties:
-        exterior:
-          $ref: '#/components/schemas/GeoLineString'
-        interiors:
-          description: Interior lines (if present) bound holes within the surface each GeoLineString must consist of a minimum of 4 points, and the first and last points must be the same.
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/GeoLineString'
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    Replica:
-      type: object
-      required:
-      - peer_id
-      - shard_id
-      properties:
-        shard_id:
-          type: integer
-          format: uint32
-          minimum: 0
-        peer_id:
-          type: integer
-          format: uint64
-          minimum: 0
-    ReshardingDirection:
-      description: 'Resharding direction, scale up or down in number of shards
-
-
-        - `up` - Scale up, add a new shard
-
-
-        - `down` - Scale down, remove a shard'
-      type: string
-      enum:
-      - up
-      - down
-    ShardKeysResponse:
-      type: object
-      properties:
-        shard_keys:
-          description: The existing shard keys. Only available when sharding method is `custom`
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ShardKeyDescription'
-    StateRole:
-      description: Role of the peer in the consensus
-      type: string
-      enum:
-      - Follower
-      - Candidate
-      - Leader
-      - PreCandidate
-    DistributedPeerInfo:
-      type: object
-      required:
-      - responsive
-      - uri
-      properties:
-        uri:
-          description: URI of the peer
-          type: string
-        responsive:
-          description: Whether this peer responded for this request
-          type: boolean
-        details:
-          description: If responsive, these details should be available
-          anyOf:
-          - $ref: '#/components/schemas/DistributedPeerDetails'
-          - {}
-    PayloadField:
-      description: Payload field
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          description: Payload field name
-          type: string
-    ExtendedPointId:
-      description: Type, used for specifying point ID in user interface
-      anyOf:
-      - type: integer
-        format: uint64
-        minimum: 0
-        example: 42
-      - type: string
-        format: uuid
-        example: 550e8400-e29b-41d4-a716-446655440000
-    ErrorResponse:
-      type: object
-      properties:
-        time:
-          type: number
-          format: float
-          description: Time spent to process this request
-        status:
-          type: object
-          properties:
-            error:
-              type: string
-              description: Description of the occurred error.
-        result:
-          type:
-          - object
-          - 'null'
-    PeerInfo:
-      description: Information of a peer in the cluster
-      type: object
-      required:
-      - uri
-      properties:
-        uri:
-          type: string
-    ClusterOperations:
-      anyOf:
-      - $ref: '#/components/schemas/MoveShardOperation'
-      - $ref: '#/components/schemas/ReplicateShardOperation'
-      - $ref: '#/components/schemas/AbortTransferOperation'
-      - $ref: '#/components/schemas/DropReplicaOperation'
-      - $ref: '#/components/schemas/CreateShardingKeyOperation'
-      - $ref: '#/components/schemas/DropShardingKeyOperation'
-      - $ref: '#/components/schemas/RestartTransferOperation'
-      - $ref: '#/components/schemas/StartReshardingOperation'
-      - $ref: '#/components/schemas/AbortReshardingOperation'
-      - $ref: '#/components/schemas/ReplicatePointsOperation'
-    Nested:
-      description: Select points with payload for a specified nested field
-      type: object
-      required:
-      - filter
-      - key
-      properties:
-        key:
-          type: string
-        filter:
-          $ref: '#/components/schemas/Filter'
-    Match:
-      description: Match filter request
-      anyOf:
-      - $ref: '#/components/schemas/MatchValue'
-      - $ref: '#/components/schemas/MatchText'
-      - $ref: '#/components/schemas/MatchTextAny'
-      - $ref: '#/components/schemas/MatchPhrase'
-      - $ref: '#/components/schemas/MatchAny'
-      - $ref: '#/components/schemas/MatchExcept'
-    MatchTextAny:
-      description: Full-text match of at least one token of the string.
-      type: object
-      required:
-      - text_any
-      properties:
-        text_any:
-          type: string
-    InferenceUsage:
-      type: object
-      required:
-      - models
-      properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
-    CreateShardingKey:
-      type: object
-      required:
-      - shard_key
-      properties:
-        shard_key:
-          $ref: '#/components/schemas/ShardKey'
-        shards_number:
-          description: How many shards to create for this key If not specified, will use the default value from config
-          type:
-          - integer
-          - 'null'
-          format: uint32
-          minimum: 1
-        replication_factor:
-          description: How many replicas to create for each shard If not specified, will use the default value from config
-          type:
-          - integer
-          - 'null'
-          format: uint32
-          minimum: 1
-        placement:
-          description: Placement of shards for this key List of peer ids, that can be used to place shards for this key If not specified, will be randomly placed among all peers
-          type:
-          - array
-          - 'null'
-          items:
-            type: integer
-            format: uint64
-            minimum: 0
-        initial_state:
-          description: 'Initial state of the shards for this key If not specified, will be `Initializing` first and then `Active` Warning: do not change this unless you know what you are doing'
-          anyOf:
-          - $ref: '#/components/schemas/ReplicaState'
-          - {}
-    DropReplicaOperation:
-      type: object
-      required:
-      - drop_replica
-      properties:
-        drop_replica:
-          $ref: '#/components/schemas/Replica'
-    RestartTransfer:
-      type: object
-      required:
-      - from_peer_id
-      - method
-      - shard_id
-      - to_peer_id
-      properties:
-        shard_id:
-          type: integer
-          format: uint32
-          minimum: 0
-        from_peer_id:
-          type: integer
-          format: uint64
-          minimum: 0
-        to_peer_id:
-          type: integer
-          format: uint64
-          minimum: 0
-        method:
-          $ref: '#/components/schemas/ShardTransferMethod'
-    FieldCondition:
-      description: All possible payload filtering conditions
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          description: Payload key
-          type: string
-        match:
-          description: Check if point has field with a given value
-          anyOf:
-          - $ref: '#/components/schemas/Match'
-          - {}
-        range:
-          description: Check if points value lies in a given range
-          anyOf:
-          - $ref: '#/components/schemas/RangeInterface'
-          - {}
-        geo_bounding_box:
-          description: Check if points geolocation lies in a given area
-          anyOf:
-          - $ref: '#/components/schemas/GeoBoundingBox'
-          - {}
-        geo_radius:
-          description: Check if geo point is within a given radius
-          anyOf:
-          - $ref: '#/components/schemas/GeoRadius'
-          - {}
-        geo_polygon:
-          description: Check if geo point is within a given polygon
-          anyOf:
-          - $ref: '#/components/schemas/GeoPolygon'
-          - {}
-        values_count:
-          description: Check number of values of the field
-          anyOf:
-          - $ref: '#/components/schemas/ValuesCount'
-          - {}
-        is_empty:
-          description: 'Check that the field is empty, alternative syntax for `is_empty: "field_name"`'
-          type:
-          - boolean
-          - 'null'
-        is_null:
-          description: 'Check that the field is null, alternative syntax for `is_null: "field_name"`'
-          type:
-          - boolean
-          - 'null'
-    MatchValue:
-      description: Exact match of the given value
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          $ref: '#/components/schemas/ValueVariants'
-    HasIdCondition:
-      description: ID-based filtering condition
-      type: object
-      required:
-      - has_id
-      properties:
-        has_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-          uniqueItems: true
-    ReshardingInfo:
-      type: object
-      required:
-      - direction
-      - peer_id
-      - shard_id
-      properties:
-        direction:
-          $ref: '#/components/schemas/ReshardingDirection'
-        shard_id:
-          type: integer
-          format: uint32
-          minimum: 0
-        peer_id:
-          type: integer
-          format: uint64
-          minimum: 0
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKey'
-          - {}
-    DistributedShardTelemetry:
-      type: object
-      required:
-      - id
-      - replicas
-      properties:
-        id:
-          description: Shard ID
-          type: integer
-          format: uint32
-          minimum: 0
-        key:
-          description: Optional shard key
-          anyOf:
-          - $ref: '#/components/schemas/ShardKey'
-          - {}
-        replicas:
-          description: Replica information
-          type: array
-          items:
-            $ref: '#/components/schemas/DistributedReplicaTelemetry'
-    DistributedCollectionTelemetry:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          description: Collection name
-          type: string
-        shards:
-          description: Shards topology
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DistributedShardTelemetry'
-        reshardings:
-          description: Ongoing resharding operations
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReshardingInfo'
-        shard_transfers:
-          description: Ongoing shard transfers
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ShardTransferInfo'
-    ShardKeyDescription:
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          $ref: '#/components/schemas/ShardKey'
-    GeoRadius:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the circle of `radius` and center with coordinates `center`'
-      type: object
-      required:
-      - center
-      - radius
-      properties:
-        center:
-          $ref: '#/components/schemas/GeoPoint'
-        radius:
-          description: Radius of the area in meters
-          type: number
-          format: double
-    LocalShardInfo:
-      type: object
-      required:
-      - points_count
-      - shard_id
-      - state
-      properties:
-        shard_id:
-          description: Local shard id
-          type: integer
-          format: uint32
-          minimum: 0
-        shard_key:
-          description: User-defined sharding key
-          anyOf:
-          - $ref: '#/components/schemas/ShardKey'
-          - {}
-        points_count:
-          description: Number of points in the shard
-          type: integer
-          format: uint
-          minimum: 0
-        state:
-          $ref: '#/components/schemas/ReplicaState'
-    Range:
-      description: Range filter request
-      type: object
-      properties:
-        lt:
-          description: point.key < range.lt
-          type:
-          - number
-          - 'null'
-          format: double
-        gt:
-          description: point.key > range.gt
-          type:
-          - number
-          - 'null'
-          format: double
-        gte:
-          description: point.key >= range.gte
-          type:
-          - number
-          - 'null'
-          format: double
-        lte:
-          description: point.key <= range.lte
-          type:
-          - number
-          - 'null'
-          format: double
-    ValueVariants:
-      anyOf:
-      - type: string
-      - type: integer
-        format: int64
-      - type: boolean
-    RaftInfo:
-      description: Summary information about the current raft state
-      type: object
-      required:
-      - commit
-      - is_voter
-      - pending_operations
-      - term
-      properties:
-        term:
-          description: Raft divides time into terms of arbitrary length, each beginning with an election. If a candidate wins the election, it remains the leader for the rest of the term. The term number increases monotonically. Each server stores the current term number which is also exchanged in every communication.
-          type: integer
-          format: uint64
-          minimum: 0
-        commit:
-          description: The index of the latest committed (finalized) operation that this peer is aware of.
-          type: integer
-          format: uint64
-          minimum: 0
-        pending_operations:
-          description: Number of consensus operations pending to be applied on this peer
-          type: integer
-          format: uint
-          minimum: 0
-        leader:
-          description: Leader of the current term
-          type:
-          - integer
-          - 'null'
-          format: uint64
-          minimum: 0
-        role:
-          description: Role of this peer in the current term
-          anyOf:
-          - $ref: '#/components/schemas/StateRole'
-          - {}
-        is_voter:
-          description: Is this peer a voter or a learner
-          type: boolean
-    ShardStatus:
-      description: 'Current state of the shard (supports same states as the collection)
-
-
-        `Green` - all good. `Yellow` - optimization is running, ''Grey'' - optimizations are possible but not triggered, `Red` - some operations failed and was not recovered'
-      type: string
-      enum:
-      - green
-      - yellow
-      - grey
-      - red
-    ReplicaState:
-      description: State of the single shard within a replica set.
-      type: string
-      enum:
-      - Active
-      - Dead
-      - Partial
-      - Initializing
-      - Listener
-      - PartialSnapshot
-      - Recovery
-      - Resharding
-      - ReshardingScaleDown
-      - ActiveRead
-      - ManualRecovery
-    ClusterStatus:
-      description: Information about current cluster status and structure
-      oneOf:
-      - type: object
-        required:
-        - status
-        properties:
-          status:
-            type: string
-            enum:
-            - disabled
-      - description: Description of enabled cluster
-        type: object
-        required:
-        - consensus_thread_status
-        - message_send_failures
-        - peer_id
-        - peers
-        - raft_info
-        - status
-        properties:
-          status:
-            type: string
-            enum:
-            - enabled
-          peer_id:
-            description: ID of this peer
-            type: integer
-            format: uint64
-            minimum: 0
-          peers:
-            description: Peers composition of the cluster with main information
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/PeerInfo'
-          raft_info:
-            $ref: '#/components/schemas/RaftInfo'
-          consensus_thread_status:
-            $ref: '#/components/schemas/ConsensusThreadStatus'
-          message_send_failures:
-            description: Consequent failures of message send operations in consensus by peer address. On the first success to send to that peer - entry is removed from this hashmap.
-            type: object
-            additionalProperties:
-              $ref: '#/components/schemas/MessageSendErrors'
     MatchAny:
       description: Exact match on any of the given values
       type: object
@@ -1739,52 +1312,6 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/ReshardingInfo'
-    MatchText:
-      description: Full-text match of the strings.
-      type: object
-      required:
-      - text
-      properties:
-        text:
-          type: string
-    DistributedPeerDetails:
-      type: object
-      required:
-      - commit
-      - consensus_thread_status
-      - is_voter
-      - num_pending_operations
-      - term
-      - version
-      properties:
-        version:
-          description: Qdrant version
-          type: string
-        role:
-          description: Consensus role for the peer
-          anyOf:
-          - $ref: '#/components/schemas/StateRole'
-          - {}
-        is_voter:
-          description: Whether it can participate in leader elections
-          type: boolean
-        term:
-          description: Election term
-          type: integer
-          format: uint64
-          minimum: 0
-        commit:
-          description: Latest accepted commit
-          type: integer
-          format: uint64
-          minimum: 0
-        num_pending_operations:
-          description: Number of operations pending for being applied
-          type: integer
-          format: uint64
-          minimum: 0
-        consensus_thread_status:
-          $ref: '#/components/schemas/ConsensusThreadStatus'
     ReplicateShard:
       type: object
       required:
@@ -1809,58 +1336,76 @@ components:
           anyOf:
           - $ref: '#/components/schemas/ShardTransferMethod'
           - {}
-    RemoteShardInfo:
+    FieldCondition:
+      description: All possible payload filtering conditions
       type: object
       required:
+      - key
+      properties:
+        key:
+          description: Payload key
+          type: string
+        match:
+          description: Check if point has field with a given value
+          anyOf:
+          - $ref: '#/components/schemas/Match'
+          - {}
+        range:
+          description: Check if points value lies in a given range
+          anyOf:
+          - $ref: '#/components/schemas/RangeInterface'
+          - {}
+        geo_bounding_box:
+          description: Check if points geolocation lies in a given area
+          anyOf:
+          - $ref: '#/components/schemas/GeoBoundingBox'
+          - {}
+        geo_radius:
+          description: Check if geo point is within a given radius
+          anyOf:
+          - $ref: '#/components/schemas/GeoRadius'
+          - {}
+        geo_polygon:
+          description: Check if geo point is within a given polygon
+          anyOf:
+          - $ref: '#/components/schemas/GeoPolygon'
+          - {}
+        values_count:
+          description: Check number of values of the field
+          anyOf:
+          - $ref: '#/components/schemas/ValuesCount'
+          - {}
+        is_empty:
+          description: 'Check that the field is empty, alternative syntax for `is_empty: "field_name"`'
+          type:
+          - boolean
+          - 'null'
+        is_null:
+          description: 'Check that the field is null, alternative syntax for `is_null: "field_name"`'
+          type:
+          - boolean
+          - 'null'
+    ReshardingInfo:
+      type: object
+      required:
+      - direction
       - peer_id
       - shard_id
-      - state
       properties:
+        direction:
+          $ref: '#/components/schemas/ReshardingDirection'
         shard_id:
-          description: Remote shard id
           type: integer
           format: uint32
           minimum: 0
-        shard_key:
-          description: User-defined sharding key
-          anyOf:
-          - $ref: '#/components/schemas/ShardKey'
-          - {}
         peer_id:
-          description: Remote peer id
           type: integer
           format: uint64
           minimum: 0
-        state:
-          $ref: '#/components/schemas/ReplicaState'
-    DatetimeRange:
-      description: Range filter request
-      type: object
-      properties:
-        lt:
-          description: point.key < range.lt
-          type:
-          - string
-          - 'null'
-          format: date-time
-        gt:
-          description: point.key > range.gt
-          type:
-          - string
-          - 'null'
-          format: date-time
-        gte:
-          description: point.key >= range.gte
-          type:
-          - string
-          - 'null'
-          format: date-time
-        lte:
-          description: point.key <= range.lte
-          type:
-          - string
-          - 'null'
-          format: date-time
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -1901,14 +1446,213 @@ components:
           type: integer
           format: uint
           minimum: 0
-    ReplicateShardOperation:
+    RemoteShardInfo:
       type: object
       required:
-      - replicate_shard
+      - peer_id
+      - shard_id
+      - state
       properties:
-        replicate_shard:
-          $ref: '#/components/schemas/ReplicateShard'
-    MoveShard:
+        shard_id:
+          description: Remote shard id
+          type: integer
+          format: uint32
+          minimum: 0
+        shard_key:
+          description: User-defined sharding key
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
+        peer_id:
+          description: Remote peer id
+          type: integer
+          format: uint64
+          minimum: 0
+        state:
+          $ref: '#/components/schemas/ReplicaState'
+    ReplicatePointsOperation:
+      type: object
+      required:
+      - replicate_points
+      properties:
+        replicate_points:
+          $ref: '#/components/schemas/ReplicatePoints'
+    DistributedPeerDetails:
+      type: object
+      required:
+      - commit
+      - consensus_thread_status
+      - is_voter
+      - num_pending_operations
+      - term
+      - version
+      properties:
+        version:
+          description: Qdrant version
+          type: string
+        role:
+          description: Consensus role for the peer
+          anyOf:
+          - $ref: '#/components/schemas/StateRole'
+          - {}
+        is_voter:
+          description: Whether it can participate in leader elections
+          type: boolean
+        term:
+          description: Election term
+          type: integer
+          format: uint64
+          minimum: 0
+        commit:
+          description: Latest accepted commit
+          type: integer
+          format: uint64
+          minimum: 0
+        num_pending_operations:
+          description: Number of operations pending for being applied
+          type: integer
+          format: uint64
+          minimum: 0
+        consensus_thread_status:
+          $ref: '#/components/schemas/ConsensusThreadStatus'
+    DistributedShardTelemetry:
+      type: object
+      required:
+      - id
+      - replicas
+      properties:
+        id:
+          description: Shard ID
+          type: integer
+          format: uint32
+          minimum: 0
+        key:
+          description: Optional shard key
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
+        replicas:
+          description: Replica information
+          type: array
+          items:
+            $ref: '#/components/schemas/DistributedReplicaTelemetry'
+    ShardCleanStatusTelemetry:
+      oneOf:
+      - type: string
+        enum:
+        - started
+        - done
+        - cancelled
+      - type: object
+        required:
+        - progress
+        properties:
+          progress:
+            $ref: '#/components/schemas/ShardCleanStatusProgressTelemetry'
+        additionalProperties: false
+      - type: object
+        required:
+        - failed
+        properties:
+          failed:
+            $ref: '#/components/schemas/ShardCleanStatusFailedTelemetry'
+        additionalProperties: false
+    GeoPolygon:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the polygon, defined by `exterior` and `interiors`'
+      type: object
+      required:
+      - exterior
+      properties:
+        exterior:
+          $ref: '#/components/schemas/GeoLineString'
+        interiors:
+          description: Interior lines (if present) bound holes within the surface each GeoLineString must consist of a minimum of 4 points, and the first and last points must be the same.
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GeoLineString'
+    RestartTransferOperation:
+      type: object
+      required:
+      - restart_transfer
+      properties:
+        restart_transfer:
+          $ref: '#/components/schemas/RestartTransfer'
+    Range:
+      description: Range filter request
+      type: object
+      properties:
+        lt:
+          description: point.key < range.lt
+          type:
+          - number
+          - 'null'
+          format: double
+        gt:
+          description: point.key > range.gt
+          type:
+          - number
+          - 'null'
+          format: double
+        gte:
+          description: point.key >= range.gte
+          type:
+          - number
+          - 'null'
+          format: double
+        lte:
+          description: point.key <= range.lte
+          type:
+          - number
+          - 'null'
+          format: double
+    Replica:
+      type: object
+      required:
+      - peer_id
+      - shard_id
+      properties:
+        shard_id:
+          type: integer
+          format: uint32
+          minimum: 0
+        peer_id:
+          type: integer
+          format: uint64
+          minimum: 0
+    ReshardingDirection:
+      description: 'Resharding direction, scale up or down in number of shards
+
+
+        - `up` - Scale up, add a new shard
+
+
+        - `down` - Scale down, remove a shard'
+      type: string
+      enum:
+      - up
+      - down
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
+    CreateShardingKeyOperation:
+      type: object
+      required:
+      - create_sharding_key
+      properties:
+        create_sharding_key:
+          $ref: '#/components/schemas/CreateShardingKey'
+    AbortShardTransfer:
       type: object
       required:
       - from_peer_id
@@ -1927,11 +1671,267 @@ components:
           type: integer
           format: uint64
           minimum: 0
-        method:
-          description: Method for transferring the shard from one node to another
+    PayloadField:
+      description: Payload field
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          description: Payload field name
+          type: string
+    DistributedCollectionTelemetry:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          description: Collection name
+          type: string
+        shards:
+          description: Shards topology
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DistributedShardTelemetry'
+        reshardings:
+          description: Ongoing resharding operations
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReshardingInfo'
+        shard_transfers:
+          description: Ongoing shard transfers
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShardTransferInfo'
+    PartialSnapshotTelemetry:
+      type: object
+      required:
+      - is_recovering
+      - ongoing_create_snapshot_requests
+      - recovery_timestamp
+      properties:
+        ongoing_create_snapshot_requests:
+          type: integer
+          format: uint
+          minimum: 0
+        is_recovering:
+          type: boolean
+        recovery_timestamp:
+          type: integer
+          format: uint64
+          minimum: 0
+    StartResharding:
+      type: object
+      required:
+      - direction
+      properties:
+        direction:
+          $ref: '#/components/schemas/ReshardingDirection'
+        peer_id:
+          type:
+          - integer
+          - 'null'
+          format: uint64
+          minimum: 0
+        shard_key:
           anyOf:
-          - $ref: '#/components/schemas/ShardTransferMethod'
+          - $ref: '#/components/schemas/ShardKey'
           - {}
+    DropReplicaOperation:
+      type: object
+      required:
+      - drop_replica
+      properties:
+        drop_replica:
+          $ref: '#/components/schemas/Replica'
+    ErrorResponse:
+      type: object
+      properties:
+        time:
+          type: number
+          format: float
+          description: Time spent to process this request
+        status:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Description of the occurred error.
+        result:
+          type:
+          - object
+          - 'null'
+    Nested:
+      description: Select points with payload for a specified nested field
+      type: object
+      required:
+      - filter
+      - key
+      properties:
+        key:
+          type: string
+        filter:
+          $ref: '#/components/schemas/Filter'
+    DistributedPeerInfo:
+      type: object
+      required:
+      - responsive
+      - uri
+      properties:
+        uri:
+          description: URI of the peer
+          type: string
+        responsive:
+          description: Whether this peer responded for this request
+          type: boolean
+        details:
+          description: If responsive, these details should be available
+          anyOf:
+          - $ref: '#/components/schemas/DistributedPeerDetails'
+          - {}
+    ClusterStatus:
+      description: Information about current cluster status and structure
+      oneOf:
+      - type: object
+        required:
+        - status
+        properties:
+          status:
+            type: string
+            enum:
+            - disabled
+      - description: Description of enabled cluster
+        type: object
+        required:
+        - consensus_thread_status
+        - message_send_failures
+        - peer_id
+        - peers
+        - raft_info
+        - status
+        properties:
+          status:
+            type: string
+            enum:
+            - enabled
+          peer_id:
+            description: ID of this peer
+            type: integer
+            format: uint64
+            minimum: 0
+          peers:
+            description: Peers composition of the cluster with main information
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/PeerInfo'
+          raft_info:
+            $ref: '#/components/schemas/RaftInfo'
+          consensus_thread_status:
+            $ref: '#/components/schemas/ConsensusThreadStatus'
+          message_send_failures:
+            description: Consequent failures of message send operations in consensus by peer address. On the first success to send to that peer - entry is removed from this hashmap.
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/MessageSendErrors'
+    AbortTransferOperation:
+      type: object
+      required:
+      - abort_transfer
+      properties:
+        abort_transfer:
+          $ref: '#/components/schemas/AbortShardTransfer'
+    MatchPhrase:
+      description: Full-text phrase match of the string.
+      type: object
+      required:
+      - phrase
+      properties:
+        phrase:
+          type: string
+    ShardStatus:
+      description: 'Current state of the shard (supports same states as the collection)
+
+
+        `Green` - all good. `Yellow` - optimization is running, ''Grey'' - optimizations are possible but not triggered, `Red` - some operations failed and was not recovered'
+      type: string
+      enum:
+      - green
+      - yellow
+      - grey
+      - red
+    PeerInfo:
+      description: Information of a peer in the cluster
+      type: object
+      required:
+      - uri
+      properties:
+        uri:
+          type: string
+    GeoLineString:
+      description: Ordered sequence of GeoPoints representing the line
+      type: object
+      required:
+      - points
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoPoint'
+    DropShardingKey:
+      type: object
+      required:
+      - shard_key
+      properties:
+        shard_key:
+          $ref: '#/components/schemas/ShardKey'
+    MessageSendErrors:
+      description: Message send failures for a particular peer
+      type: object
+      required:
+      - count
+      properties:
+        count:
+          type: integer
+          format: uint
+          minimum: 0
+        latest_error:
+          type:
+          - string
+          - 'null'
+        latest_error_timestamp:
+          description: Timestamp of the latest error
+          type:
+          - string
+          - 'null'
+          format: date-time
+    RestartTransfer:
+      type: object
+      required:
+      - from_peer_id
+      - method
+      - shard_id
+      - to_peer_id
+      properties:
+        shard_id:
+          type: integer
+          format: uint32
+          minimum: 0
+        from_peer_id:
+          type: integer
+          format: uint64
+          minimum: 0
+        to_peer_id:
+          type: integer
+          format: uint64
+          minimum: 0
+        method:
+          $ref: '#/components/schemas/ShardTransferMethod'
   securitySchemes:
     api-key:
       type: apiKey
