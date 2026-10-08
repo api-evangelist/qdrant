@@ -155,6 +155,10 @@ apis:
   - type: Documentation
     url: https://qdrant.tech/documentation/
 common:
+- type: RateLimits
+  url: rate-limits/qdrant-rate-limits.yml
+- type: FinOps
+  url: finops/qdrant-finops.yml
 - type: Plans
   url: plans/qdrant-plans-pricing.yml
 - type: AgenticAccess
