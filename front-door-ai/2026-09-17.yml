@@ -1,0 +1,35 @@
+# Front Door AI Index — qdrant — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: qdrant
+  lexicon_version: '1.0'
+  probed_at: '2026-09-25'
+  host: qdrant.tech
+  final_host: qdrant.tech
+  ownership: own
+  owner: qdrant
+  shares_host_with: null
+  inherited_from: null
+  alias_of: null
+  verdict: scored
+  score: 46
+  band: 6
+  band_label: dominant
+  host_score: 46
+  density: 40.71
+  words: 1130
+  tiers:
+    agentic: 28
+    core: 18
+    model: 0
+  ambiguous: 6
+  top_terms:
+    AI: 17
+    vector database: 17
+    agent: 6
+    AI agent: 4
+    RAG: 4
+    inference: 2
+    embedding: 1
+    gen ai: 1

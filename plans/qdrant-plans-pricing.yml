@@ -1,137 +1,74 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: Qdrant
-providerId: qdrant
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-reconciled: true
-tags:
-  - Vector Database
-  - AI Infrastructure
-description: Qdrant Cloud tiers across Free / Standard / Premium / Hybrid / Private.
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://qdrant.tech/pricing/
 sources:
-  - https://qdrant.tech/pricing/
+- https://qdrant.tech/pricing/
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T104522
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: negotiated
+delivery:
+  delivery: open-core
+  method: page
+  read: '2026-10-07'
+  evidence: Features by Tier OSS Free Tier Standard Tier Premium Tier
+  free_edition: OSS
+  managed_tier: Standard Tier
+published: false
+note: No numeric prices shown; only tier descriptions and SLA percentages. Free tier plus OSS self-hosted
+  option alongside paid managed tiers.
+plan_count: 4
 plans:
-  - id: qdrant-free
-    name: Free Tier
-    type: freemium
-    description: Free forever; single-node 0.5 vCPU / 1 GB RAM / 4 GB disk.
-    entries:
-      - label: vCPU
-        name: vcpu
-        type: quota
-        metric: vCPU
-        limit: 1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: RAM
-        name: ram
-        type: quota
-        metric: GB
-        limit: 1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Disk
-        name: disk
-        type: quota
-        metric: GB
-        limit: 4
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Single-node cluster
-      - name: Free Cloud Inference (selected models)
-      - name: Testing/prototypes
-  - id: qdrant-standard
-    name: Standard Tier
-    type: paid
-    description: Usage-based pricing.
-    entries:
-      - label: Cluster (custom)
-        name: cluster
-        type: metered
-        metric: cluster-hour
-        limit: -1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: varies
-        userMultiplied: false
-    elements:
-      - name: Dedicated resources
-      - name: Vertical and horizontal scaling
-      - name: Highly available
-      - name: Backup & DR
-      - name: Free tokens for paid inference
-      - name: 99.5% SLA
-  - id: qdrant-premium
-    name: Premium Tier
-    type: enterprise
-    description: Minimum spend required.
-    entries:
-      - label: Annual minimum (custom)
-        name: minimum
-        type: subscription
-        metric: year
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: SSO
-      - name: Private VPC links
-      - name: 99.9% SLA
-      - name: Extra support
-  - id: qdrant-hybrid
-    name: Hybrid Cloud
-    type: enterprise
-    description: Custom pricing; runs on your infrastructure.
-    entries:
-      - label: Annual (custom)
-        name: annual
-        type: subscription
-        metric: year
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Local data residency
-      - name: Data stays in your network
-      - name: Fully managed via Qdrant Cloud
-  - id: qdrant-private
-    name: Private Cloud
-    type: enterprise
-    description: Custom pricing; dedicated isolated deployment.
-    entries:
-      - label: Annual (custom)
-        name: annual
-        type: subscription
-        metric: year
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Custom SLAs
-      - name: Full isolation
-      - name: Sensitive workloads
+- name: Free Tier
+  price_text: Free forever
+  period: none
+  included_quota: Single Node Cluster 0.5 vCPU / 1GB RAM/ 4 GB Disk. Free Cloud Inference With Selected
+    Models
+- name: Standard Tier
+  price_text: Usage-based pricing
+  period: none
+  included_quota: Dedicated Resources, 99.5% Uptime SLA
+- name: Premium Tier
+  price_text: Minimum spend required
+  period: none
+  included_quota: SSO, Private VPC Links, 99.9% Uptime SLA
+- name: Enterprise Support
+  price_text: On Request
+  period: none
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Free Tier
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Standard Tier
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Premium Tier
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Enterprise Support
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
