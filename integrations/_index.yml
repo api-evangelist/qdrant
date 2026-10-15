@@ -27,19 +27,6 @@
   relationship: distribution-channel
   status: not-a-workflow
   arazzo: null
-- slug: qdrant-datadog-own
-  label: Datadog (own)
-  partner: datadog
-  partner_name: Datadog (own)
-  category: AI/ML
-  type: marketplace
-  marketplace: own
-  channel: partner-built
-  evidence: https://github.com/DataDog/integrations-extras/tree/master/qdrant
-  source: edge
-  relationship: platform-app
-  status: not-a-workflow
-  arazzo: null
 - slug: qdrant-llamaindex
   label: LlamaIndex
   partner: llamaindex
@@ -60,5 +47,18 @@
   evidence: https://github.com/langchain-ai/langchain/tree/master/libs/partners/qdrant
   source: edge
   relationship: system-coverage
+  status: not-a-workflow
+  arazzo: null
+- slug: qdrant-datadog-own
+  label: Datadog (own)
+  partner: datadog
+  partner_name: Datadog (own)
+  category: AI/ML
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://github.com/DataDog/integrations-extras/tree/master/qdrant
+  source: edge
+  relationship: platform-app
   status: not-a-workflow
   arazzo: null
