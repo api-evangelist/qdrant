@@ -1030,115 +1030,650 @@ paths:
                     $ref: '#/components/schemas/FacetResponse'
 components:
   schemas:
-    ShardKey:
+    ModelUsage:
+      type: object
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
+    Match:
+      description: Match filter request
+      anyOf:
+      - $ref: '#/components/schemas/MatchValue'
+      - $ref: '#/components/schemas/MatchText'
+      - $ref: '#/components/schemas/MatchTextAny'
+      - $ref: '#/components/schemas/MatchPhrase'
+      - $ref: '#/components/schemas/MatchAny'
+      - $ref: '#/components/schemas/MatchExcept'
+    DeleteOperation:
+      type: object
+      required:
+      - delete
+      properties:
+        delete:
+          $ref: '#/components/schemas/PointsSelector'
+    DeletePayload:
+      description: This data structure is used in API interface and applied across multiple shards
+      type: object
+      required:
+      - keys
+      properties:
+        keys:
+          description: List of payload keys to remove from payload
+          type: array
+          items:
+            type: string
+        points:
+          description: Deletes values from each point in this list
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+        filter:
+          description: Deletes values from points that satisfy this filter condition
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+    PointsBatch:
+      type: object
+      required:
+      - batch
+      properties:
+        batch:
+          $ref: '#/components/schemas/Batch'
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+        update_filter:
+          description: Filter to apply when updating existing points. Only points matching this filter will be updated. Points that don't match will keep their current state. New points will be inserted regardless of the filter.
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        update_mode:
+          description: 'Mode of the upsert operation: insert_only, upsert (default), update_only'
+          anyOf:
+          - $ref: '#/components/schemas/UpdateMode'
+          - {}
+    MatchAny:
+      description: Exact match on any of the given values
+      type: object
+      required:
+      - any
+      properties:
+        any:
+          $ref: '#/components/schemas/AnyVariants'
+    FacetValue:
       anyOf:
       - type: string
-        example: region_1
       - type: integer
-        format: uint64
-        minimum: 0
-        example: 12
-    InferenceObject:
+        format: int64
+      - type: boolean
+    GeoPoint:
+      description: Geo point payload schema
+      type: object
+      required:
+      - lat
+      - lon
+      properties:
+        lon:
+          type: number
+          format: double
+        lat:
+          type: number
+          format: double
+    ReadConsistencyType:
+      description: '* `majority` - send N/2+1 random request and return points, which present on all of them
+
+
+        * `quorum` - send requests to all nodes and return points which present on majority of nodes
+
+
+        * `all` - send requests to all nodes and return points which present on all nodes'
+      type: string
+      enum:
+      - majority
+      - quorum
+      - all
+    UpdateResult:
+      type: object
+      required:
+      - status
+      properties:
+        operation_id:
+          description: Sequential number of the operation
+          type:
+          - integer
+          - 'null'
+          format: uint64
+          minimum: 0
+        status:
+          $ref: '#/components/schemas/UpdateStatus'
+    Vector:
+      description: Vector Data Vectors can be described directly with values Or specified with source "objects" for inference
+      anyOf:
+      - type: array
+        items:
+          type: number
+          format: float
+      - $ref: '#/components/schemas/SparseVector'
+      - type: array
+        items:
+          type: array
+          items:
+            type: number
+            format: float
+      - $ref: '#/components/schemas/Document'
+      - $ref: '#/components/schemas/Image'
+      - $ref: '#/components/schemas/InferenceObject'
+    Range:
+      description: Range filter request
+      type: object
+      properties:
+        lt:
+          description: point.key < range.lt
+          type:
+          - number
+          - 'null'
+          format: double
+        gt:
+          description: point.key > range.gt
+          type:
+          - number
+          - 'null'
+          format: double
+        gte:
+          description: point.key >= range.gte
+          type:
+          - number
+          - 'null'
+          format: double
+        lte:
+          description: point.key <= range.lte
+          type:
+          - number
+          - 'null'
+          format: double
+    DeletePayloadOperation:
+      type: object
+      required:
+      - delete_payload
+      properties:
+        delete_payload:
+          $ref: '#/components/schemas/DeletePayload'
+    FacetResponse:
+      type: object
+      required:
+      - hits
+      properties:
+        hits:
+          type: array
+          items:
+            $ref: '#/components/schemas/FacetValueHit'
+    OrderValue:
+      anyOf:
+      - type: integer
+        format: int64
+        example: 42
+      - type: number
+        format: double
+        example: 42.5
+    UpdateVectorsOperation:
+      type: object
+      required:
+      - update_vectors
+      properties:
+        update_vectors:
+          $ref: '#/components/schemas/UpdateVectors'
+    DeleteVectors:
+      type: object
+      required:
+      - vector
+      properties:
+        points:
+          description: Deletes values from each point in this list
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+        filter:
+          description: Deletes values from points that satisfy this filter condition
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        vector:
+          description: Vector names
+          type: array
+          items:
+            type: string
+          minItems: 1
+          uniqueItems: true
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+    PointIdsList:
+      type: object
+      required:
+      - points
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+    GeoBoundingBox:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the rectangle, described by coordinates of lop-left and bottom-right edges'
+      type: object
+      required:
+      - bottom_right
+      - top_left
+      properties:
+        top_left:
+          $ref: '#/components/schemas/GeoPoint'
+        bottom_right:
+          $ref: '#/components/schemas/GeoPoint'
+    Snowball:
+      type: string
+      enum:
+      - snowball
+    ShardKeySelector:
+      anyOf:
+      - $ref: '#/components/schemas/ShardKey'
+      - type: array
+        items:
+          $ref: '#/components/schemas/ShardKey'
+      - $ref: '#/components/schemas/ShardKeyWithFallback'
+    Document:
       description: 'WARN: Work-in-progress, unimplemented
 
 
-        Custom object for embedding. Requires inference infrastructure, unimplemented.'
+        Text document for embedding. Requires inference infrastructure, unimplemented.'
       type: object
       required:
       - model
-      - object
+      - text
       properties:
-        object:
-          description: Arbitrary data, used as input for the embedding model. Used if the model requires more than one input or a custom input.
+        text:
+          description: Text of the document. This field will be used as input for the embedding model.
+          type: string
+          example: This is a document text
         model:
           description: Name of the model used to generate the vector. List of available models depends on a provider.
           type: string
           minLength: 1
           example: jinaai/jina-embeddings-v2-base-en
         options:
-          description: Parameters for the model Values of the parameters are model-specific
-          type:
-          - object
-          - 'null'
-          additionalProperties: true
-    Direction:
-      type: string
-      enum:
-      - asc
-      - desc
-    FacetRequest:
+          description: Additional options for the model, will be passed to the inference service as-is. See model cards for available options.
+          anyOf:
+          - $ref: '#/components/schemas/DocumentOptions'
+          - {}
+    ValuesCount:
+      description: Values count filter request
       type: object
-      required:
-      - key
+      properties:
+        lt:
+          description: point.key.length() < values_count.lt
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        gt:
+          description: point.key.length() > values_count.gt
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        gte:
+          description: point.key.length() >= values_count.gte
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+        lte:
+          description: point.key.length() <= values_count.lte
+          type:
+          - integer
+          - 'null'
+          format: uint
+          minimum: 0
+    ScrollRequest:
+      description: Scroll request - paginate over all points which matches given condition
+      type: object
       properties:
         shard_key:
+          description: Specify in which shards to look for the points, if not specified - look in all shards
           anyOf:
           - $ref: '#/components/schemas/ShardKeySelector'
           - {}
-        key:
-          description: Payload key to use for faceting.
-          type: string
+        offset:
+          description: Start ID to read points from.
+          anyOf:
+          - $ref: '#/components/schemas/ExtendedPointId'
+          - {}
         limit:
-          description: Max number of hits to return. Default is 10.
+          description: 'Page size. Default: 10'
           type:
           - integer
           - 'null'
           format: uint
           minimum: 1
         filter:
-          description: Filter conditions - only consider points that satisfy these conditions.
+          description: Look only for points which satisfies this conditions. If not provided - all points.
           anyOf:
           - $ref: '#/components/schemas/Filter'
           - {}
-        exact:
-          description: Whether to do a more expensive exact count for each of the values in the facet. Default is false.
+        with_payload:
+          description: Select which payload to return with the response. Default is true.
+          anyOf:
+          - $ref: '#/components/schemas/WithPayloadInterface'
+          - {}
+        with_vector:
+          $ref: '#/components/schemas/WithVector'
+        order_by:
+          description: Order the records by a payload field.
+          anyOf:
+          - $ref: '#/components/schemas/OrderByInterface'
+          - {}
+    ErrorResponse:
+      type: object
+      properties:
+        time:
+          type: number
+          format: float
+          description: Time spent to process this request
+        status:
+          type: object
+          properties:
+            error:
+              type: string
+              description: Description of the occurred error.
+        result:
+          type:
+          - object
+          - 'null'
+    FacetValueHit:
+      type: object
+      required:
+      - count
+      - value
+      properties:
+        value:
+          $ref: '#/components/schemas/FacetValue'
+        count:
+          type: integer
+          format: uint
+          minimum: 0
+    DatetimeRange:
+      description: Range filter request
+      type: object
+      properties:
+        lt:
+          description: point.key < range.lt
+          type:
+          - string
+          - 'null'
+          format: date-time
+        gt:
+          description: point.key > range.gt
+          type:
+          - string
+          - 'null'
+          format: date-time
+        gte:
+          description: point.key >= range.gte
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lte:
+          description: point.key <= range.lte
+          type:
+          - string
+          - 'null'
+          format: date-time
+    FieldCondition:
+      description: All possible payload filtering conditions
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          description: Payload key
+          type: string
+        match:
+          description: Check if point has field with a given value
+          anyOf:
+          - $ref: '#/components/schemas/Match'
+          - {}
+        range:
+          description: Check if points value lies in a given range
+          anyOf:
+          - $ref: '#/components/schemas/RangeInterface'
+          - {}
+        geo_bounding_box:
+          description: Check if points geolocation lies in a given area
+          anyOf:
+          - $ref: '#/components/schemas/GeoBoundingBox'
+          - {}
+        geo_radius:
+          description: Check if geo point is within a given radius
+          anyOf:
+          - $ref: '#/components/schemas/GeoRadius'
+          - {}
+        geo_polygon:
+          description: Check if geo point is within a given polygon
+          anyOf:
+          - $ref: '#/components/schemas/GeoPolygon'
+          - {}
+        values_count:
+          description: Check number of values of the field
+          anyOf:
+          - $ref: '#/components/schemas/ValuesCount'
+          - {}
+        is_empty:
+          description: 'Check that the field is empty, alternative syntax for `is_empty: "field_name"`'
           type:
           - boolean
           - 'null'
-    PointVectors:
+        is_null:
+          description: 'Check that the field is null, alternative syntax for `is_null: "field_name"`'
+          type:
+          - boolean
+          - 'null'
+    StemmingAlgorithm:
+      description: Different stemming algorithms with their configs.
+      anyOf:
+      - $ref: '#/components/schemas/SnowballParams'
+    PayloadSelector:
+      description: Specifies how to treat payload selector
+      anyOf:
+      - $ref: '#/components/schemas/PayloadSelectorInclude'
+      - $ref: '#/components/schemas/PayloadSelectorExclude'
+    MatchTextAny:
+      description: Full-text match of at least one token of the string.
+      type: object
+      required:
+      - text_any
+      properties:
+        text_any:
+          type: string
+    Batch:
+      type: object
+      required:
+      - ids
+      - vectors
+      properties:
+        ids:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+        vectors:
+          $ref: '#/components/schemas/BatchVectorStruct'
+        payloads:
+          type:
+          - array
+          - 'null'
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/Payload'
+            - {}
+    MatchText:
+      description: Full-text match of the strings.
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+    IsEmptyCondition:
+      description: Select points with empty payload for a specified field
+      type: object
+      required:
+      - is_empty
+      properties:
+        is_empty:
+          $ref: '#/components/schemas/PayloadField'
+    GeoLineString:
+      description: Ordered sequence of GeoPoints representing the line
+      type: object
+      required:
+      - points
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/GeoPoint'
+    Record:
+      description: Point data
       type: object
       required:
       - id
-      - vector
       properties:
         id:
           $ref: '#/components/schemas/ExtendedPointId'
+        payload:
+          description: Payload - values assigned to the point
+          anyOf:
+          - $ref: '#/components/schemas/Payload'
+          - {}
         vector:
-          $ref: '#/components/schemas/VectorStruct'
-    HasVectorCondition:
-      description: Filter points which have specific vector assigned
+          description: Vector of the point
+          anyOf:
+          - $ref: '#/components/schemas/VectorStructOutput'
+          - {}
+        shard_key:
+          description: Shard Key
+          anyOf:
+          - $ref: '#/components/schemas/ShardKey'
+          - {}
+        order_value:
+          anyOf:
+          - $ref: '#/components/schemas/OrderValue'
+          - {}
+    OverwritePayloadOperation:
       type: object
       required:
-      - has_vector
+      - overwrite_payload
       properties:
-        has_vector:
-          type: string
-    NestedCondition:
+        overwrite_payload:
+          $ref: '#/components/schemas/SetPayload'
+    SetPayload:
+      description: This data structure is used in API interface and applied across multiple shards
       type: object
       required:
-      - nested
+      - payload
       properties:
-        nested:
-          $ref: '#/components/schemas/Nested'
-    StopwordsSet:
-      type: object
-      properties:
-        languages:
-          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
+        payload:
+          $ref: '#/components/schemas/Payload'
+        points:
+          description: Assigns payload to each point in this list
           type:
           - array
           - 'null'
           items:
-            $ref: '#/components/schemas/Language'
-          uniqueItems: true
-        custom:
-          description: Custom stopwords set. Will be merged with the languages set.
+            $ref: '#/components/schemas/ExtendedPointId'
+        filter:
+          description: Assigns payload to each point that satisfy this filter condition
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+        key:
+          description: Assigns payload to each point that satisfy this path of property
           type:
-          - array
+          - string
           - 'null'
+    PointRequest:
+      type: object
+      required:
+      - ids
+      properties:
+        shard_key:
+          description: Specify in which shards to look for the points, if not specified - look in all shards
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+        ids:
+          description: Look for points with ids
+          type: array
           items:
-            type: string
-          uniqueItems: true
+            $ref: '#/components/schemas/ExtendedPointId'
+        with_payload:
+          description: Select which payload to return with the response. Default is true.
+          anyOf:
+          - $ref: '#/components/schemas/WithPayloadInterface'
+          - {}
+        with_vector:
+          $ref: '#/components/schemas/WithVector'
+    PointsSelector:
+      anyOf:
+      - $ref: '#/components/schemas/PointIdsList'
+      - $ref: '#/components/schemas/FilterSelector'
+    SnowballLanguage:
+      description: Languages supported by snowball stemmer.
+      type: string
+      enum:
+      - arabic
+      - armenian
+      - danish
+      - dutch
+      - english
+      - finnish
+      - french
+      - german
+      - greek
+      - hungarian
+      - italian
+      - norwegian
+      - portuguese
+      - romanian
+      - russian
+      - spanish
+      - swedish
+      - tamil
+      - turkish
     Bm25Config:
       description: Configuration of the local bm25 models.
       type: object
@@ -1199,147 +1734,46 @@ components:
           - 'null'
           format: uint
           minimum: 0
-    Payload:
-      type: object
-      additionalProperties: true
-      example:
-        city: London
-        color: green
-    BatchVectorStruct:
-      anyOf:
-      - type: array
-        items:
-          type: array
-          items:
-            type: number
-            format: float
-      - type: array
-        items:
-          type: array
-          items:
-            type: array
-            items:
-              type: number
-              format: float
-      - type: object
-        additionalProperties:
-          type: array
-          items:
-            $ref: '#/components/schemas/Vector'
-      - type: array
-        items:
-          $ref: '#/components/schemas/Document'
-      - type: array
-        items:
-          $ref: '#/components/schemas/Image'
-      - type: array
-        items:
-          $ref: '#/components/schemas/InferenceObject'
-    DeleteVectors:
+    IsNullCondition:
+      description: Select points with null payload for a specified field
       type: object
       required:
-      - vector
+      - is_null
       properties:
-        points:
-          description: Deletes values from each point in this list
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-        filter:
-          description: Deletes values from points that satisfy this filter condition
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        vector:
-          description: Vector names
-          type: array
-          items:
-            type: string
-          minItems: 1
-          uniqueItems: true
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-    GeoPoint:
-      description: Geo point payload schema
+        is_null:
+          $ref: '#/components/schemas/PayloadField'
+    PayloadField:
+      description: Payload field
       type: object
       required:
-      - lat
-      - lon
+      - key
       properties:
-        lon:
-          type: number
-          format: double
-        lat:
-          type: number
-          format: double
-    Filter:
-      type: object
-      properties:
-        should:
-          description: At least one of those conditions should match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-        min_should:
-          description: At least minimum amount of given conditions should match
-          anyOf:
-          - $ref: '#/components/schemas/MinShould'
-          - {}
-        must:
-          description: All conditions must match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-        must_not:
-          description: All conditions must NOT match
-          anyOf:
-          - $ref: '#/components/schemas/Condition'
-          - type: array
-            items:
-              $ref: '#/components/schemas/Condition'
-          - {}
-      additionalProperties: false
-    RangeInterface:
-      anyOf:
-      - $ref: '#/components/schemas/Range'
-      - $ref: '#/components/schemas/DatetimeRange'
-    ModelUsage:
-      type: object
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: integer
-          format: uint64
-          minimum: 0
-    UpdateOperation:
-      anyOf:
-      - $ref: '#/components/schemas/UpsertOperation'
-      - $ref: '#/components/schemas/DeleteOperation'
-      - $ref: '#/components/schemas/SetPayloadOperation'
-      - $ref: '#/components/schemas/OverwritePayloadOperation'
-      - $ref: '#/components/schemas/DeletePayloadOperation'
-      - $ref: '#/components/schemas/ClearPayloadOperation'
-      - $ref: '#/components/schemas/UpdateVectorsOperation'
-      - $ref: '#/components/schemas/DeleteVectorsOperation'
-    MatchText:
-      description: Full-text match of the strings.
-      type: object
-      required:
-      - text
-      properties:
-        text:
+        key:
+          description: Payload field name
           type: string
+    InferenceObject:
+      description: 'WARN: Work-in-progress, unimplemented
+
+
+        Custom object for embedding. Requires inference infrastructure, unimplemented.'
+      type: object
+      required:
+      - model
+      - object
+      properties:
+        object:
+          description: Arbitrary data, used as input for the embedding model. Used if the model requires more than one input or a custom input.
+        model:
+          description: Name of the model used to generate the vector. List of available models depends on a provider.
+          type: string
+          minLength: 1
+          example: jinaai/jina-embeddings-v2-base-en
+        options:
+          description: Parameters for the model Values of the parameters are model-specific
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
     VectorStruct:
       description: Full vector data per point separator with single and multiple vector modes
       anyOf:
@@ -1378,375 +1812,21 @@ components:
       - $ref: '#/components/schemas/Document'
       - $ref: '#/components/schemas/Image'
       - $ref: '#/components/schemas/InferenceObject'
-    GeoRadius:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the circle of `radius` and center with coordinates `center`'
+    MatchValue:
+      description: Exact match of the given value
       type: object
       required:
-      - center
-      - radius
+      - value
       properties:
-        center:
-          $ref: '#/components/schemas/GeoPoint'
-        radius:
-          description: Radius of the area in meters
-          type: number
-          format: double
-    VectorOutput:
-      description: Vector Data stored in Point
-      anyOf:
-      - type: array
-        items:
-          type: number
-          format: float
-      - $ref: '#/components/schemas/SparseVector'
-      - type: array
-        items:
-          type: array
-          items:
-            type: number
-            format: float
-    SetPayload:
-      description: This data structure is used in API interface and applied across multiple shards
+        value:
+          $ref: '#/components/schemas/ValueVariants'
+    DeleteVectorsOperation:
       type: object
       required:
-      - payload
+      - delete_vectors
       properties:
-        payload:
-          $ref: '#/components/schemas/Payload'
-        points:
-          description: Assigns payload to each point in this list
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-        filter:
-          description: Assigns payload to each point that satisfy this filter condition
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-        key:
-          description: Assigns payload to each point that satisfy this path of property
-          type:
-          - string
-          - 'null'
-    DatetimeRange:
-      description: Range filter request
-      type: object
-      properties:
-        lt:
-          description: point.key < range.lt
-          type:
-          - string
-          - 'null'
-          format: date-time
-        gt:
-          description: point.key > range.gt
-          type:
-          - string
-          - 'null'
-          format: date-time
-        gte:
-          description: point.key >= range.gte
-          type:
-          - string
-          - 'null'
-          format: date-time
-        lte:
-          description: point.key <= range.lte
-          type:
-          - string
-          - 'null'
-          format: date-time
-    IsNullCondition:
-      description: Select points with null payload for a specified field
-      type: object
-      required:
-      - is_null
-      properties:
-        is_null:
-          $ref: '#/components/schemas/PayloadField'
-    UpdateVectors:
-      type: object
-      required:
-      - points
-      properties:
-        points:
-          description: Points with named vectors
-          type: array
-          items:
-            $ref: '#/components/schemas/PointVectors'
-          minItems: 1
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-        update_filter:
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-    PayloadSelectorExclude:
-      type: object
-      required:
-      - exclude
-      properties:
-        exclude:
-          description: Exclude this fields from returning payload
-          type: array
-          items:
-            type: string
-      additionalProperties: false
-    FilterSelector:
-      type: object
-      required:
-      - filter
-      properties:
-        filter:
-          $ref: '#/components/schemas/Filter'
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-    MinShould:
-      type: object
-      required:
-      - conditions
-      - min_count
-      properties:
-        conditions:
-          type: array
-          items:
-            $ref: '#/components/schemas/Condition'
-        min_count:
-          type: integer
-          format: uint
-          minimum: 0
-    PayloadSelectorInclude:
-      type: object
-      required:
-      - include
-      properties:
-        include:
-          description: Only include this payload keys
-          type: array
-          items:
-            type: string
-      additionalProperties: false
-    HasIdCondition:
-      description: ID-based filtering condition
-      type: object
-      required:
-      - has_id
-      properties:
-        has_id:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-          uniqueItems: true
-    WriteOrdering:
-      description: 'Defines write ordering guarantees for collection operations
-
-
-        * `weak` - write operations may be reordered, works faster, default
-
-
-        * `medium` - write operations go through dynamically selected leader, may be inconsistent for a short period of time in case of leader change
-
-
-        * `strong` - Write operations go through the permanent leader, consistent, but may be unavailable if leader is down'
-      type: string
-      enum:
-      - weak
-      - medium
-      - strong
-    MatchExcept:
-      description: Should have at least one value not matching the any given values
-      type: object
-      required:
-      - except
-      properties:
-        except:
-          $ref: '#/components/schemas/AnyVariants'
-    DeletePayload:
-      description: This data structure is used in API interface and applied across multiple shards
-      type: object
-      required:
-      - keys
-      properties:
-        keys:
-          description: List of payload keys to remove from payload
-          type: array
-          items:
-            type: string
-        points:
-          description: Deletes values from each point in this list
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-        filter:
-          description: Deletes values from points that satisfy this filter condition
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-    OrderBy:
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          description: Payload key to order by
-          type: string
-        direction:
-          description: 'Direction of ordering: `asc` or `desc`. Default is ascending.'
-          anyOf:
-          - $ref: '#/components/schemas/Direction'
-          - {}
-        start_from:
-          description: Which payload value to start scrolling from. Default is the lowest value for `asc` and the highest for `desc`
-          anyOf:
-          - $ref: '#/components/schemas/StartFrom'
-          - {}
-    IsEmptyCondition:
-      description: Select points with empty payload for a specified field
-      type: object
-      required:
-      - is_empty
-      properties:
-        is_empty:
-          $ref: '#/components/schemas/PayloadField'
-    CountRequest:
-      description: Count Request Counts the number of points which satisfy the given filter. If filter is not provided, the count of all points in the collection will be returned.
-      type: object
-      properties:
-        shard_key:
-          description: Specify in which shards to look for the points, if not specified - look in all shards
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-        filter:
-          description: Look only for points which satisfies this conditions
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        exact:
-          description: 'If true, count exact number of points. If false, count approximate number of points faster. Approximate count might be unreliable during the indexing process. Default: true'
-          default: true
-          type: boolean
-    WithVector:
-      description: Options for specifying which vector to include
-      anyOf:
-      - description: If `true` - return all vector, If `false` - do not return vector
-        type: boolean
-      - description: Specify which vector to return
-        type: array
-        items:
-          type: string
-    PointsSelector:
-      anyOf:
-      - $ref: '#/components/schemas/PointIdsList'
-      - $ref: '#/components/schemas/FilterSelector'
-    MatchTextAny:
-      description: Full-text match of at least one token of the string.
-      type: object
-      required:
-      - text_any
-      properties:
-        text_any:
-          type: string
-    GeoBoundingBox:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the rectangle, described by coordinates of lop-left and bottom-right edges'
-      type: object
-      required:
-      - bottom_right
-      - top_left
-      properties:
-        top_left:
-          $ref: '#/components/schemas/GeoPoint'
-        bottom_right:
-          $ref: '#/components/schemas/GeoPoint'
-    Document:
-      description: 'WARN: Work-in-progress, unimplemented
-
-
-        Text document for embedding. Requires inference infrastructure, unimplemented.'
-      type: object
-      required:
-      - model
-      - text
-      properties:
-        text:
-          description: Text of the document. This field will be used as input for the embedding model.
-          type: string
-          example: This is a document text
-        model:
-          description: Name of the model used to generate the vector. List of available models depends on a provider.
-          type: string
-          minLength: 1
-          example: jinaai/jina-embeddings-v2-base-en
-        options:
-          description: Additional options for the model, will be passed to the inference service as-is. See model cards for available options.
-          anyOf:
-          - $ref: '#/components/schemas/DocumentOptions'
-          - {}
-    ReadConsistencyType:
-      description: '* `majority` - send N/2+1 random request and return points, which present on all of them
-
-
-        * `quorum` - send requests to all nodes and return points which present on majority of nodes
-
-
-        * `all` - send requests to all nodes and return points which present on all nodes'
-      type: string
-      enum:
-      - majority
-      - quorum
-      - all
-    UpdateMode:
-      description: 'Defines the mode of the upsert operation
-
-
-        * `upsert` - default mode, insert new points, update existing points * `insert_only` - only insert new points, do not update existing points * `update_only` - only update existing points, do not insert new points'
-      type: string
-      enum:
-      - upsert
-      - insert_only
-      - update_only
-    OrderValue:
-      anyOf:
-      - type: integer
-        format: int64
-        example: 42
-      - type: number
-        format: double
-        example: 42.5
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
+        delete_vectors:
+          $ref: '#/components/schemas/DeleteVectors'
     ReadConsistency:
       description: 'Read consistency parameter
 
@@ -1772,292 +1852,54 @@ components:
         format: uint
         minimum: 0
       - $ref: '#/components/schemas/ReadConsistencyType'
-    ValueVariants:
-      anyOf:
-      - type: string
-      - type: integer
-        format: int64
-      - type: boolean
-    UpdateVectorsOperation:
-      type: object
-      required:
-      - update_vectors
-      properties:
-        update_vectors:
-          $ref: '#/components/schemas/UpdateVectors'
-    VectorStructOutput:
-      description: Vector data stored in Point
-      anyOf:
-      - type: array
-        items:
-          type: number
-          format: float
-        example:
-        - 0.875
-        - 0.140625
-        - 0.897599995136261
-      - type: array
-        items:
-          type: array
-          items:
-            type: number
-            format: float
-        example:
-        - - 0.875
-          - 0.140625
-          - 0.11020000278949738
-        - - 0.7580000162124634
-          - 0.28126001358032227
-          - 0.9687100052833557
-        - - 0.6209999918937683
-          - 0.42187801003456116
-          - 0.9375
-      - type: object
-        additionalProperties:
-          $ref: '#/components/schemas/VectorOutput'
-        example:
-          image-embeddings:
-          - 0.8730000257492065
-          - 0.140625
-          - 0.897599995136261
-    MatchValue:
-      description: Exact match of the given value
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          $ref: '#/components/schemas/ValueVariants'
-    UpdateResult:
-      type: object
-      required:
-      - status
-      properties:
-        operation_id:
-          description: Sequential number of the operation
-          type:
-          - integer
-          - 'null'
-          format: uint64
-          minimum: 0
-        status:
-          $ref: '#/components/schemas/UpdateStatus'
-    DocumentOptions:
-      description: Option variants for text documents. Ether general-purpose options or BM25-specific options. BM25-specific will only take effect if the `qdrant/bm25` is specified as a model.
-      anyOf:
-      - type: object
-        additionalProperties: true
-      - $ref: '#/components/schemas/Bm25Config'
-    Match:
-      description: Match filter request
-      anyOf:
-      - $ref: '#/components/schemas/MatchValue'
-      - $ref: '#/components/schemas/MatchText'
-      - $ref: '#/components/schemas/MatchTextAny'
-      - $ref: '#/components/schemas/MatchPhrase'
-      - $ref: '#/components/schemas/MatchAny'
-      - $ref: '#/components/schemas/MatchExcept'
-    PointIdsList:
+    UpdateVectors:
       type: object
       required:
       - points
       properties:
         points:
+          description: Points with named vectors
           type: array
           items:
-            $ref: '#/components/schemas/ExtendedPointId'
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-    ExtendedPointId:
-      description: Type, used for specifying point ID in user interface
-      anyOf:
-      - type: integer
-        format: uint64
-        minimum: 0
-        example: 42
-      - type: string
-        format: uuid
-        example: 550e8400-e29b-41d4-a716-446655440000
-    Snowball:
-      type: string
-      enum:
-      - snowball
-    OrderByInterface:
-      anyOf:
-      - type: string
-      - $ref: '#/components/schemas/OrderBy'
-    StartFrom:
-      anyOf:
-      - type: integer
-        format: int64
-      - type: number
-        format: double
-      - type: string
-        format: date-time
-    CountResult:
-      type: object
-      required:
-      - count
-      properties:
-        count:
-          description: Number of points which satisfy the conditions
-          type: integer
-          format: uint
-          minimum: 0
-    AnyVariants:
-      anyOf:
-      - type: array
-        items:
-          type: string
-        uniqueItems: true
-      - type: array
-        items:
-          type: integer
-          format: int64
-        uniqueItems: true
-    Condition:
-      anyOf:
-      - $ref: '#/components/schemas/FieldCondition'
-      - $ref: '#/components/schemas/IsEmptyCondition'
-      - $ref: '#/components/schemas/IsNullCondition'
-      - $ref: '#/components/schemas/HasIdCondition'
-      - $ref: '#/components/schemas/HasVectorCondition'
-      - $ref: '#/components/schemas/NestedCondition'
-      - $ref: '#/components/schemas/Filter'
-    StemmingAlgorithm:
-      description: Different stemming algorithms with their configs.
-      anyOf:
-      - $ref: '#/components/schemas/SnowballParams'
-    ValuesCount:
-      description: Values count filter request
-      type: object
-      properties:
-        lt:
-          description: point.key.length() < values_count.lt
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        gt:
-          description: point.key.length() > values_count.gt
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        gte:
-          description: point.key.length() >= values_count.gte
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-        lte:
-          description: point.key.length() <= values_count.lte
-          type:
-          - integer
-          - 'null'
-          format: uint
-          minimum: 0
-    MatchAny:
-      description: Exact match on any of the given values
-      type: object
-      required:
-      - any
-      properties:
-        any:
-          $ref: '#/components/schemas/AnyVariants'
-    PointsList:
-      type: object
-      required:
-      - points
-      properties:
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/PointStruct'
+            $ref: '#/components/schemas/PointVectors'
+          minItems: 1
         shard_key:
           anyOf:
           - $ref: '#/components/schemas/ShardKeySelector'
           - {}
         update_filter:
-          description: Filter to apply when updating existing points. Only points matching this filter will be updated. Points that don't match will keep their current state. New points will be inserted regardless of the filter.
           anyOf:
           - $ref: '#/components/schemas/Filter'
           - {}
-        update_mode:
-          description: 'Mode of the upsert operation: insert_only, upsert (default), update_only'
-          anyOf:
-          - $ref: '#/components/schemas/UpdateMode'
-          - {}
-    Record:
-      description: Point data
+    FacetRequest:
       type: object
       required:
-      - id
-      properties:
-        id:
-          $ref: '#/components/schemas/ExtendedPointId'
-        payload:
-          description: Payload - values assigned to the point
-          anyOf:
-          - $ref: '#/components/schemas/Payload'
-          - {}
-        vector:
-          description: Vector of the point
-          anyOf:
-          - $ref: '#/components/schemas/VectorStructOutput'
-          - {}
-        shard_key:
-          description: Shard Key
-          anyOf:
-          - $ref: '#/components/schemas/ShardKey'
-          - {}
-        order_value:
-          anyOf:
-          - $ref: '#/components/schemas/OrderValue'
-          - {}
-    ScrollRequest:
-      description: Scroll request - paginate over all points which matches given condition
-      type: object
+      - key
       properties:
         shard_key:
-          description: Specify in which shards to look for the points, if not specified - look in all shards
           anyOf:
           - $ref: '#/components/schemas/ShardKeySelector'
           - {}
-        offset:
-          description: Start ID to read points from.
-          anyOf:
-          - $ref: '#/components/schemas/ExtendedPointId'
-          - {}
+        key:
+          description: Payload key to use for faceting.
+          type: string
         limit:
-          description: 'Page size. Default: 10'
+          description: Max number of hits to return. Default is 10.
           type:
           - integer
           - 'null'
           format: uint
           minimum: 1
         filter:
-          description: Look only for points which satisfies this conditions. If not provided - all points.
+          description: Filter conditions - only consider points that satisfy these conditions.
           anyOf:
           - $ref: '#/components/schemas/Filter'
           - {}
-        with_payload:
-          description: Select which payload to return with the response. Default is true.
-          anyOf:
-          - $ref: '#/components/schemas/WithPayloadInterface'
-          - {}
-        with_vector:
-          $ref: '#/components/schemas/WithVector'
-        order_by:
-          description: Order the records by a payload field.
-          anyOf:
-          - $ref: '#/components/schemas/OrderByInterface'
-          - {}
+        exact:
+          description: Whether to do a more expensive exact count for each of the values in the facet. Default is false.
+          type:
+          - boolean
+          - 'null'
     Language:
       type: string
       enum:
@@ -2091,93 +1933,51 @@ components:
       - swedish
       - tajik
       - turkish
-    DeletePayloadOperation:
-      type: object
-      required:
-      - delete_payload
-      properties:
-        delete_payload:
-          $ref: '#/components/schemas/DeletePayload'
+    RangeInterface:
+      anyOf:
+      - $ref: '#/components/schemas/Range'
+      - $ref: '#/components/schemas/DatetimeRange'
     PointInsertOperations:
       anyOf:
       - $ref: '#/components/schemas/PointsBatch'
       - $ref: '#/components/schemas/PointsList'
-    SparseVector:
-      description: Sparse vector structure
+    TokenizerType:
+      type: string
+      enum:
+      - prefix
+      - whitespace
+      - word
+      - multilingual
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
       type: object
-      required:
-      - indices
-      - values
       properties:
-        indices:
-          description: Indices must be unique
-          type: array
-          items:
-            type: integer
-            format: uint32
-            minimum: 0
-        values:
-          description: Values and indices must be the same length
-          type: array
-          items:
-            type: number
-            format: float
-    OverwritePayloadOperation:
-      type: object
-      required:
-      - overwrite_payload
-      properties:
-        overwrite_payload:
-          $ref: '#/components/schemas/SetPayload'
-    FieldCondition:
-      description: All possible payload filtering conditions
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          description: Payload key
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
+    AnyVariants:
+      anyOf:
+      - type: array
+        items:
           type: string
-        match:
-          description: Check if point has field with a given value
-          anyOf:
-          - $ref: '#/components/schemas/Match'
-          - {}
-        range:
-          description: Check if points value lies in a given range
-          anyOf:
-          - $ref: '#/components/schemas/RangeInterface'
-          - {}
-        geo_bounding_box:
-          description: Check if points geolocation lies in a given area
-          anyOf:
-          - $ref: '#/components/schemas/GeoBoundingBox'
-          - {}
-        geo_radius:
-          description: Check if geo point is within a given radius
-          anyOf:
-          - $ref: '#/components/schemas/GeoRadius'
-          - {}
-        geo_polygon:
-          description: Check if geo point is within a given polygon
-          anyOf:
-          - $ref: '#/components/schemas/GeoPolygon'
-          - {}
-        values_count:
-          description: Check number of values of the field
-          anyOf:
-          - $ref: '#/components/schemas/ValuesCount'
-          - {}
-        is_empty:
-          description: 'Check that the field is empty, alternative syntax for `is_empty: "field_name"`'
-          type:
-          - boolean
-          - 'null'
-        is_null:
-          description: 'Check that the field is null, alternative syntax for `is_null: "field_name"`'
-          type:
-          - boolean
-          - 'null'
+        uniqueItems: true
+      - type: array
+        items:
+          type: integer
+          format: int64
+        uniqueItems: true
+    NestedCondition:
+      type: object
+      required:
+      - nested
+      properties:
+        nested:
+          $ref: '#/components/schemas/Nested'
     ScrollResult:
       description: Result of the points read request
       type: object
@@ -2213,28 +2013,99 @@ components:
           anyOf:
           - $ref: '#/components/schemas/ExtendedPointId'
           - {}
-    PointRequest:
+    Condition:
+      anyOf:
+      - $ref: '#/components/schemas/FieldCondition'
+      - $ref: '#/components/schemas/IsEmptyCondition'
+      - $ref: '#/components/schemas/IsNullCondition'
+      - $ref: '#/components/schemas/HasIdCondition'
+      - $ref: '#/components/schemas/HasVectorCondition'
+      - $ref: '#/components/schemas/NestedCondition'
+      - $ref: '#/components/schemas/Filter'
+    WithVector:
+      description: Options for specifying which vector to include
+      anyOf:
+      - description: If `true` - return all vector, If `false` - do not return vector
+        type: boolean
+      - description: Specify which vector to return
+        type: array
+        items:
+          type: string
+    OrderByInterface:
+      anyOf:
+      - type: string
+      - $ref: '#/components/schemas/OrderBy'
+    UpdateOperations:
       type: object
       required:
-      - ids
+      - operations
       properties:
+        operations:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpdateOperation'
+    UpsertOperation:
+      type: object
+      required:
+      - upsert
+      properties:
+        upsert:
+          $ref: '#/components/schemas/PointInsertOperations'
+    CountResult:
+      type: object
+      required:
+      - count
+      properties:
+        count:
+          description: Number of points which satisfy the conditions
+          type: integer
+          format: uint
+          minimum: 0
+    Payload:
+      type: object
+      additionalProperties: true
+      example:
+        city: London
+        color: green
+    PointsList:
+      type: object
+      required:
+      - points
+      properties:
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/PointStruct'
         shard_key:
-          description: Specify in which shards to look for the points, if not specified - look in all shards
           anyOf:
           - $ref: '#/components/schemas/ShardKeySelector'
           - {}
-        ids:
-          description: Look for points with ids
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtendedPointId'
-        with_payload:
-          description: Select which payload to return with the response. Default is true.
+        update_filter:
+          description: Filter to apply when updating existing points. Only points matching this filter will be updated. Points that don't match will keep their current state. New points will be inserted regardless of the filter.
           anyOf:
-          - $ref: '#/components/schemas/WithPayloadInterface'
+          - $ref: '#/components/schemas/Filter'
           - {}
-        with_vector:
-          $ref: '#/components/schemas/WithVector'
+        update_mode:
+          description: 'Mode of the upsert operation: insert_only, upsert (default), update_only'
+          anyOf:
+          - $ref: '#/components/schemas/UpdateMode'
+          - {}
+    GeoRadius:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the circle of `radius` and center with coordinates `center`'
+      type: object
+      required:
+      - center
+      - radius
+      properties:
+        center:
+          $ref: '#/components/schemas/GeoPoint'
+        radius:
+          description: Radius of the area in meters
+          type: number
+          format: double
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -2275,40 +2146,96 @@ components:
           type: integer
           format: uint
           minimum: 0
-    PointsBatch:
+    PointVectors:
       type: object
       required:
-      - batch
+      - id
+      - vector
       properties:
-        batch:
-          $ref: '#/components/schemas/Batch'
-        shard_key:
-          anyOf:
-          - $ref: '#/components/schemas/ShardKeySelector'
-          - {}
-        update_filter:
-          description: Filter to apply when updating existing points. Only points matching this filter will be updated. Points that don't match will keep their current state. New points will be inserted regardless of the filter.
-          anyOf:
-          - $ref: '#/components/schemas/Filter'
-          - {}
-        update_mode:
-          description: 'Mode of the upsert operation: insert_only, upsert (default), update_only'
-          anyOf:
-          - $ref: '#/components/schemas/UpdateMode'
-          - {}
-    StopwordsInterface:
+        id:
+          $ref: '#/components/schemas/ExtendedPointId'
+        vector:
+          $ref: '#/components/schemas/VectorStruct'
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
+    BatchVectorStruct:
       anyOf:
-      - $ref: '#/components/schemas/Language'
-      - $ref: '#/components/schemas/StopwordsSet'
-    FacetResponse:
-      type: object
-      required:
-      - hits
-      properties:
-        hits:
+      - type: array
+        items:
           type: array
           items:
-            $ref: '#/components/schemas/FacetValueHit'
+            type: number
+            format: float
+      - type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              format: float
+      - type: object
+        additionalProperties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vector'
+      - type: array
+        items:
+          $ref: '#/components/schemas/Document'
+      - type: array
+        items:
+          $ref: '#/components/schemas/Image'
+      - type: array
+        items:
+          $ref: '#/components/schemas/InferenceObject'
+    Filter:
+      type: object
+      properties:
+        should:
+          description: At least one of those conditions should match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+        min_should:
+          description: At least minimum amount of given conditions should match
+          anyOf:
+          - $ref: '#/components/schemas/MinShould'
+          - {}
+        must:
+          description: All conditions must match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+        must_not:
+          description: All conditions must NOT match
+          anyOf:
+          - $ref: '#/components/schemas/Condition'
+          - type: array
+            items:
+              $ref: '#/components/schemas/Condition'
+          - {}
+      additionalProperties: false
+    MatchPhrase:
+      description: Full-text phrase match of the string.
+      type: object
+      required:
+      - phrase
+      properties:
+        phrase:
+          type: string
     ClearPayloadOperation:
       type: object
       required:
@@ -2316,33 +2243,121 @@ components:
       properties:
         clear_payload:
           $ref: '#/components/schemas/PointsSelector'
-    Batch:
+    CountRequest:
+      description: Count Request Counts the number of points which satisfy the given filter. If filter is not provided, the count of all points in the collection will be returned.
+      type: object
+      properties:
+        shard_key:
+          description: Specify in which shards to look for the points, if not specified - look in all shards
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+        filter:
+          description: Look only for points which satisfies this conditions
+          anyOf:
+          - $ref: '#/components/schemas/Filter'
+          - {}
+        exact:
+          description: 'If true, count exact number of points. If false, count approximate number of points faster. Approximate count might be unreliable during the indexing process. Default: true'
+          default: true
+          type: boolean
+    UpdateStatus:
+      description: '`Acknowledged` - Request is saved to WAL and will be process in a queue. `Completed` - Request is completed, changes are actual. `WaitTimeout` - Request is waiting for timeout.'
+      type: string
+      enum:
+      - acknowledged
+      - completed
+      - wait_timeout
+    PayloadSelectorExclude:
       type: object
       required:
-      - ids
-      - vectors
+      - exclude
       properties:
-        ids:
+        exclude:
+          description: Exclude this fields from returning payload
           type: array
           items:
-            $ref: '#/components/schemas/ExtendedPointId'
-        vectors:
-          $ref: '#/components/schemas/BatchVectorStruct'
-        payloads:
+            type: string
+      additionalProperties: false
+    StopwordsSet:
+      type: object
+      properties:
+        languages:
+          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
           type:
           - array
           - 'null'
           items:
-            anyOf:
-            - $ref: '#/components/schemas/Payload'
-            - {}
-    DeleteOperation:
+            $ref: '#/components/schemas/Language'
+          uniqueItems: true
+        custom:
+          description: Custom stopwords set. Will be merged with the languages set.
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          uniqueItems: true
+    HasVectorCondition:
+      description: Filter points which have specific vector assigned
       type: object
       required:
-      - delete
+      - has_vector
       properties:
-        delete:
-          $ref: '#/components/schemas/PointsSelector'
+        has_vector:
+          type: string
+    PayloadSelectorInclude:
+      type: object
+      required:
+      - include
+      properties:
+        include:
+          description: Only include this payload keys
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    FilterSelector:
+      type: object
+      required:
+      - filter
+      properties:
+        filter:
+          $ref: '#/components/schemas/Filter'
+        shard_key:
+          anyOf:
+          - $ref: '#/components/schemas/ShardKeySelector'
+          - {}
+    WriteOrdering:
+      description: 'Defines write ordering guarantees for collection operations
+
+
+        * `weak` - write operations may be reordered, works faster, default
+
+
+        * `medium` - write operations go through dynamically selected leader, may be inconsistent for a short period of time in case of leader change
+
+
+        * `strong` - Write operations go through the permanent leader, consistent, but may be unavailable if leader is down'
+      type: string
+      enum:
+      - weak
+      - medium
+      - strong
+    StopwordsInterface:
+      anyOf:
+      - $ref: '#/components/schemas/Language'
+      - $ref: '#/components/schemas/StopwordsSet'
+    ShardKeyWithFallback:
+      type: object
+      required:
+      - fallback
+      - target
+      properties:
+        target:
+          $ref: '#/components/schemas/ShardKey'
+        fallback:
+          $ref: '#/components/schemas/ShardKey'
     PointStruct:
       type: object
       required:
@@ -2358,76 +2373,6 @@ components:
           anyOf:
           - $ref: '#/components/schemas/Payload'
           - {}
-    GeoPolygon:
-      description: 'Geo filter request
-
-
-        Matches coordinates inside the polygon, defined by `exterior` and `interiors`'
-      type: object
-      required:
-      - exterior
-      properties:
-        exterior:
-          $ref: '#/components/schemas/GeoLineString'
-        interiors:
-          description: Interior lines (if present) bound holes within the surface each GeoLineString must consist of a minimum of 4 points, and the first and last points must be the same.
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/GeoLineString'
-    ShardKeySelector:
-      anyOf:
-      - $ref: '#/components/schemas/ShardKey'
-      - type: array
-        items:
-          $ref: '#/components/schemas/ShardKey'
-      - $ref: '#/components/schemas/ShardKeyWithFallback'
-    Range:
-      description: Range filter request
-      type: object
-      properties:
-        lt:
-          description: point.key < range.lt
-          type:
-          - number
-          - 'null'
-          format: double
-        gt:
-          description: point.key > range.gt
-          type:
-          - number
-          - 'null'
-          format: double
-        gte:
-          description: point.key >= range.gte
-          type:
-          - number
-          - 'null'
-          format: double
-        lte:
-          description: point.key <= range.lte
-          type:
-          - number
-          - 'null'
-          format: double
-    Vector:
-      description: Vector Data Vectors can be described directly with values Or specified with source "objects" for inference
-      anyOf:
-      - type: array
-        items:
-          type: number
-          format: float
-      - $ref: '#/components/schemas/SparseVector'
-      - type: array
-        items:
-          type: array
-          items:
-            type: number
-            format: float
-      - $ref: '#/components/schemas/Document'
-      - $ref: '#/components/schemas/Image'
-      - $ref: '#/components/schemas/InferenceObject'
     WithPayloadInterface:
       description: Options for specifying which payload to include or not
       anyOf:
@@ -2438,97 +2383,61 @@ components:
         items:
           type: string
       - $ref: '#/components/schemas/PayloadSelector'
-    SnowballLanguage:
-      description: Languages supported by snowball stemmer.
-      type: string
-      enum:
-      - arabic
-      - armenian
-      - danish
-      - dutch
-      - english
-      - finnish
-      - french
-      - german
-      - greek
-      - hungarian
-      - italian
-      - norwegian
-      - portuguese
-      - romanian
-      - russian
-      - spanish
-      - swedish
-      - tamil
-      - turkish
-    InferenceUsage:
+    MinShould:
       type: object
       required:
-      - models
+      - conditions
+      - min_count
       properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
-    PayloadSelector:
-      description: Specifies how to treat payload selector
-      anyOf:
-      - $ref: '#/components/schemas/PayloadSelectorInclude'
-      - $ref: '#/components/schemas/PayloadSelectorExclude'
-    UpsertOperation:
-      type: object
-      required:
-      - upsert
-      properties:
-        upsert:
-          $ref: '#/components/schemas/PointInsertOperations'
-    FacetValueHit:
-      type: object
-      required:
-      - count
-      - value
-      properties:
-        value:
-          $ref: '#/components/schemas/FacetValue'
-        count:
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+        min_count:
           type: integer
           format: uint
           minimum: 0
-    UpdateOperations:
-      type: object
-      required:
-      - operations
-      properties:
-        operations:
+    VectorStructOutput:
+      description: Vector data stored in Point
+      anyOf:
+      - type: array
+        items:
+          type: number
+          format: float
+        example:
+        - 0.875
+        - 0.140625
+        - 0.897599995136261
+      - type: array
+        items:
           type: array
           items:
-            $ref: '#/components/schemas/UpdateOperation'
-    PayloadField:
-      description: Payload field
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          description: Payload field name
-          type: string
-    DeleteVectorsOperation:
-      type: object
-      required:
-      - delete_vectors
-      properties:
-        delete_vectors:
-          $ref: '#/components/schemas/DeleteVectors'
-    SnowballParams:
-      type: object
-      required:
-      - language
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/Snowball'
-        language:
-          $ref: '#/components/schemas/SnowballLanguage'
+            type: number
+            format: float
+        example:
+        - - 0.875
+          - 0.140625
+          - 0.11020000278949738
+        - - 0.7580000162124634
+          - 0.28126001358032227
+          - 0.9687100052833557
+        - - 0.6209999918937683
+          - 0.42187801003456116
+          - 0.9375
+      - type: object
+        additionalProperties:
+          $ref: '#/components/schemas/VectorOutput'
+        example:
+          image-embeddings:
+          - 0.8730000257492065
+          - 0.140625
+          - 0.897599995136261
+    DocumentOptions:
+      description: Option variants for text documents. Ether general-purpose options or BM25-specific options. BM25-specific will only take effect if the `qdrant/bm25` is specified as a model.
+      anyOf:
+      - type: object
+        additionalProperties: true
+      - $ref: '#/components/schemas/Bm25Config'
     Image:
       description: 'WARN: Work-in-progress, unimplemented
 
@@ -2553,13 +2462,154 @@ components:
           - object
           - 'null'
           additionalProperties: true
-    TokenizerType:
+    ValueVariants:
+      anyOf:
+      - type: string
+      - type: integer
+        format: int64
+      - type: boolean
+    SnowballParams:
+      type: object
+      required:
+      - language
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/Snowball'
+        language:
+          $ref: '#/components/schemas/SnowballLanguage'
+    HasIdCondition:
+      description: ID-based filtering condition
+      type: object
+      required:
+      - has_id
+      properties:
+        has_id:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtendedPointId'
+          uniqueItems: true
+    ShardKey:
+      anyOf:
+      - type: string
+        example: region_1
+      - type: integer
+        format: uint64
+        minimum: 0
+        example: 12
+    ExtendedPointId:
+      description: Type, used for specifying point ID in user interface
+      anyOf:
+      - type: integer
+        format: uint64
+        minimum: 0
+        example: 42
+      - type: string
+        format: uuid
+        example: 550e8400-e29b-41d4-a716-446655440000
+    UpdateMode:
+      description: 'Defines the mode of the upsert operation
+
+
+        * `upsert` - default mode, insert new points, update existing points * `insert_only` - only insert new points, do not update existing points * `update_only` - only update existing points, do not insert new points'
       type: string
       enum:
-      - prefix
-      - whitespace
-      - word
-      - multilingual
+      - upsert
+      - insert_only
+      - update_only
+    VectorOutput:
+      description: Vector Data stored in Point
+      anyOf:
+      - type: array
+        items:
+          type: number
+          format: float
+      - $ref: '#/components/schemas/SparseVector'
+      - type: array
+        items:
+          type: array
+          items:
+            type: number
+            format: float
+    GeoPolygon:
+      description: 'Geo filter request
+
+
+        Matches coordinates inside the polygon, defined by `exterior` and `interiors`'
+      type: object
+      required:
+      - exterior
+      properties:
+        exterior:
+          $ref: '#/components/schemas/GeoLineString'
+        interiors:
+          description: Interior lines (if present) bound holes within the surface each GeoLineString must consist of a minimum of 4 points, and the first and last points must be the same.
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/GeoLineString'
+    StartFrom:
+      anyOf:
+      - type: integer
+        format: int64
+      - type: number
+        format: double
+      - type: string
+        format: date-time
+    Direction:
+      type: string
+      enum:
+      - asc
+      - desc
+    OrderBy:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          description: Payload key to order by
+          type: string
+        direction:
+          description: 'Direction of ordering: `asc` or `desc`. Default is ascending.'
+          anyOf:
+          - $ref: '#/components/schemas/Direction'
+          - {}
+        start_from:
+          description: Which payload value to start scrolling from. Default is the lowest value for `asc` and the highest for `desc`
+          anyOf:
+          - $ref: '#/components/schemas/StartFrom'
+          - {}
+    UpdateOperation:
+      anyOf:
+      - $ref: '#/components/schemas/UpsertOperation'
+      - $ref: '#/components/schemas/DeleteOperation'
+      - $ref: '#/components/schemas/SetPayloadOperation'
+      - $ref: '#/components/schemas/OverwritePayloadOperation'
+      - $ref: '#/components/schemas/DeletePayloadOperation'
+      - $ref: '#/components/schemas/ClearPayloadOperation'
+      - $ref: '#/components/schemas/UpdateVectorsOperation'
+      - $ref: '#/components/schemas/DeleteVectorsOperation'
+    SparseVector:
+      description: Sparse vector structure
+      type: object
+      required:
+      - indices
+      - values
+      properties:
+        indices:
+          description: Indices must be unique
+          type: array
+          items:
+            type: integer
+            format: uint32
+            minimum: 0
+        values:
+          description: Values and indices must be the same length
+          type: array
+          items:
+            type: number
+            format: float
     SetPayloadOperation:
       type: object
       required:
@@ -2567,23 +2617,6 @@ components:
       properties:
         set_payload:
           $ref: '#/components/schemas/SetPayload'
-    ErrorResponse:
-      type: object
-      properties:
-        time:
-          type: number
-          format: float
-          description: Time spent to process this request
-        status:
-          type: object
-          properties:
-            error:
-              type: string
-              description: Description of the occurred error.
-        result:
-          type:
-          - object
-          - 'null'
     Nested:
       description: Select points with payload for a specified nested field
       type: object
@@ -2595,47 +2628,14 @@ components:
           type: string
         filter:
           $ref: '#/components/schemas/Filter'
-    UpdateStatus:
-      description: '`Acknowledged` - Request is saved to WAL and will be process in a queue. `Completed` - Request is completed, changes are actual. `WaitTimeout` - Request is waiting for timeout.'
-      type: string
-      enum:
-      - acknowledged
-      - completed
-      - wait_timeout
-    MatchPhrase:
-      description: Full-text phrase match of the string.
+    MatchExcept:
+      description: Should have at least one value not matching the any given values
       type: object
       required:
-      - phrase
+      - except
       properties:
-        phrase:
-          type: string
-    ShardKeyWithFallback:
-      type: object
-      required:
-      - fallback
-      - target
-      properties:
-        target:
-          $ref: '#/components/schemas/ShardKey'
-        fallback:
-          $ref: '#/components/schemas/ShardKey'
-    GeoLineString:
-      description: Ordered sequence of GeoPoints representing the line
-      type: object
-      required:
-      - points
-      properties:
-        points:
-          type: array
-          items:
-            $ref: '#/components/schemas/GeoPoint'
-    FacetValue:
-      anyOf:
-      - type: string
-      - type: integer
-        format: int64
-      - type: boolean
+        except:
+          $ref: '#/components/schemas/AnyVariants'
   securitySchemes:
     api-key:
       type: apiKey

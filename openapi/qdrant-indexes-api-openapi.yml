@@ -177,19 +177,103 @@ paths:
                     $ref: '#/components/schemas/UpdateResult'
 components:
   schemas:
-    InferenceUsage:
+    StopwordsInterface:
+      anyOf:
+      - $ref: '#/components/schemas/Language'
+      - $ref: '#/components/schemas/StopwordsSet'
+    ModelUsage:
       type: object
       required:
-      - models
+      - tokens
       properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
-    Snowball:
-      type: string
-      enum:
-      - snowball
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
+    CreateFieldIndex:
+      type: object
+      required:
+      - field_name
+      properties:
+        field_name:
+          type: string
+        field_schema:
+          anyOf:
+          - $ref: '#/components/schemas/PayloadFieldSchema'
+          - {}
+    PayloadFieldSchema:
+      anyOf:
+      - $ref: '#/components/schemas/PayloadSchemaType'
+      - $ref: '#/components/schemas/PayloadSchemaParams'
+    FloatIndexParams:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/FloatIndexType'
+        is_principal:
+          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
+          type:
+          - boolean
+          - 'null'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    StemmingAlgorithm:
+      description: Different stemming algorithms with their configs.
+      anyOf:
+      - $ref: '#/components/schemas/SnowballParams'
+    DatetimeIndexParams:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/DatetimeIndexType'
+        is_principal:
+          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
+          type:
+          - boolean
+          - 'null'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    SnowballParams:
+      type: object
+      required:
+      - language
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/Snowball'
+        language:
+          $ref: '#/components/schemas/SnowballLanguage'
+    PayloadSchemaParams:
+      description: Payload type with parameters
+      anyOf:
+      - $ref: '#/components/schemas/KeywordIndexParams'
+      - $ref: '#/components/schemas/IntegerIndexParams'
+      - $ref: '#/components/schemas/FloatIndexParams'
+      - $ref: '#/components/schemas/GeoIndexParams'
+      - $ref: '#/components/schemas/TextIndexParams'
+      - $ref: '#/components/schemas/BoolIndexParams'
+      - $ref: '#/components/schemas/DatetimeIndexParams'
+      - $ref: '#/components/schemas/UuidIndexParams'
     BoolIndexParams:
       type: object
       required:
@@ -207,18 +291,104 @@ components:
           type:
           - boolean
           - 'null'
-    PayloadSchemaType:
-      description: All possible names of payload types
+    SnowballLanguage:
+      description: Languages supported by snowball stemmer.
       type: string
       enum:
-      - keyword
+      - arabic
+      - armenian
+      - danish
+      - dutch
+      - english
+      - finnish
+      - french
+      - german
+      - greek
+      - hungarian
+      - italian
+      - norwegian
+      - portuguese
+      - romanian
+      - russian
+      - spanish
+      - swedish
+      - tamil
+      - turkish
+    IntegerIndexType:
+      type: string
+      enum:
       - integer
-      - float
-      - geo
-      - text
+    HardwareUsage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      required:
+      - cpu
+      - payload_index_io_read
+      - payload_index_io_write
+      - payload_io_read
+      - payload_io_write
+      - vector_io_read
+      - vector_io_write
+      properties:
+        cpu:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_index_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        payload_index_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+        vector_io_read:
+          type: integer
+          format: uint
+          minimum: 0
+        vector_io_write:
+          type: integer
+          format: uint
+          minimum: 0
+    BoolIndexType:
+      type: string
+      enum:
       - bool
-      - datetime
-      - uuid
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
+    TextIndexType:
+      type: string
+      enum:
+      - text
+    UpdateResult:
+      type: object
+      required:
+      - status
+      properties:
+        operation_id:
+          description: Sequential number of the operation
+          type:
+          - integer
+          - 'null'
+          format: uint64
+          minimum: 0
+        status:
+          $ref: '#/components/schemas/UpdateStatus'
     KeywordIndexParams:
       type: object
       required:
@@ -241,26 +411,139 @@ components:
           type:
           - boolean
           - 'null'
-    StemmingAlgorithm:
-      description: Different stemming algorithms with their configs.
-      anyOf:
-      - $ref: '#/components/schemas/SnowballParams'
-    WriteOrdering:
-      description: 'Defines write ordering guarantees for collection operations
-
-
-        * `weak` - write operations may be reordered, works faster, default
-
-
-        * `medium` - write operations go through dynamically selected leader, may be inconsistent for a short period of time in case of leader change
-
-
-        * `strong` - Write operations go through the permanent leader, consistent, but may be unavailable if leader is down'
+    DatetimeIndexType:
       type: string
       enum:
-      - weak
-      - medium
-      - strong
+      - datetime
+    UuidIndexParams:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/UuidIndexType'
+        is_tenant:
+          description: If true - used for tenant optimization.
+          type:
+          - boolean
+          - 'null'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    KeywordIndexType:
+      type: string
+      enum:
+      - keyword
+    UpdateStatus:
+      description: '`Acknowledged` - Request is saved to WAL and will be process in a queue. `Completed` - Request is completed, changes are actual. `WaitTimeout` - Request is waiting for timeout.'
+      type: string
+      enum:
+      - acknowledged
+      - completed
+      - wait_timeout
+    StopwordsSet:
+      type: object
+      properties:
+        languages:
+          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/Language'
+          uniqueItems: true
+        custom:
+          description: Custom stopwords set. Will be merged with the languages set.
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          uniqueItems: true
+    IntegerIndexParams:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/IntegerIndexType'
+        lookup:
+          description: If true - support direct lookups. Default is true.
+          type:
+          - boolean
+          - 'null'
+        range:
+          description: If true - support ranges filters. Default is true.
+          type:
+          - boolean
+          - 'null'
+        is_principal:
+          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests. Default is false.
+          type:
+          - boolean
+          - 'null'
+        on_disk:
+          description: 'If true, store the index on disk. Default: false. Default is false.'
+          type:
+          - boolean
+          - 'null'
+        enable_hnsw:
+          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
+          type:
+          - boolean
+          - 'null'
+    FloatIndexType:
+      type: string
+      enum:
+      - float
+    GeoIndexType:
+      type: string
+      enum:
+      - geo
+    Snowball:
+      type: string
+      enum:
+      - snowball
+    Language:
+      type: string
+      enum:
+      - arabic
+      - azerbaijani
+      - basque
+      - bengali
+      - catalan
+      - chinese
+      - danish
+      - dutch
+      - english
+      - finnish
+      - french
+      - german
+      - greek
+      - hebrew
+      - hinglish
+      - hungarian
+      - indonesian
+      - italian
+      - japanese
+      - kazakh
+      - nepali
+      - norwegian
+      - portuguese
+      - romanian
+      - russian
+      - slovene
+      - spanish
+      - swedish
+      - tajik
+      - turkish
     TextIndexParams:
       type: object
       required:
@@ -319,106 +602,10 @@ components:
           type:
           - boolean
           - 'null'
-    PayloadFieldSchema:
-      anyOf:
-      - $ref: '#/components/schemas/PayloadSchemaType'
-      - $ref: '#/components/schemas/PayloadSchemaParams'
-    SnowballParams:
-      type: object
-      required:
-      - language
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/Snowball'
-        language:
-          $ref: '#/components/schemas/SnowballLanguage'
-    FloatIndexType:
-      type: string
-      enum:
-      - float
-    UuidIndexParams:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/UuidIndexType'
-        is_tenant:
-          description: If true - used for tenant optimization.
-          type:
-          - boolean
-          - 'null'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false.'
-          type:
-          - boolean
-          - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
     UuidIndexType:
       type: string
       enum:
       - uuid
-    IntegerIndexType:
-      type: string
-      enum:
-      - integer
-    StopwordsSet:
-      type: object
-      properties:
-        languages:
-          description: Set of languages to use for stopwords. Multiple pre-defined lists of stopwords can be combined.
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/Language'
-          uniqueItems: true
-        custom:
-          description: Custom stopwords set. Will be merged with the languages set.
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          uniqueItems: true
-    Language:
-      type: string
-      enum:
-      - arabic
-      - azerbaijani
-      - basque
-      - bengali
-      - catalan
-      - chinese
-      - danish
-      - dutch
-      - english
-      - finnish
-      - french
-      - german
-      - greek
-      - hebrew
-      - hinglish
-      - hungarian
-      - indonesian
-      - italian
-      - japanese
-      - kazakh
-      - nepali
-      - norwegian
-      - portuguese
-      - romanian
-      - russian
-      - slovene
-      - spanish
-      - swedish
-      - tajik
-      - turkish
     TokenizerType:
       type: string
       enum:
@@ -426,10 +613,6 @@ components:
       - whitespace
       - word
       - multilingual
-    BoolIndexType:
-      type: string
-      enum:
-      - bool
     ErrorResponse:
       type: object
       properties:
@@ -447,101 +630,46 @@ components:
           type:
           - object
           - 'null'
-    KeywordIndexType:
+    PayloadSchemaType:
+      description: All possible names of payload types
       type: string
       enum:
       - keyword
-    IntegerIndexParams:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/IntegerIndexType'
-        lookup:
-          description: If true - support direct lookups. Default is true.
-          type:
-          - boolean
-          - 'null'
-        range:
-          description: If true - support ranges filters. Default is true.
-          type:
-          - boolean
-          - 'null'
-        is_principal:
-          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests. Default is false.
-          type:
-          - boolean
-          - 'null'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false. Default is false.'
-          type:
-          - boolean
-          - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
-    HardwareUsage:
+      - integer
+      - float
+      - geo
+      - text
+      - bool
+      - datetime
+      - uuid
+    Usage:
       description: Usage of the hardware resources, spent to process the request
       type: object
-      required:
-      - cpu
-      - payload_index_io_read
-      - payload_index_io_write
-      - payload_io_read
-      - payload_io_write
-      - vector_io_read
-      - vector_io_write
       properties:
-        cpu:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_index_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        payload_index_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-        vector_io_read:
-          type: integer
-          format: uint
-          minimum: 0
-        vector_io_write:
-          type: integer
-          format: uint
-          minimum: 0
-    CreateFieldIndex:
-      type: object
-      required:
-      - field_name
-      properties:
-        field_name:
-          type: string
-        field_schema:
+        hardware:
           anyOf:
-          - $ref: '#/components/schemas/PayloadFieldSchema'
+          - $ref: '#/components/schemas/HardwareUsage'
           - {}
-    StopwordsInterface:
-      anyOf:
-      - $ref: '#/components/schemas/Language'
-      - $ref: '#/components/schemas/StopwordsSet'
-    TextIndexType:
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
+    WriteOrdering:
+      description: 'Defines write ordering guarantees for collection operations
+
+
+        * `weak` - write operations may be reordered, works faster, default
+
+
+        * `medium` - write operations go through dynamically selected leader, may be inconsistent for a short period of time in case of leader change
+
+
+        * `strong` - Write operations go through the permanent leader, consistent, but may be unavailable if leader is down'
       type: string
       enum:
-      - text
+      - weak
+      - medium
+      - strong
     GeoIndexParams:
       type: object
       required:
@@ -559,134 +687,6 @@ components:
           type:
           - boolean
           - 'null'
-    UpdateStatus:
-      description: '`Acknowledged` - Request is saved to WAL and will be process in a queue. `Completed` - Request is completed, changes are actual. `WaitTimeout` - Request is waiting for timeout.'
-      type: string
-      enum:
-      - acknowledged
-      - completed
-      - wait_timeout
-    ModelUsage:
-      type: object
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: integer
-          format: uint64
-          minimum: 0
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    FloatIndexParams:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/FloatIndexType'
-        is_principal:
-          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
-          type:
-          - boolean
-          - 'null'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false.'
-          type:
-          - boolean
-          - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
-    UpdateResult:
-      type: object
-      required:
-      - status
-      properties:
-        operation_id:
-          description: Sequential number of the operation
-          type:
-          - integer
-          - 'null'
-          format: uint64
-          minimum: 0
-        status:
-          $ref: '#/components/schemas/UpdateStatus'
-    DatetimeIndexType:
-      type: string
-      enum:
-      - datetime
-    PayloadSchemaParams:
-      description: Payload type with parameters
-      anyOf:
-      - $ref: '#/components/schemas/KeywordIndexParams'
-      - $ref: '#/components/schemas/IntegerIndexParams'
-      - $ref: '#/components/schemas/FloatIndexParams'
-      - $ref: '#/components/schemas/GeoIndexParams'
-      - $ref: '#/components/schemas/TextIndexParams'
-      - $ref: '#/components/schemas/BoolIndexParams'
-      - $ref: '#/components/schemas/DatetimeIndexParams'
-      - $ref: '#/components/schemas/UuidIndexParams'
-    DatetimeIndexParams:
-      type: object
-      required:
-      - type
-      properties:
-        type:
-          $ref: '#/components/schemas/DatetimeIndexType'
-        is_principal:
-          description: If true - use this key to organize storage of the collection data. This option assumes that this key will be used in majority of filtered requests.
-          type:
-          - boolean
-          - 'null'
-        on_disk:
-          description: 'If true, store the index on disk. Default: false.'
-          type:
-          - boolean
-          - 'null'
-        enable_hnsw:
-          description: 'Enable HNSW graph building for this payload field. If true, builds additional HNSW links (Need payload_m > 0). Default: true.'
-          type:
-          - boolean
-          - 'null'
-    GeoIndexType:
-      type: string
-      enum:
-      - geo
-    SnowballLanguage:
-      description: Languages supported by snowball stemmer.
-      type: string
-      enum:
-      - arabic
-      - armenian
-      - danish
-      - dutch
-      - english
-      - finnish
-      - french
-      - german
-      - greek
-      - hungarian
-      - italian
-      - norwegian
-      - portuguese
-      - romanian
-      - russian
-      - spanish
-      - swedish
-      - tamil
-      - turkish
   securitySchemes:
     api-key:
       type: apiKey

@@ -178,27 +178,62 @@ paths:
                     $ref: '#/components/schemas/CollectionsAliasesResponse'
 components:
   schemas:
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    InferenceUsage:
+    AliasDescription:
       type: object
       required:
-      - models
+      - alias_name
+      - collection_name
       properties:
-        models:
+        alias_name:
+          type: string
+        collection_name:
+          type: string
+      example:
+        alias_name: blogs-title
+        collection_name: arivx-title
+    RenameAliasOperation:
+      description: Change alias to a new one
+      type: object
+      required:
+      - rename_alias
+      properties:
+        rename_alias:
+          $ref: '#/components/schemas/RenameAlias'
+    CollectionsAliasesResponse:
+      type: object
+      required:
+      - aliases
+      properties:
+        aliases:
+          type: array
+          items:
+            $ref: '#/components/schemas/AliasDescription'
+    ModelUsage:
+      type: object
+      required:
+      - tokens
+      properties:
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
+    ErrorResponse:
+      type: object
+      properties:
+        time:
+          type: number
+          format: float
+          description: Time spent to process this request
+        status:
           type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
+          properties:
+            error:
+              type: string
+              description: Description of the occurred error.
+        result:
+          type:
+          - object
+          - 'null'
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -239,53 +274,33 @@ components:
           type: integer
           format: uint
           minimum: 0
-    CollectionsAliasesResponse:
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
       type: object
-      required:
-      - aliases
       properties:
-        aliases:
-          type: array
-          items:
-            $ref: '#/components/schemas/AliasDescription'
-    DeleteAlias:
-      description: Delete alias if exists
-      type: object
-      required:
-      - alias_name
-      properties:
-        alias_name:
-          type: string
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
     AliasOperations:
       description: Group of all the possible operations related to collection aliases
       anyOf:
       - $ref: '#/components/schemas/CreateAliasOperation'
       - $ref: '#/components/schemas/DeleteAliasOperation'
       - $ref: '#/components/schemas/RenameAliasOperation'
-    RenameAliasOperation:
-      description: Change alias to a new one
+    InferenceUsage:
       type: object
       required:
-      - rename_alias
+      - models
       properties:
-        rename_alias:
-          $ref: '#/components/schemas/RenameAlias'
-    ModelUsage:
-      type: object
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: integer
-          format: uint64
-          minimum: 0
-    CreateAliasOperation:
-      type: object
-      required:
-      - create_alias
-      properties:
-        create_alias:
-          $ref: '#/components/schemas/CreateAlias'
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
     DeleteAliasOperation:
       description: Delete alias if exists
       type: object
@@ -294,6 +309,13 @@ components:
       properties:
         delete_alias:
           $ref: '#/components/schemas/DeleteAlias'
+    CreateAliasOperation:
+      type: object
+      required:
+      - create_alias
+      properties:
+        create_alias:
+          $ref: '#/components/schemas/CreateAlias'
     RenameAlias:
       description: Change alias to a new one
       type: object
@@ -316,23 +338,6 @@ components:
           type: string
         alias_name:
           type: string
-    ErrorResponse:
-      type: object
-      properties:
-        time:
-          type: number
-          format: float
-          description: Time spent to process this request
-        status:
-          type: object
-          properties:
-            error:
-              type: string
-              description: Description of the occurred error.
-        result:
-          type:
-          - object
-          - 'null'
     ChangeAliasesOperation:
       description: Operation for performing changes of collection aliases. Alias changes are atomic, meaning that no collection modifications can happen between alias operations.
       type: object
@@ -343,19 +348,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AliasOperations'
-    AliasDescription:
+    DeleteAlias:
+      description: Delete alias if exists
       type: object
       required:
       - alias_name
-      - collection_name
       properties:
         alias_name:
           type: string
-        collection_name:
-          type: string
-      example:
-        alias_name: blogs-title
-        collection_name: arivx-title
   securitySchemes:
     api-key:
       type: apiKey

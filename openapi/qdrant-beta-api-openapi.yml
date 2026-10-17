@@ -87,27 +87,15 @@ paths:
                     type: boolean
 components:
   schemas:
-    Usage:
-      description: Usage of the hardware resources, spent to process the request
-      type: object
-      properties:
-        hardware:
-          anyOf:
-          - $ref: '#/components/schemas/HardwareUsage'
-          - {}
-        inference:
-          anyOf:
-          - $ref: '#/components/schemas/InferenceUsage'
-          - {}
-    InferenceUsage:
+    ModelUsage:
       type: object
       required:
-      - models
+      - tokens
       properties:
-        models:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ModelUsage'
+        tokens:
+          type: integer
+          format: uint64
+          minimum: 0
     HardwareUsage:
       description: Usage of the hardware resources, spent to process the request
       type: object
@@ -148,15 +136,6 @@ components:
           type: integer
           format: uint
           minimum: 0
-    ModelUsage:
-      type: object
-      required:
-      - tokens
-      properties:
-        tokens:
-          type: integer
-          format: uint64
-          minimum: 0
     ErrorResponse:
       type: object
       properties:
@@ -174,6 +153,27 @@ components:
           type:
           - object
           - 'null'
+    Usage:
+      description: Usage of the hardware resources, spent to process the request
+      type: object
+      properties:
+        hardware:
+          anyOf:
+          - $ref: '#/components/schemas/HardwareUsage'
+          - {}
+        inference:
+          anyOf:
+          - $ref: '#/components/schemas/InferenceUsage'
+          - {}
+    InferenceUsage:
+      type: object
+      required:
+      - models
+      properties:
+        models:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ModelUsage'
   securitySchemes:
     api-key:
       type: apiKey
