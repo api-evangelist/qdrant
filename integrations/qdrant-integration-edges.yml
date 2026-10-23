@@ -23,6 +23,7 @@ checked:
 - pulumi/integrations/pulumi-integration-edges.yml
 - terraform/integrations/terraform-integration-edges.yml
 - artifact-hub/integrations/artifact-hub-integration-edges.yml
+- hugging-face/integrations/hugging-face-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -376,5 +377,40 @@ edges:
   category: Artifact Hub listing (Helm chart)
   badges:
   - 'Verified publisher (Artifact Hub verified publisher: repository ownership proven)'
+- partner_name: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: hugging-face-hub
+  evidence: https://huggingface.co/Qdrant
+  mirror_of: hugging-face/integrations/hugging-face-integration-edges.yml
+  apps:
+  - Qdrant/FineWeb-10B
+  - Qdrant/Coyo-VE
+  - Qdrant/PubMed-MV
+  - Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M
+  - Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M
+  - Qdrant/arxiv-titles-instructorxl-embeddings
+  - Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-100K
+  - Qdrant/wolt-food-clip-ViT-B-32-embeddings
+  - Qdrant/bge-small-en-v1.5-onnx-Q
+  - Qdrant/all-MiniLM-L6-v2-onnx
+  - Qdrant/bm25
+  - Qdrant/all_miniLM_L6_v2_with_attentions
+  - Qdrant/multilingual-e5-large-onnx
+  - Qdrant/paraphrase-multilingual-MiniLM-L12-v2-onnx-Q
+  - Qdrant/bge-base-en-v1.5-onnx-Q
+  - Qdrant/Splade_PP_en_v1
+  - Qdrant/webinar-vibe-coding-rag
+  listing_count: 3
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Hugging Face Hub datasets
+  badges:
+  - Verified publisher (Hugging Face verified organisation)
 source:
 - datadog/integrations/datadog-integration-edges.yml

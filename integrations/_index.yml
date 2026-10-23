@@ -271,3 +271,16 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: qdrant-hugging-face-hugging-face-hub
+  label: Hugging Face (hugging-face-hub)
+  partner: hugging-face
+  partner_name: Hugging Face (hugging-face-hub)
+  category: Hugging Face Hub datasets
+  type: marketplace
+  marketplace: hugging-face-hub
+  channel: partner-built
+  evidence: https://huggingface.co/Qdrant
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
